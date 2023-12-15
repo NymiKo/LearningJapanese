@@ -43,6 +43,9 @@ import com.example.peil.R
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.White
+import com.example.peil.ui.view_components.LoginButton
+import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.TextLabel
 
 @Composable
 fun LoginScreen() {
@@ -70,7 +73,7 @@ private fun LoadingScreenContent() {
         FieldItem(modifier = Modifier.padding(top = 40.dp),textLabel = R.string.email)
         FieldItem(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.password, password = true)
         ForgotPasswordText()
-        LoginButton()
+        LoginButton(textButton = R.string.sign_in)
     }
 }
 
@@ -87,37 +90,10 @@ private fun Header() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FieldItem(modifier: Modifier = Modifier, textLabel: Int, password: Boolean = false) {
-    var text by remember { mutableStateOf("") }
-    var passwordShow by remember { mutableStateOf(false) }
-
-    Text(
-        modifier = modifier
-            .padding(horizontal = 16.dp),
-        text = stringResource(id = textLabel),
-        fontWeight = FontWeight.Bold,
-        color = GreyLight)
-
-    OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp),
-        singleLine = true,
-        value = text,
-        onValueChange = { text = it },
-        trailingIcon = { if (password) IconButton(onClick = { passwordShow = !passwordShow }) {
-            Icon(imageVector = if (passwordShow) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility, contentDescription = null)
-        } },
-        visualTransformation = if (password) if (!passwordShow) PasswordVisualTransformation() else VisualTransformation.None else VisualTransformation.None,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.secondary,
-            cursorColor = MaterialTheme.colorScheme.secondary,
-            textColor = MaterialTheme.colorScheme.secondary
-        )
-    )
+    TextLabel(modifier, textLabel = textLabel)
+    OutlinedLoginField(modifier, password = password)
 }
 
 @Composable
@@ -141,22 +117,6 @@ fun ForgotPasswordText() {
         text = annotatedString,
         onClick = {  }
     )
-}
-
-@Composable
-private fun LoginButton() {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 30.dp),
-        onClick = { },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue
-        )
-    ) {
-        Text(modifier = Modifier.padding(vertical = 4.dp), text = stringResource(id = R.string.sign_in), color = White)
-    }
 }
 
 @Composable

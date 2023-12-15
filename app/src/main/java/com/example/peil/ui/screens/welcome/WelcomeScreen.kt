@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -30,21 +29,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreenLight
-import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.Purple
+import com.example.peil.ui.view_components.AlreadyHaveAccountText
 
 @Composable
 fun WelcomeScreen() {
@@ -135,38 +129,7 @@ private fun CardContent(modifier: Modifier = Modifier) {
         },
         onClick = { }
     )
-    AlreadyHaveAccountText()
-}
-
-@Composable
-private fun AlreadyHaveAccountText() {
-    val annotatedString = buildAnnotatedString {
-        withStyle(
-            SpanStyle(
-                color = GreyLight
-            )
-        ) {
-            append(stringResource(id = R.string.already_an_account) + " ")
-        }
-        withStyle(
-            SpanStyle(
-                textDecoration = TextDecoration.Underline,
-                color = GreyLight
-            )
-        ) {
-            append(stringResource(id = R.string.sign_in))
-        }
-    }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 30.dp),
-        text = annotatedString,
-        onClick = { },
-        style = TextStyle.Default.merge(
-            TextStyle(textAlign = TextAlign.Center)
-        )
-    )
+    AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp))
 }
 
 @Composable

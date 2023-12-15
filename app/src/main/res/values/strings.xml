@@ -8,4 +8,7 @@
     <string name="email">Электронная почта</string>
     <string name="password">Пароль</string>
     <string name="forgot_password">Не помнишь пароль?</string>
+    <string name="konnichiwa">こんにちは!</string>
+    <string name="sign_up_and_start_learning_japanese">Зарегистрируйся и начни изучать японский</string>
+    <string name="continue_text">Продолжить</string>
 </resources>
