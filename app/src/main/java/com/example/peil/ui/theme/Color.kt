@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
 val Pink80 = Color(0xFFEFB8C8)
-val Blue = Color(0xFF156BEE)
+val Blue = Color(0xFF116EEE)
 val Purple = Color(0xFF6419F2)
 val GreyTransparent = Color(0xFF0053D3)
 val GreenLight = Color(0xFF11EE92)

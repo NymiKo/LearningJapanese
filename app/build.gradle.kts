@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.peil"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.peil"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

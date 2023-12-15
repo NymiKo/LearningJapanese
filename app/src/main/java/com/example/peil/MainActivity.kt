@@ -44,15 +44,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
 import com.example.peil.ui.screens.welcome.WelcomeScreen
 import com.example.peil.ui.theme.PeilTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isLoading = mutableStateOf(true)
+
+        lifecycleScope.launch {
+            delay(1000)
+            isLoading.value = false
+        }
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                isLoading.value
+            }
+        }
 
         setContent {
             PeilTheme {

@@ -51,7 +51,7 @@ fun WelcomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = Brush.verticalGradient(0.1f to Blue, 1.0f to Purple))
+            .background(brush = Brush.verticalGradient(0.1f to Blue, 0.6f to Purple))
     ) {
         Row(
             modifier = Modifier
