@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.peil.ui.screens.create_account.CreateAccountScreen
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
 import com.example.peil.ui.screens.login.LoginScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailScreen
@@ -80,7 +81,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RegistrationEmailScreen()
+                    CreateAccountScreen()
+                    //RegistrationEmailScreen()
                     //LoginScreen()
                     //WelcomeScreen()
                     //NavigationBarWithContent()

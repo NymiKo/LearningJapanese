@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.peil.R
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.AlreadyHaveAccountText
+import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
@@ -41,28 +42,15 @@ fun RegistrationEmailScreen() {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        TopAppBar()
+        BaseAppBar(imageVector = Icons.Default.ArrowBack)
         Header()
         DescriptionText()
         EmailField()
         LoginButton(textButton = R.string.continue_text)
-        AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(top = 30.dp))
+        AlreadyHaveAccountText(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 30.dp))
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar() {
-    TopAppBar(
-        title = {  },
-        navigationIcon = {
-            Icon(
-                modifier = Modifier.padding(start = 16.dp),
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = null
-            )
-        }
-    )
 }
 
 @Composable

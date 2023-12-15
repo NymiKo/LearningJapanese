@@ -11,4 +11,8 @@
     <string name="konnichiwa">こんにちは!</string>
     <string name="sign_up_and_start_learning_japanese">Зарегистрируйся и начни изучать японский</string>
     <string name="continue_text">Продолжить</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="name">Имя</string>
+    <string name="password_min_char">Пароль (минимум 6 символов)</string>
+    <string name="registration">Регистрация</string>
 </resources>

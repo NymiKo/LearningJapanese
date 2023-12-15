@@ -43,6 +43,7 @@ import com.example.peil.R
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.White
+import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
@@ -52,18 +53,9 @@ fun LoginScreen() {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        TopAppBar()
+        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack)
         LoadingScreenContent()
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar(modifier: Modifier = Modifier) {
-    TopAppBar(
-        title = { Text(modifier = Modifier.padding(start = 16.dp), text = stringResource(id = R.string.sign_in), fontWeight = FontWeight.Bold, fontSize = 18.sp) },
-        navigationIcon = { Icon(modifier = Modifier.padding(start = 16.dp), imageVector = Icons.Default.ArrowBack, contentDescription = null) }
-    )
 }
 
 @Composable
