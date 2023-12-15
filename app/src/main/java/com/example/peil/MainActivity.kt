@@ -48,6 +48,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
+import com.example.peil.ui.screens.login.LoginScreen
+import com.example.peil.ui.screens.registration.RegistrationEmailScreen
 import com.example.peil.ui.screens.welcome.WelcomeScreen
 import com.example.peil.ui.theme.PeilTheme
 import kotlinx.coroutines.delay
@@ -78,7 +80,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WelcomeScreen()
+                    RegistrationEmailScreen()
+                    //LoginScreen()
+                    //WelcomeScreen()
                     //NavigationBarWithContent()
                 }
             }

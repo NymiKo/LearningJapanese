@@ -92,7 +92,7 @@ fun WelcomeScreen() {
 }
 
 @Composable
-fun BottomCard(modifier: Modifier = Modifier) {
+private fun BottomCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .fillMaxHeight(0.25f)
@@ -109,7 +109,7 @@ fun BottomCard(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardContent(modifier: Modifier = Modifier) {
+private fun CardContent(modifier: Modifier = Modifier) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -139,7 +139,7 @@ fun CardContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun AlreadyHaveAccountText() {
+private fun AlreadyHaveAccountText() {
     val annotatedString = buildAnnotatedString {
         withStyle(
             SpanStyle(

@@ -5,4 +5,7 @@
     <string name="start_learning">Начать обучение</string>
     <string name="already_an_account">Уже есть аккаунт?</string>
     <string name="sign_in">Войти</string>
+    <string name="email">Электронная почта</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_password">Не помнишь пароль?</string>
 </resources>
