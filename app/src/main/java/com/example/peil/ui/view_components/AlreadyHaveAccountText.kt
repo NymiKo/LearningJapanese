@@ -13,11 +13,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.peil.R
+import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.GreyLight
 
 @Composable
-fun AlreadyHaveAccountText(modifier: Modifier = Modifier) {
+fun AlreadyHaveAccountText(modifier: Modifier = Modifier, navController: NavController) {
     val annotatedString = buildAnnotatedString {
         withStyle(
             SpanStyle(
@@ -38,7 +40,7 @@ fun AlreadyHaveAccountText(modifier: Modifier = Modifier) {
     ClickableText(
         modifier = modifier,
         text = annotatedString,
-        onClick = { },
+        onClick = { navController.navigate(Screens.Login.route) },
         style = TextStyle.Default.merge(
             TextStyle(textAlign = TextAlign.Center)
         )

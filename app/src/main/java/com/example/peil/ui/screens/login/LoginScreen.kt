@@ -39,6 +39,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
@@ -49,11 +51,11 @@ import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack)
+        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack) { navController.popBackStack() }
         LoadingScreenContent()
     }
 }
@@ -65,7 +67,7 @@ private fun LoadingScreenContent() {
         FieldItem(modifier = Modifier.padding(top = 40.dp),textLabel = R.string.email)
         FieldItem(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.password, password = true)
         ForgotPasswordText()
-        LoginButton(textButton = R.string.sign_in)
+        LoginButton(textButton = R.string.sign_in) {  }
     }
 }
 
@@ -85,7 +87,7 @@ private fun Header() {
 @Composable
 private fun FieldItem(modifier: Modifier = Modifier, textLabel: Int, password: Boolean = false) {
     TextLabel(modifier, textLabel = textLabel)
-    OutlinedLoginField(modifier, password = password)
+    OutlinedLoginField(modifier, password = password) {}
 }
 
 @Composable
@@ -114,5 +116,5 @@ fun ForgotPasswordText() {
 @Composable
 @Preview
 private fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(rememberNavController())
 }

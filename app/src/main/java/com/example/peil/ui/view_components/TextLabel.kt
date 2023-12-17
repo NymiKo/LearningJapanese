@@ -10,12 +10,10 @@ import androidx.compose.ui.unit.dp
 import com.example.peil.ui.theme.GreyLight
 
 @Composable
-fun TextLabel(modifier: Modifier = Modifier, textLabel: Int) {
-    Text(
-        modifier = modifier
-            .padding(horizontal = 16.dp),
-        text = stringResource(id = textLabel),
-        fontWeight = FontWeight.Bold,
-        color = GreyLight
-    )
-}
+fun TextLabel(modifier: Modifier = Modifier, textLabel: Int) = Text(
+    modifier = modifier
+        .padding(horizontal = 16.dp),
+    text = stringResource(id = textLabel),
+    fontWeight = FontWeight.Bold,
+    color = GreyLight
+)

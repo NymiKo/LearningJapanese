@@ -23,8 +23,12 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OutlinedLoginField(modifier: Modifier = Modifier, password: Boolean = false) {
-    var text by remember { mutableStateOf("") }
+fun OutlinedLoginField(
+    modifier: Modifier = Modifier,
+    value: String? = "",
+    password: Boolean = false,
+    valueChange: (String) -> Unit
+) {
     var passwordShow by remember { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -33,8 +37,8 @@ fun OutlinedLoginField(modifier: Modifier = Modifier, password: Boolean = false)
             .padding(horizontal = 16.dp)
             .padding(top = 8.dp),
         singleLine = true,
-        value = text,
-        onValueChange = { text = it },
+        value = value ?: "",
+        onValueChange = { valueChange(it) },
         trailingIcon = {
             if (password) IconButton(onClick = { passwordShow = !passwordShow }) {
                 Icon(

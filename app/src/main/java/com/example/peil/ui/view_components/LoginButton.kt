@@ -13,21 +13,19 @@ import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.White
 
 @Composable
-fun LoginButton(modifier: Modifier = Modifier, textButton: Int) {
-    Button(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 30.dp),
-        onClick = { },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Blue
-        )
-    ) {
-        Text(
-            modifier = Modifier.padding(vertical = 4.dp),
-            text = stringResource(id = textButton),
-            color = White
-        )
-    }
+fun LoginButton(modifier: Modifier = Modifier, textButton: Int, onClick: () -> Unit) = Button(
+    modifier = modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+        .padding(top = 30.dp),
+    onClick = { onClick() },
+    colors = ButtonDefaults.buttonColors(
+        containerColor = Blue
+    )
+) {
+    Text(
+        modifier = Modifier.padding(vertical = 4.dp),
+        text = stringResource(id = textButton),
+        color = White
+    )
 }
