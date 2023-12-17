@@ -34,14 +34,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
+import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreenLight
 import com.example.peil.ui.theme.Purple
 import com.example.peil.ui.view_components.AlreadyHaveAccountText
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -81,12 +84,12 @@ fun WelcomeScreen() {
                 contentDescription = null
             )
         }
-        BottomCard()
+        BottomCard(navController = navController)
     }
 }
 
 @Composable
-private fun BottomCard(modifier: Modifier = Modifier) {
+private fun BottomCard(modifier: Modifier = Modifier, navController: NavController) {
     Card(
         modifier = modifier
             .fillMaxHeight(0.25f)
@@ -97,13 +100,13 @@ private fun BottomCard(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            CardContent()
+            CardContent(navController = navController)
         }
     }
 }
 
 @Composable
-private fun CardContent(modifier: Modifier = Modifier) {
+private fun CardContent(modifier: Modifier = Modifier, navController: NavController) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,13 +130,13 @@ private fun CardContent(modifier: Modifier = Modifier) {
                 color = Color.Black
             )
         },
-        onClick = { }
+        onClick = { navController.navigate(Screens.RegistrationEmail.route) }
     )
-    AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp))
+    AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp), navController)
 }
 
 @Composable
-@Preview()
+@Preview
 private fun WelcomeScreenPreview() {
-    WelcomeScreen()
+    WelcomeScreen(rememberNavController())
 }

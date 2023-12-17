@@ -47,15 +47,19 @@ import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
+import com.example.peil.ui.navigation.NavGraph
 import com.example.peil.ui.screens.create_account.CreateAccountScreen
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
 import com.example.peil.ui.screens.login.LoginScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailScreen
 import com.example.peil.ui.screens.welcome.WelcomeScreen
 import com.example.peil.ui.theme.PeilTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,11 +85,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CreateAccountScreen()
-                    //RegistrationEmailScreen()
-                    //LoginScreen()
-                    //WelcomeScreen()
-                    //NavigationBarWithContent()
+                    val navController = rememberNavController()
+                    NavGraph(navController = navController)
                 }
             }
         }

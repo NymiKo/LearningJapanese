@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.registration
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,15 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +28,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
+import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.AlreadyHaveAccountText
 import com.example.peil.ui.view_components.BaseAppBar
@@ -38,24 +40,39 @@ import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 
 @Composable
-fun RegistrationEmailScreen() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.background)) {
-        BaseAppBar(imageVector = Icons.Default.ArrowBack)
+fun RegistrationEmailScreen(navController: NavController, viewModel: RegistrationEmailViewModel) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        BaseAppBar(imageVector = Icons.Default.ArrowBack) { navController.popBackStack() }
         Header()
         DescriptionText()
-        EmailField()
-        LoginButton(textButton = R.string.continue_text)
-        AlreadyHaveAccountText(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 30.dp))
+        EmailField(viewModel)
+        LoginButton(textButton = R.string.continue_text) {
+            if (viewModel.email.isNotEmpty()) {
+                navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
+            } else {
+                Toast.makeText(context, R.string.empty_email, Toast.LENGTH_SHORT).show()
+            }
+        }
+        AlreadyHaveAccountText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp), navController
+        )
     }
 }
 
 @Composable
 private fun Header(modifier: Modifier = Modifier) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Image(
             modifier = Modifier
                 .size(30.dp)
@@ -85,13 +102,13 @@ private fun DescriptionText(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun EmailField() {
+private fun EmailField(viewModel: RegistrationEmailViewModel) {
     TextLabel(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.email)
-    OutlinedLoginField()
+    OutlinedLoginField(value = viewModel.email) { email -> viewModel.updateEmail(email) }
 }
 
 @Composable
 @Preview
 private fun RegistrationEmailScreenPreview() {
-    RegistrationEmailScreen()
+    RegistrationEmailScreen(rememberNavController(), RegistrationEmailViewModel())
 }

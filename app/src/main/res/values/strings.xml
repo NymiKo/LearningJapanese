@@ -15,4 +15,5 @@
     <string name="name">Имя</string>
     <string name="password_min_char">Пароль (минимум 6 символов)</string>
     <string name="registration">Регистрация</string>
+    <string name="empty_email">Email не введен</string>
 </resources>
