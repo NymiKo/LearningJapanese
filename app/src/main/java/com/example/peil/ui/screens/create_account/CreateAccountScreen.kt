@@ -15,29 +15,48 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
+import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
+import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 
 @Composable
-fun CreateAccountScreen(navController: NavController, email: String?) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.background)) {
-        BaseAppBar(title = R.string.create_account, imageVector = Icons.Default.ArrowBack) { navController.popBackStack() }
+fun CreateAccountScreen(
+    navController: NavController,
+    viewModel: CreateAccountViewModel,
+    email: String?
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        BaseAppBar(
+            title = R.string.create_account,
+            imageVector = Icons.Default.ArrowBack
+        ) { navController.popBackStack() }
         TextLabel(modifier = Modifier.padding(top = 30.dp), textLabel = R.string.email)
         OutlinedLoginField(value = email) { }
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.name)
-        OutlinedLoginField() {}
+        OutlinedLoginField(value = viewModel.nickname) { viewModel.updateNickname(it) }
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.password_min_char)
-        OutlinedLoginField(password = true) {}
-        LoginButton(textButton = R.string.registration) {  }
+        OutlinedLoginField(value = viewModel.password, password = true) {
+            viewModel.updatePassword(
+                it
+            )
+        }
+        LoginButton(textButton = R.string.registration) { }
     }
 }
 
 @Composable
 @Preview
 private fun CreateAccountScreenPreview() {
-    CreateAccountScreen(rememberNavController(), "")
+    CreateAccountScreen(
+        rememberNavController(),
+        CreateAccountViewModel(CreateAccountRepositoryImpl()),
+        ""
+    )
 }

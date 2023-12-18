@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.peil.ui.screens.create_account.CreateAccountScreen
+import com.example.peil.ui.screens.create_account.CreateAccountViewModel
 import com.example.peil.ui.screens.login.LoginScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailViewModel
@@ -29,7 +30,8 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(route = Screens.CreateAccount.route + "/{email}") { backStackEntry ->
-            CreateAccountScreen(navController, backStackEntry.arguments?.getString("email"))
+            val viewModel = hiltViewModel<CreateAccountViewModel>()
+            CreateAccountScreen(navController, viewModel, backStackEntry.arguments?.getString("email"))
         }
     }
 }
