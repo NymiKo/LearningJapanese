@@ -1,13 +1,19 @@
 package com.example.peil.ui.screens.create_account
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -49,7 +55,12 @@ fun CreateAccountScreen(
                 it
             )
         }
-        LoginButton(textButton = R.string.registration) { viewModel.createAccount() }
+        LoginButton(textButton = R.string.registration, onClick = { viewModel.createAccount() }) {
+            val state = viewModel.state.observeAsState()
+            if (state.value is CreateAccountUiState.LOADING) {
+                CircularProgressIndicator(modifier = Modifier.size(20.dp))
+            }
+        }
     }
 }
 

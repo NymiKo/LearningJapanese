@@ -44,6 +44,7 @@ class CreateAccountViewModel @Inject constructor(
     }
 
     fun createAccount() = viewModelScope.launch {
+        _state.value = CreateAccountUiState.LOADING
         when(val result = repository.createAccount(email, nickname, password)) {
             is NetworkResult.Error -> {
                 _state.value = CreateAccountUiState.ERROR(errorHandler(result.code))

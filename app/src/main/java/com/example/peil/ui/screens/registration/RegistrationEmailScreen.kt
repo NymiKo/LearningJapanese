@@ -51,12 +51,14 @@ fun RegistrationEmailScreen(navController: NavController, viewModel: Registratio
         Header()
         DescriptionText()
         EmailField(viewModel)
-        LoginButton(textButton = R.string.continue_text) {
+        LoginButton(textButton = R.string.continue_text, onClick = {
             if (viewModel.email.isNotEmpty()) {
                 navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
             } else {
                 Toast.makeText(context, R.string.empty_email, Toast.LENGTH_SHORT).show()
             }
+        }) {
+
         }
         AlreadyHaveAccountText(
             modifier = Modifier

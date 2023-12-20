@@ -67,7 +67,7 @@ private fun LoadingScreenContent() {
         FieldItem(modifier = Modifier.padding(top = 40.dp),textLabel = R.string.email)
         FieldItem(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.password, password = true)
         ForgotPasswordText()
-        LoginButton(textButton = R.string.sign_in) {  }
+        LoginButton(textButton = R.string.sign_in, onClick = { }) {  }
     }
 }
 
