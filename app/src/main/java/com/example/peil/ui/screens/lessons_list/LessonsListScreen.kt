@@ -40,8 +40,10 @@ import com.example.peil.R
 
 @Composable
 fun LessonsListScreen(modifier: Modifier = Modifier) {
-    TopAppBar()
-    LessonsListComponent(modifier)
+    Column(modifier) {
+        TopAppBar()
+        LessonsListComponent()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
