@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
+import com.example.peil.ui.screens.create_account.data.CreateAccountService
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
@@ -28,6 +29,7 @@ fun CreateAccountScreen(
     viewModel: CreateAccountViewModel,
     email: String?
 ) {
+    viewModel.updateEmail(email ?: "")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +40,7 @@ fun CreateAccountScreen(
             imageVector = Icons.Default.ArrowBack
         ) { navController.popBackStack() }
         TextLabel(modifier = Modifier.padding(top = 30.dp), textLabel = R.string.email)
-        OutlinedLoginField(value = email) { }
+        OutlinedLoginField(value = viewModel.email) { viewModel.updateEmail(it) }
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.name)
         OutlinedLoginField(value = viewModel.nickname) { viewModel.updateNickname(it) }
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.password_min_char)
@@ -47,16 +49,16 @@ fun CreateAccountScreen(
                 it
             )
         }
-        LoginButton(textButton = R.string.registration) { }
+        LoginButton(textButton = R.string.registration) { viewModel.createAccount() }
     }
 }
 
-@Composable
-@Preview
-private fun CreateAccountScreenPreview() {
-    CreateAccountScreen(
-        rememberNavController(),
-        CreateAccountViewModel(CreateAccountRepositoryImpl()),
-        ""
-    )
-}
+//@Composable
+//@Preview
+//private fun CreateAccountScreenPreview() {
+//    CreateAccountScreen(
+//        rememberNavController(),
+//        CreateAccountViewModel(CreateAccountRepositoryImpl(CreateAccountService)),
+//        ""
+//    )
+//}

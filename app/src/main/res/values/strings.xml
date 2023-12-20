@@ -16,4 +16,7 @@
     <string name="password_min_char">Пароль (минимум 6 символов)</string>
     <string name="registration">Регистрация</string>
     <string name="empty_email">Email не введен</string>
+    <string name="check_your_internet_connection">Проверьте подключение к интернету</string>
+    <string name="email_already_exists">Аккаунт с такой почтой уже существует</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>
