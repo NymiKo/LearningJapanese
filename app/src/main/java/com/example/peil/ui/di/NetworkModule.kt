@@ -2,6 +2,7 @@ package com.example.peil.ui.di
 
 import android.content.Context
 import com.example.peil.data.AuthInterceptor
+import com.example.peil.ui.screens.create_account.data.CreateAccountService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface NetworkModule {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -37,9 +38,10 @@ interface NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://f0862137.xsph.ru/peil")
+        .baseUrl("http://f0862137.xsph.ru/peil/")
         .client(okHttpClient)
         .build()
 
-
+    @Provides
+    fun provideCreateAccountService(retrofit: Retrofit): CreateAccountService = retrofit.create(CreateAccountService::class.java)
 }
