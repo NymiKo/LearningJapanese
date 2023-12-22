@@ -27,6 +27,7 @@ fun OutlinedLoginField(
     modifier: Modifier = Modifier,
     value: String? = "",
     password: Boolean = false,
+    error: Boolean = false,
     valueChange: (String) -> Unit
 ) {
     var passwordShow by remember { mutableStateOf(false) }
@@ -52,6 +53,7 @@ fun OutlinedLoginField(
             focusedBorderColor = MaterialTheme.colorScheme.secondary,
             cursorColor = MaterialTheme.colorScheme.secondary,
             textColor = MaterialTheme.colorScheme.secondary
-        )
+        ),
+        isError = error
     )
 }

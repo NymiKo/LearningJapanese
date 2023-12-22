@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
+import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.White
@@ -55,7 +56,9 @@ fun LoginScreen(navController: NavController) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack) { navController.popBackStack() }
+        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack) {
+            navController.navigate(Screens.Welcome.route) { popUpTo(Screens.Welcome.route) { inclusive = true } }
+        }
         LoadingScreenContent()
     }
 }
@@ -67,7 +70,7 @@ private fun LoadingScreenContent() {
         FieldItem(modifier = Modifier.padding(top = 40.dp),textLabel = R.string.email)
         FieldItem(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.password, password = true)
         ForgotPasswordText()
-        LoginButton(textButton = R.string.sign_in, onClick = { }) {  }
+        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.sign_in, onClick = { }) {  }
     }
 }
 

@@ -31,6 +31,9 @@ class CreateAccountViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
+    var isOpenHaveAccountDialog by mutableStateOf(false)
+        private set
+
     fun updateNickname(inputNickname: String) {
         nickname = inputNickname
     }
@@ -43,11 +46,15 @@ class CreateAccountViewModel @Inject constructor(
         email = inputEmail
     }
 
+    fun updateOpenHaveAccountDialog(isOpen: Boolean) {
+        isOpenHaveAccountDialog = isOpen
+    }
+
     fun createAccount() = viewModelScope.launch {
         _state.value = CreateAccountUiState.LOADING
         when(val result = repository.createAccount(email, nickname, password)) {
             is NetworkResult.Error -> {
-                _state.value = CreateAccountUiState.ERROR(errorHandler(result.code))
+                errorHandler(result.code)
             }
             is NetworkResult.Success -> {
                 _state.value = CreateAccountUiState.SUCCESS(result.data)
@@ -55,11 +62,14 @@ class CreateAccountViewModel @Inject constructor(
         }
     }
 
-    private fun errorHandler(errorCode: Int): Int {
-        return when(errorCode) {
-            105 -> R.string.check_your_internet_connection
-            400 -> R.string.email_already_exists
-            else -> R.string.unknown_error
+    private fun errorHandler(errorCode: Int) {
+        when(errorCode) {
+            105 -> _state.value = CreateAccountUiState.ERROR(R.string.check_your_internet_connection)
+            400 -> {
+                _state.value = CreateAccountUiState.HAVE_ACCOUNT
+                isOpenHaveAccountDialog = true
+            }
+            else -> _state.value = CreateAccountUiState.ERROR(R.string.unknown_error)
         }
     }
 }

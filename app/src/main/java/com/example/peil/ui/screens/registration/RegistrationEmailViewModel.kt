@@ -13,7 +13,14 @@ class RegistrationEmailViewModel @Inject constructor(): ViewModel() {
     var email by mutableStateOf("")
         private set
 
+    var error by mutableStateOf(false)
+        private set
+
     fun updateEmail(inputEmail: String) {
         email = inputEmail
+    }
+
+    fun checkFieldEmail() {
+        error = email.isEmpty()
     }
 }

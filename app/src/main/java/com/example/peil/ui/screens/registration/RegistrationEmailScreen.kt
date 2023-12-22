@@ -51,11 +51,10 @@ fun RegistrationEmailScreen(navController: NavController, viewModel: Registratio
         Header()
         DescriptionText()
         EmailField(viewModel)
-        LoginButton(textButton = R.string.continue_text, onClick = {
-            if (viewModel.email.isNotEmpty()) {
+        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.continue_text, onClick = {
+            viewModel.checkFieldEmail()
+            if (!viewModel.error) {
                 navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
-            } else {
-                Toast.makeText(context, R.string.empty_email, Toast.LENGTH_SHORT).show()
             }
         }) {
 
@@ -106,7 +105,7 @@ private fun DescriptionText(modifier: Modifier = Modifier) {
 @Composable
 private fun EmailField(viewModel: RegistrationEmailViewModel) {
     TextLabel(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.email)
-    OutlinedLoginField(value = viewModel.email) { email -> viewModel.updateEmail(email) }
+    OutlinedLoginField(value = viewModel.email, error = viewModel.error) { email -> viewModel.updateEmail(email) }
 }
 
 @Composable

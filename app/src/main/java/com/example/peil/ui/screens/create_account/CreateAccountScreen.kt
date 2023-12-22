@@ -24,6 +24,7 @@ import com.example.peil.R
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
 import com.example.peil.ui.screens.create_account.data.CreateAccountService
+import com.example.peil.ui.screens.create_account.dialog_screen.HaveAccountDialog
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
@@ -36,6 +37,7 @@ fun CreateAccountScreen(
     email: String?
 ) {
     viewModel.updateEmail(email ?: "")
+    val state = viewModel.state.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,16 +53,35 @@ fun CreateAccountScreen(
         OutlinedLoginField(value = viewModel.nickname) { viewModel.updateNickname(it) }
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.password_min_char)
         OutlinedLoginField(value = viewModel.password, password = true) {
-            viewModel.updatePassword(
-                it
-            )
+            viewModel.updatePassword(it)
         }
-        LoginButton(textButton = R.string.registration, onClick = { viewModel.createAccount() }) {
-            val state = viewModel.state.observeAsState()
+        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.registration, onClick = { viewModel.createAccount() }) {
             if (state.value is CreateAccountUiState.LOADING) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))
             }
         }
+        checkState(state = state.value, navController, viewModel)
+    }
+}
+@Composable
+private fun checkState(state: CreateAccountUiState?, navController: NavController, viewModel: CreateAccountViewModel) {
+    when(state) {
+        is CreateAccountUiState.LOADING -> {
+
+        }
+        is CreateAccountUiState.SUCCESS -> {
+
+        }
+        is CreateAccountUiState.HAVE_ACCOUNT -> {
+            if (viewModel.isOpenHaveAccountDialog) {
+                HaveAccountDialog(navController) { viewModel.updateOpenHaveAccountDialog(false) }
+            }
+        }
+        is CreateAccountUiState.ERROR -> {
+
+        }
+
+        else -> {}
     }
 }
 

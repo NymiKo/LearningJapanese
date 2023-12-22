@@ -17,6 +17,8 @@
     <string name="registration">Регистрация</string>
     <string name="empty_email">Email не введен</string>
     <string name="check_your_internet_connection">Проверьте подключение к интернету</string>
-    <string name="email_already_exists">Аккаунт с такой почтой уже существует</string>
+    <string name="account_already_exists">Похоже, у тебя уже есть аккаунт.</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="please_try_to_login">Пожалуйста, попробуй войти.</string>
+    <string name="no_thanks">Нет, спасибо</string>
 </resources>

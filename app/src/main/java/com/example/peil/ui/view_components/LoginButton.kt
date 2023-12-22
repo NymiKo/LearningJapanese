@@ -20,8 +20,7 @@ import com.example.peil.ui.theme.White
 fun LoginButton(modifier: Modifier = Modifier, textButton: Int, onClick: () -> Unit, content: @Composable () -> Unit) = Button(
     modifier = modifier
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
-        .padding(top = 30.dp),
+        .padding(horizontal = 16.dp),
     onClick = { onClick() },
     colors = ButtonDefaults.buttonColors(
         containerColor = Blue
