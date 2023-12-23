@@ -52,13 +52,14 @@ import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(
+    onLoginClick: () -> Unit,
+    onBack: () -> Unit
+) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)) {
-        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack) {
-            navController.navigate(Screens.Welcome.route) { popUpTo(Screens.Welcome.route) { inclusive = true } }
-        }
+        BaseAppBar(title = R.string.sign_in, imageVector = Icons.Default.ArrowBack, navigationClick = onBack::invoke)
         LoadingScreenContent()
     }
 }
@@ -119,5 +120,5 @@ fun ForgotPasswordText() {
 @Composable
 @Preview
 private fun LoginScreenPreview() {
-    LoginScreen(rememberNavController())
+    LoginScreen({ }, { })
 }
