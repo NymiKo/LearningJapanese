@@ -105,7 +105,7 @@ private fun DescriptionText(modifier: Modifier = Modifier) {
 @Composable
 private fun EmailField(viewModel: RegistrationEmailViewModel) {
     TextLabel(modifier = Modifier.padding(top = 40.dp), textLabel = R.string.email)
-    OutlinedLoginField(value = viewModel.email, error = viewModel.error) { email -> viewModel.updateEmail(email) }
+    OutlinedLoginField(value = viewModel.email, error = viewModel.error, valueChange = viewModel::updateEmail)
 }
 
 @Composable

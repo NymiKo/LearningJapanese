@@ -29,8 +29,8 @@ import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.LoginButton
 
 @Composable
-fun HaveAccountDialog(navController: NavController, onDismissRequest: () -> Unit) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+fun HaveAccountDialog(navController: NavController, onDismissRequest: (isOpen: Boolean) -> Unit) {
+    Dialog(onDismissRequest = { onDismissRequest(false) }) {
         Card(
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
@@ -58,13 +58,13 @@ fun HaveAccountDialog(navController: NavController, onDismissRequest: () -> Unit
                     color = MaterialTheme.colorScheme.secondary
                 )
                 LoginButton(textButton = R.string.sign_in, onClick = {
-                    onDismissRequest()
+                    onDismissRequest(false)
                     navController.navigate(Screens.Login.route)
                 }) {
 
                 }
                 Text(
-                    modifier = Modifier.clickable { onDismissRequest() },
+                    modifier = Modifier.clickable { onDismissRequest(false) },
                     text = stringResource(id = R.string.no_thanks),
                     textDecoration = TextDecoration.Underline,
                     color = GreyLight,

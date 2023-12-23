@@ -48,14 +48,12 @@ fun CreateAccountScreen(
             imageVector = Icons.Default.ArrowBack
         ) { navController.popBackStack() }
         TextLabel(modifier = Modifier.padding(top = 30.dp), textLabel = R.string.email)
-        OutlinedLoginField(value = viewModel.email) { viewModel.updateEmail(it) }
+        OutlinedLoginField(value = viewModel.email, valueChange = viewModel::updateEmail)
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.name)
-        OutlinedLoginField(value = viewModel.nickname) { viewModel.updateNickname(it) }
+        OutlinedLoginField(value = viewModel.nickname, valueChange = viewModel::updateNickname)
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.password_min_char)
-        OutlinedLoginField(value = viewModel.password, password = true) {
-            viewModel.updatePassword(it)
-        }
-        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.registration, onClick = { viewModel.createAccount() }) {
+        OutlinedLoginField(value = viewModel.password, password = true, valueChange = viewModel::updatePassword)
+        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.registration, onClick = viewModel::createAccount) {
             if (state.value is CreateAccountUiState.LOADING) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))
             }
@@ -74,7 +72,7 @@ private fun checkState(state: CreateAccountUiState?, navController: NavControlle
         }
         is CreateAccountUiState.HAVE_ACCOUNT -> {
             if (viewModel.isOpenHaveAccountDialog) {
-                HaveAccountDialog(navController) { viewModel.updateOpenHaveAccountDialog(false) }
+                HaveAccountDialog(navController, onDismissRequest = viewModel::updateOpenHaveAccountDialog)
             }
         }
         is CreateAccountUiState.ERROR -> {
