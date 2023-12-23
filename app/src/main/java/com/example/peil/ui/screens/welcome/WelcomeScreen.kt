@@ -44,7 +44,9 @@ import com.example.peil.ui.theme.Purple
 import com.example.peil.ui.view_components.AlreadyHaveAccountText
 
 @Composable
-fun WelcomeScreen(navController: NavController) {
+fun WelcomeScreen(
+    onLoginClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,29 +86,29 @@ fun WelcomeScreen(navController: NavController) {
                 contentDescription = null
             )
         }
-        BottomCard(navController = navController)
+        BottomCard(onLoginClick = onLoginClick::invoke)
     }
 }
 
 @Composable
-private fun BottomCard(modifier: Modifier = Modifier, navController: NavController) {
+private fun BottomCard(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
     Card(
         modifier = modifier
-            .fillMaxHeight(0.25f)
-            .height(200.dp),
+            .height(170.dp)
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            CardContent(navController = navController)
+            CardContent(onLoginClick = onLoginClick::invoke)
         }
     }
 }
 
 @Composable
-private fun CardContent(modifier: Modifier = Modifier, navController: NavController) {
+private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -130,13 +132,13 @@ private fun CardContent(modifier: Modifier = Modifier, navController: NavControl
                 color = Color.Black
             )
         },
-        onClick = { navController.navigate(Screens.RegistrationEmail.route) }
+        onClick = onLoginClick::invoke
     )
-    AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp), navController)
+    AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp), onLoginClick::invoke)
 }
 
 @Composable
 @Preview
 private fun WelcomeScreenPreview() {
-    WelcomeScreen(rememberNavController())
+    WelcomeScreen({})
 }

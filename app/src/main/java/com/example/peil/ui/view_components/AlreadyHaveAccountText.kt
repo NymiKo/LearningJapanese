@@ -19,7 +19,7 @@ import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.GreyLight
 
 @Composable
-fun AlreadyHaveAccountText(modifier: Modifier = Modifier, navController: NavController) {
+fun AlreadyHaveAccountText(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
     val annotatedString = buildAnnotatedString {
         withStyle(
             SpanStyle(
@@ -40,7 +40,7 @@ fun AlreadyHaveAccountText(modifier: Modifier = Modifier, navController: NavCont
     ClickableText(
         modifier = modifier,
         text = annotatedString,
-        onClick = { navController.navigate(Screens.Login.route) },
+        onClick = { onLoginClick() },
         style = TextStyle.Default.merge(
             TextStyle(textAlign = TextAlign.Center)
         )

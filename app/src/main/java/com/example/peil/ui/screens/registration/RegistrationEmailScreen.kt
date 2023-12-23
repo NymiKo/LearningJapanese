@@ -62,7 +62,7 @@ fun RegistrationEmailScreen(navController: NavController, viewModel: Registratio
         AlreadyHaveAccountText(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp), navController
+                .padding(top = 30.dp), {  }
         )
     }
 }
