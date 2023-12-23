@@ -45,7 +45,8 @@ import com.example.peil.ui.view_components.AlreadyHaveAccountText
 
 @Composable
 fun WelcomeScreen(
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
+    onRegistrationEmailClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -86,12 +87,12 @@ fun WelcomeScreen(
                 contentDescription = null
             )
         }
-        BottomCard(onLoginClick = onLoginClick::invoke)
+        BottomCard(onLoginClick = onLoginClick::invoke, onRegistrationEmailClick = onRegistrationEmailClick::invoke)
     }
 }
 
 @Composable
-private fun BottomCard(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
+private fun BottomCard(modifier: Modifier = Modifier, onLoginClick: () -> Unit, onRegistrationEmailClick: () -> Unit) {
     Card(
         modifier = modifier
             .height(170.dp)
@@ -102,13 +103,13 @@ private fun BottomCard(modifier: Modifier = Modifier, onLoginClick: () -> Unit) 
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
-            CardContent(onLoginClick = onLoginClick::invoke)
+            CardContent(onLoginClick = onLoginClick::invoke, onRegistrationEmailClick = onRegistrationEmailClick::invoke)
         }
     }
 }
 
 @Composable
-private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit) {
+private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit, onRegistrationEmailClick: () -> Unit) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,7 +133,7 @@ private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit)
                 color = Color.Black
             )
         },
-        onClick = onLoginClick::invoke
+        onClick = onRegistrationEmailClick::invoke
     )
     AlreadyHaveAccountText(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp), onLoginClick::invoke)
 }
@@ -140,5 +141,5 @@ private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit)
 @Composable
 @Preview
 private fun WelcomeScreenPreview() {
-    WelcomeScreen({})
+    WelcomeScreen({}, {})
 }

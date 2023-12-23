@@ -40,21 +40,27 @@ import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 
 @Composable
-fun RegistrationEmailScreen(navController: NavController, viewModel: RegistrationEmailViewModel) {
+fun RegistrationEmailScreen(
+    onCreateAccountClick: (email: String) -> Unit,
+    onLoginClick: () -> Unit,
+    onBack: () -> Unit,
+    viewModel: RegistrationEmailViewModel
+) {
     val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        BaseAppBar(imageVector = Icons.Default.ArrowBack) { navController.popBackStack() }
+        BaseAppBar(imageVector = Icons.Default.ArrowBack, navigationClick = onBack::invoke)
         Header()
         DescriptionText()
         EmailField(viewModel)
         LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.continue_text, onClick = {
             viewModel.checkFieldEmail()
             if (!viewModel.error) {
-                navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
+                onCreateAccountClick(viewModel.email)
+                //navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
             }
         }) {
 
@@ -62,7 +68,8 @@ fun RegistrationEmailScreen(navController: NavController, viewModel: Registratio
         AlreadyHaveAccountText(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp), {  }
+                .padding(top = 30.dp),
+            onLoginClick = onLoginClick::invoke
         )
     }
 }
@@ -111,5 +118,5 @@ private fun EmailField(viewModel: RegistrationEmailViewModel) {
 @Composable
 @Preview
 private fun RegistrationEmailScreenPreview() {
-    RegistrationEmailScreen(rememberNavController(), RegistrationEmailViewModel())
+    RegistrationEmailScreen({}, {}, {}, RegistrationEmailViewModel())
 }
