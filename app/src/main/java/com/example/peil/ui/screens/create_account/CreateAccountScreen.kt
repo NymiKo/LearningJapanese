@@ -32,7 +32,9 @@ import com.example.peil.ui.view_components.TextLabel
 
 @Composable
 fun CreateAccountScreen(
-    navController: NavController,
+    onRegistrationClick: () -> Unit,
+    showHaveAccountDialog: () -> Unit,
+    onBack: () -> Unit,
     viewModel: CreateAccountViewModel,
     email: String?
 ) {
@@ -46,7 +48,7 @@ fun CreateAccountScreen(
         BaseAppBar(
             title = R.string.create_account,
             imageVector = Icons.Default.ArrowBack
-        ) { navController.popBackStack() }
+        ) { onBack() }
         TextLabel(modifier = Modifier.padding(top = 30.dp), textLabel = R.string.email)
         OutlinedLoginField(value = viewModel.email, valueChange = viewModel::updateEmail)
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.name)
@@ -58,11 +60,11 @@ fun CreateAccountScreen(
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))
             }
         }
-        checkState(state = state.value, navController, viewModel)
+        checkState(state = state.value, showHaveAccountDialog::invoke)
     }
 }
 @Composable
-private fun checkState(state: CreateAccountUiState?, navController: NavController, viewModel: CreateAccountViewModel) {
+private fun checkState(state: CreateAccountUiState?, showHaveAccountDialog: () -> Unit) {
     when(state) {
         is CreateAccountUiState.LOADING -> {
 
@@ -71,9 +73,7 @@ private fun checkState(state: CreateAccountUiState?, navController: NavControlle
 
         }
         is CreateAccountUiState.HAVE_ACCOUNT -> {
-            if (viewModel.isOpenHaveAccountDialog) {
-                HaveAccountDialog(navController, onDismissRequest = viewModel::updateOpenHaveAccountDialog)
-            }
+            showHaveAccountDialog()
         }
         is CreateAccountUiState.ERROR -> {
 
