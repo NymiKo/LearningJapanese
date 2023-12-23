@@ -9,20 +9,23 @@ import androidx.navigation.compose.composable
 import com.example.peil.ui.screens.create_account.CreateAccountScreen
 import com.example.peil.ui.screens.create_account.CreateAccountViewModel
 import com.example.peil.ui.screens.login.LoginScreen
+import com.example.peil.ui.screens.login.loginScreen
+import com.example.peil.ui.screens.login.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailScreen
 import com.example.peil.ui.screens.registration.RegistrationEmailViewModel
 import com.example.peil.ui.screens.welcome.WelcomeScreen
+import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
+import com.example.peil.ui.screens.welcome.welcomeScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screens.Welcome.route) {
-        composable(route = Screens.Welcome.route) {
-            WelcomeScreen(navController)
-        }
+    NavHost(
+        navController = navController,
+        startDestination = Screens.Welcome.route
+    ) {
+        welcomeScreen(onLoginClick = navController::navigateToLoginScreen)
 
-        composable(route = Screens.Login.route) {
-            LoginScreen(navController)
-        }
+        loginScreen({}, onBack = navController::popBackStackToWelcomeScreen)
 
         composable(route = Screens.RegistrationEmail.route) {
             val viewModel = hiltViewModel<RegistrationEmailViewModel>()
@@ -31,7 +34,11 @@ fun NavGraph(navController: NavHostController) {
 
         composable(route = Screens.CreateAccount.route + "/{email}") { backStackEntry ->
             val viewModel = hiltViewModel<CreateAccountViewModel>()
-            CreateAccountScreen(navController, viewModel, backStackEntry.arguments?.getString("email"))
+            CreateAccountScreen(
+                navController,
+                viewModel,
+                backStackEntry.arguments?.getString("email")
+            )
         }
     }
 }
