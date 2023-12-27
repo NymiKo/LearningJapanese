@@ -17,14 +17,15 @@ import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.White
 
 @Composable
-fun LoginButton(modifier: Modifier = Modifier, textButton: Int, onClick: () -> Unit, content: @Composable () -> Unit) = Button(
+fun LoginButton(modifier: Modifier = Modifier, textButton: Int, enabled: Boolean = true, onClick: () -> Unit, content: @Composable () -> Unit) = Button(
     modifier = modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp),
     onClick = { onClick() },
     colors = ButtonDefaults.buttonColors(
         containerColor = Blue
-    )
+    ),
+    enabled = enabled
 ) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
         Text(
