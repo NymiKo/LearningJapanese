@@ -2,6 +2,8 @@ package com.example.peil.ui.di
 
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
+import com.example.peil.ui.screens.login.data.LoginRepository
+import com.example.peil.ui.screens.login.data.LoginRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindCreateAccountRepository(repository: CreateAccountRepositoryImpl): CreateAccountRepository
+
+    @Binds
+    @Singleton
+    fun bindLoginRepository(repository: LoginRepositoryImpl): LoginRepository
 }
