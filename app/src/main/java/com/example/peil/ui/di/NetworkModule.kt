@@ -3,6 +3,7 @@ package com.example.peil.ui.di
 import android.content.Context
 import com.example.peil.data.AuthInterceptor
 import com.example.peil.ui.screens.create_account.data.CreateAccountService
+import com.example.peil.ui.screens.login.data.LoginService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,4 +45,7 @@ object NetworkModule {
 
     @Provides
     fun provideCreateAccountService(retrofit: Retrofit): CreateAccountService = retrofit.create(CreateAccountService::class.java)
+
+    @Provides
+    fun provideLoginService(retrofit: Retrofit): LoginService = retrofit.create(LoginService::class.java)
 }
