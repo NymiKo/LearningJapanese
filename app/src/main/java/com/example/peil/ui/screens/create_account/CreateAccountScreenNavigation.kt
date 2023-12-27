@@ -21,6 +21,7 @@ fun NavGraphBuilder.createAccountScreen(onRegistrationClick: () -> Unit, showHav
         val email = backStackEntry.arguments?.getString(emailKeyArg)
 
         val viewModel = hiltViewModel<CreateAccountViewModel>()
+        viewModel.updateEmail(email ?: "")
         CreateAccountScreen(
             onRegistrationClick = onRegistrationClick::invoke,
             showHaveAccountDialog = showHaveAccountDialog,

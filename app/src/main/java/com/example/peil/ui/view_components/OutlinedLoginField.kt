@@ -33,7 +33,7 @@ fun OutlinedLoginField(
     var passwordShow by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .padding(top = 8.dp),

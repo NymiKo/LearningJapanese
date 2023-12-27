@@ -33,7 +33,7 @@ fun HaveAccountDialog(
     onLoginClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+    Dialog(onDismissRequest = onDismissRequest::invoke) {
         Card(
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
@@ -60,11 +60,9 @@ fun HaveAccountDialog(
                     text = stringResource(id = R.string.please_try_to_login),
                     color = MaterialTheme.colorScheme.secondary
                 )
-                LoginButton(textButton = R.string.sign_in, onClick = {
-                    onLoginClick()
-                }, content = {})
+                LoginButton(textButton = R.string.sign_in, onClick = onLoginClick::invoke, content = {})
                 Text(
-                    modifier = Modifier.clickable { onDismissRequest() },
+                    modifier = Modifier.clickable(onClick = onDismissRequest::invoke),
                     text = stringResource(id = R.string.no_thanks),
                     textDecoration = TextDecoration.Underline,
                     color = GreyLight,

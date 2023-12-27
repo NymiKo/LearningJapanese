@@ -60,7 +60,6 @@ fun RegistrationEmailScreen(
             viewModel.checkFieldEmail()
             if (!viewModel.error) {
                 onCreateAccountClick(viewModel.email)
-                //navController.navigate(Screens.CreateAccount.route + "/${viewModel.email}")
             }
         }) {
 

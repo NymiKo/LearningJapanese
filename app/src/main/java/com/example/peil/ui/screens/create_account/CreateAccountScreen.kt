@@ -38,13 +38,13 @@ fun CreateAccountScreen(
     viewModel: CreateAccountViewModel,
     email: String?
 ) {
-    viewModel.updateEmail(email ?: "")
-    val state = viewModel.state.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        val state = viewModel.state.observeAsState()
+
         BaseAppBar(
             title = R.string.create_account,
             imageVector = Icons.Default.ArrowBack
