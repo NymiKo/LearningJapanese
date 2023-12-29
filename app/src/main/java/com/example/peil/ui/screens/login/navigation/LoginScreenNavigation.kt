@@ -1,11 +1,13 @@
-package com.example.peil.ui.screens.login
+package com.example.peil.ui.screens.login.navigation
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.peil.ui.screens.login.LoginScreen
+import com.example.peil.ui.screens.login.LoginViewModel
 
-private const val loginScreenRoute = "login_screen"
+const val loginScreenRoute = "login_screen"
 
 fun NavGraphBuilder.loginScreen(onLoginClick: () -> Unit, onBack: () -> Unit) {
     composable(loginScreenRoute) {

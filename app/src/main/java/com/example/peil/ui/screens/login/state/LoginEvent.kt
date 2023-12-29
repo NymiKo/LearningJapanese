@@ -1,4 +1,4 @@
-package com.example.peil.ui.screens.login
+package com.example.peil.ui.screens.login.state
 
 sealed class LoginEvent {
     data class EnteringEmail(val value: String): LoginEvent()
