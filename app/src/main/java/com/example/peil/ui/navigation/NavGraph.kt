@@ -9,11 +9,14 @@ import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
-import com.example.peil.ui.screens.lessons_list.LessonsListScreen
+import com.example.peil.ui.screens.lessons_list.lessonsListScreen
+import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
+import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreen
 import com.example.peil.ui.screens.login.navigation.loginScreen
 import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
 import com.example.peil.ui.screens.registration.registrationScreen
+import com.example.peil.ui.screens.welcome.navigateToWelcomeScreen
 import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
 import com.example.peil.ui.screens.welcome.welcomeScreen
 
@@ -21,14 +24,17 @@ import com.example.peil.ui.screens.welcome.welcomeScreen
 fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "lessons_list"
+        startDestination = lessonsListScreenRoute
     ) {
         welcomeScreen(
             onLoginClick = navController::navigateToLoginScreen,
             onRegistrationEmailClick = navController::navigateToRegistrationEmailScreen
         )
 
-        loginScreen({ navController.navigate("lessons_list") }, onBack = navController::popBackStackToWelcomeScreen)
+        loginScreen(
+            onLessonsListScreen = navController::navigateToLessonsListScreen,
+            onBack = navController::popBackStackToWelcomeScreen
+        )
 
         registrationScreen(
             onCreateAccountClick = { email -> navController.navigateToCreateAccountScreen(email) },
@@ -47,10 +53,8 @@ fun NavGraph(navController: NavHostController) {
             onDismissRequest = navController::popBackStack
         )
 
-        composable("lessons_list") {
-            NavigationBarWithContent(
-                onLoginScreen = navController::navigateToLoginScreen
-            )
-        }
+        lessonsListScreen(
+            onWelcomeScreen = navController::navigateToWelcomeScreen
+        )
     }
 }
