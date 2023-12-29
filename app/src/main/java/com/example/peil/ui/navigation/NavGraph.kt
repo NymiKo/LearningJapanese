@@ -3,12 +3,15 @@ package com.example.peil.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.peil.NavigationBarWithContent
 import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
-import com.example.peil.ui.screens.login.loginScreen
-import com.example.peil.ui.screens.login.navigateToLoginScreen
+import com.example.peil.ui.screens.lessons_list.LessonsListScreen
+import com.example.peil.ui.screens.login.navigation.loginScreen
+import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
 import com.example.peil.ui.screens.registration.registrationScreen
 import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
@@ -18,14 +21,14 @@ import com.example.peil.ui.screens.welcome.welcomeScreen
 fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screens.Welcome.route
+        startDestination = "lessons_list"
     ) {
         welcomeScreen(
             onLoginClick = navController::navigateToLoginScreen,
             onRegistrationEmailClick = navController::navigateToRegistrationEmailScreen
         )
 
-        loginScreen({}, onBack = navController::popBackStackToWelcomeScreen)
+        loginScreen({ navController.navigate("lessons_list") }, onBack = navController::popBackStackToWelcomeScreen)
 
         registrationScreen(
             onCreateAccountClick = { email -> navController.navigateToCreateAccountScreen(email) },
@@ -43,5 +46,11 @@ fun NavGraph(navController: NavHostController) {
             onLoginClick = navController::navigateToLoginScreen,
             onDismissRequest = navController::popBackStack
         )
+
+        composable("lessons_list") {
+            NavigationBarWithContent(
+                onLoginScreen = navController::navigateToLoginScreen
+            )
+        }
     }
 }

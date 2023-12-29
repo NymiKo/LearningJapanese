@@ -12,12 +12,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -26,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.peil.ui.navigation.NavGraph
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
 import com.example.peil.ui.theme.PeilTheme
+import com.example.peil.util.sharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,10 +41,9 @@ class MainActivity : ComponentActivity() {
 
         val isLoading = mutableStateOf(true)
 
-        lifecycleScope.launch {
-            delay(1000)
-            isLoading.value = false
-        }
+//        lifecycleScope.launch {
+//            isLoading.value = false
+//        }
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -58,6 +60,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavGraph(navController = navController)
+                    isLoading.value = false
                 }
             }
         }
@@ -66,8 +69,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavigationBarWithContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLoginScreen: () -> Unit
 ) {
+    if (sharedPreferences(LocalContext.current).getString("token", null).isNullOrEmpty()) {
+        onLoginScreen()
+    }
+
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf(
         "Главная" to R.drawable.ic_home,
@@ -110,6 +118,6 @@ fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int) {
 @Composable
 fun GreetingPreview() {
     PeilTheme {
-        NavigationBarWithContent()
+        NavigationBarWithContent(onLoginScreen = { })
     }
 }
