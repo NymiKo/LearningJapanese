@@ -9,10 +9,10 @@ import com.example.peil.ui.screens.login.LoginViewModel
 
 const val loginScreenRoute = "login_screen"
 
-fun NavGraphBuilder.loginScreen(onLoginClick: () -> Unit, onBack: () -> Unit) {
+fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onBack: () -> Unit) {
     composable(loginScreenRoute) {
         val viewModel: LoginViewModel = hiltViewModel()
-        LoginScreen(onLoginClick::invoke, onBack::invoke, viewModel)
+        LoginScreen(onLessonsListScreen::invoke, onBack::invoke, viewModel)
     }
 }
 

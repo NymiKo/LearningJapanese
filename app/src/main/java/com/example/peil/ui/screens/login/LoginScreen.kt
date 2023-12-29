@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.login
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,11 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -38,11 +34,10 @@ import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.TextLabel
 import com.example.peil.util.sharedPreferences
-import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    loginSuccess: () -> Unit,
+    onLessonsListScreen: () -> Unit,
     onBack: () -> Unit,
     viewModel: LoginViewModel
 ) {
@@ -54,7 +49,8 @@ fun LoginScreen(
         val state = viewModel.state.value
 
         if (state.successLogin) {
-
+            sharedPreferences(LocalContext.current).edit().putString("token", state.token).apply()
+            onLessonsListScreen()
         }
 
         BaseAppBar(
@@ -68,11 +64,7 @@ fun LoginScreen(
             valueEmail = state.email.text,
             valuePassword = state.password.text,
             progress = state.progress,
-            onLogin = { viewModel.createEvent(LoginEvent.OnLogin) },
-            loginSuccess = loginSuccess::invoke,
-            success = state.successLogin,
-            context = LocalContext.current,
-            token = state.token
+            onLogin = { viewModel.createEvent(LoginEvent.OnLogin) }
         )
     }
 }
@@ -84,11 +76,7 @@ private fun LoadingScreenContent(
     valueEmail: String,
     valuePassword: String,
     progress: Boolean,
-    onLogin: () -> Unit,
-    loginSuccess: () -> Unit,
-    success: Boolean = false,
-    context: Context,
-    token: String
+    onLogin: () -> Unit
 ) {
     Column {
         Header()
@@ -109,18 +97,11 @@ private fun LoadingScreenContent(
         LoginButton(
             modifier = Modifier.padding(top = 30.dp),
             textButton = R.string.sign_in,
-            onClick = {
-                onLogin()
-            },
+            onClick = { onLogin() },
             enabled = !progress
         ) {
             if (progress) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Blue)
-            }
-
-            if (success) {
-                sharedPreferences(context).edit().putString("token", token).apply()
-                loginSuccess()
             }
         }
     }
