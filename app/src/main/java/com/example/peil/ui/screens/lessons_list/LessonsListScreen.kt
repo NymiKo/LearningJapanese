@@ -4,39 +4,57 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
+import com.example.peil.ui.theme.Green
+import com.example.peil.ui.theme.GreenLight
+import com.example.peil.ui.theme.GreyLight
+import com.example.peil.ui.theme.White
 
 @Composable
 fun LessonsListScreen(
@@ -44,6 +62,7 @@ fun LessonsListScreen(
 ) {
     Column(modifier) {
         TopAppBar()
+        LearningProgress(progressValue = 25F)
         LessonsListComponent()
     }
 }
@@ -75,6 +94,49 @@ private fun NavigationIconTopAppBar() {
             .size(35.dp)
             .clip(CircleShape)
             .border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float) {
+    Slider(
+        modifier = modifier.fillMaxWidth(),
+        value = progressValue,
+        onValueChange = {},
+        valueRange = 0F..100F,
+        track = {
+            SliderDefaults.Track(
+                modifier = Modifier.scale(scaleX = 1f, scaleY = 2f),
+                colors = SliderDefaults.colors(
+                    activeTrackColor = Green,
+                    inactiveTrackColor = GreyLight
+                ),
+                sliderPositions = it
+            )
+        },
+        thumb = { position ->
+            Card(
+                modifier = Modifier
+                    .width(35.dp)
+                    .height(18.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Green,
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 3.dp
+                )
+            ) {
+                Text(
+                    modifier = Modifier.fillMaxSize(),
+                    textAlign = TextAlign.Center,
+                    text = "${progressValue.toInt()}%",
+                    fontSize = 10.sp,
+                    color = White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     )
 }
 
