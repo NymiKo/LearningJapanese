@@ -39,7 +39,9 @@ import androidx.compose.ui.unit.sp
 import com.example.peil.R
 
 @Composable
-fun LessonsListScreen(modifier: Modifier = Modifier) {
+fun LessonsListScreen(
+    modifier: Modifier = Modifier
+) {
     Column(modifier) {
         TopAppBar()
         LessonsListComponent()
