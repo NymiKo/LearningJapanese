@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.login.data.LoginRepository
+import com.example.peil.ui.screens.login.state.LoginEvent
+import com.example.peil.ui.screens.login.state.LoginScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,27 +44,25 @@ class LoginViewModel @Inject constructor(
             }
 
             is LoginEvent.OnLogin -> {
-                _state.value = state.value.copy(
-                    progress = true
-                )
                 login()
             }
         }
     }
 
     private fun login() = viewModelScope.launch {
-        delay(2000)
-        _state.value = state.value.copy(
-            progress = false
-        )
-//        when (val result = repository.login(state.value.email.text, state.value.password.text)) {
-//            is NetworkResult.Error -> {
-//
-//            }
-//
-//            is NetworkResult.Success -> {
-//
-//            }
-//        }
+        _state.value = state.value.copy(progress = true)
+        when (val result = repository.login(state.value.email.text, state.value.password.text)) {
+            is NetworkResult.Error -> {
+
+            }
+
+            is NetworkResult.Success -> {
+                _state.value = state.value.copy(
+                    progress = false,
+                    successLogin = true,
+                    token = result.data
+                )
+            }
+        }
     }
 }
