@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.lessons_list
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CloudDownload
@@ -44,9 +47,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
+import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.Green
 import com.example.peil.ui.theme.GreyLight
@@ -54,13 +59,15 @@ import com.example.peil.ui.theme.White
 
 @Composable
 fun LessonsListScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: LessonsListViewModel
 ) {
     Column(modifier) {
         TopAppBar()
         LearningProgress(progressValue = 25F)
-        LessonsListComponent()
+        LessonsListComponent(lessonsList = viewModel.lessonsList)
     }
+    Log.e("LESSONS", viewModel.lessonsList.toString())
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -138,14 +145,15 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
 
 @Composable
 private fun LessonsListComponent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lessonsList: List<LessonModel> = listOf()
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        items(10) {
-            LessonItem(lastItem = it == 9)
+        itemsIndexed(lessonsList) {index, lesson ->
+            LessonItem(lesson = lesson, lastItem = index == lessonsList.lastIndex)
         }
     }
 }
@@ -154,12 +162,13 @@ private fun LessonsListComponent(
 @Composable
 private fun LessonItem(
     modifier: Modifier = Modifier,
+    lesson: LessonModel,
     lastItem: Boolean
 ) {
     Row(
         modifier = modifier,
     ) {
-        ImageLessonAndDivider(lastItem = lastItem)
+        ImageLessonAndDivider(lastItem = lastItem, imageLesson = lesson.image)
 
         Row(
             modifier = Modifier
@@ -168,8 +177,8 @@ private fun LessonItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.padding(start = 16.dp),
-                text = "Урок 1",
+                modifier = Modifier.padding(start = 8.dp),
+                text = lesson.header,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -188,7 +197,7 @@ private fun LessonItem(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean) {
+fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imageLesson: String) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -201,7 +210,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean) {
                 .padding(4.dp)
         ) {
             GlideImage(
-                model = "https://www.mindtools.com/wp-content/uploads/legacy/972/GI_544466394_stockstudioX.jpg",
+                model = imageLesson,
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -226,6 +235,6 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean) {
 @Preview
 private fun LessonsListScreenPreview() {
     Column {
-        LessonsListScreen(modifier = Modifier.weight(1f))
+        LessonsListScreen(modifier = Modifier.weight(1f), hiltViewModel())
     }
 }

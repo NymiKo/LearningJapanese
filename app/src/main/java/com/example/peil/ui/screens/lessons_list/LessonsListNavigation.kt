@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.lessons_list
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,7 +10,8 @@ const val lessonsListScreenRoute = "lessons_list"
 
 fun NavGraphBuilder.lessonsListScreen(onWelcomeScreen: () -> Unit) {
     composable(lessonsListScreenRoute) {
-        NavigationBarWithContent(onWelcomeScreen = onWelcomeScreen::invoke)
+        val viewModel: LessonsListViewModel = hiltViewModel()
+        NavigationBarWithContent(onWelcomeScreen = onWelcomeScreen::invoke, lessonsListViewModel = viewModel)
     }
 }
 

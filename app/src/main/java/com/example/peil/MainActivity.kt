@@ -22,9 +22,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.peil.ui.navigation.NavGraph
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
+import com.example.peil.ui.screens.lessons_list.LessonsListViewModel
 import com.example.peil.ui.theme.PeilTheme
 import com.example.peil.util.sharedPreferences
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +68,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationBarWithContent(
     modifier: Modifier = Modifier,
-    onWelcomeScreen: () -> Unit
+    onWelcomeScreen: () -> Unit,
+    lessonsListViewModel: LessonsListViewModel
 ) {
     if (sharedPreferences(LocalContext.current).getString("token", null).isNullOrEmpty()) {
         onWelcomeScreen()
@@ -80,7 +83,7 @@ fun NavigationBarWithContent(
     )
 
     Column {
-        NavigationItemsContent(modifier = Modifier.weight(1f), state = selectedItem)
+        NavigationItemsContent(modifier = Modifier.weight(1f), state = selectedItem, lessonsListViewModel = lessonsListViewModel)
         NavigationBar {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
@@ -99,10 +102,10 @@ fun NavigationBarWithContent(
 }
 
 @Composable
-fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int) {
+fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel) {
     when (state) {
         0 -> {
-            LessonsListScreen(modifier)
+            LessonsListScreen(modifier, viewModel = lessonsListViewModel)
         }
 
         1 -> Text(text = "Вкладка 2", modifier)
@@ -114,6 +117,6 @@ fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int) {
 @Composable
 fun GreetingPreview() {
     PeilTheme {
-        NavigationBarWithContent(onWelcomeScreen = { })
+        NavigationBarWithContent(onWelcomeScreen = { }, lessonsListViewModel = hiltViewModel())
     }
 }
