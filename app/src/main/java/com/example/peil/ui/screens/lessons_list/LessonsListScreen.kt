@@ -1,15 +1,13 @@
 package com.example.peil.ui.screens.lessons_list
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -41,7 +37,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,14 +55,14 @@ import com.example.peil.ui.theme.White
 @Composable
 fun LessonsListScreen(
     modifier: Modifier = Modifier,
+    onLearningLesson: () -> Unit,
     viewModel: LessonsListViewModel
 ) {
     Column(modifier) {
         TopAppBar()
         LearningProgress(progressValue = 25F)
-        LessonsListComponent(lessonsList = viewModel.lessonsList)
+        LessonsListComponent(lessonsList = viewModel.lessonsList, onLearningLesson = onLearningLesson::invoke)
     }
-    Log.e("LESSONS", viewModel.lessonsList.toString())
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -146,14 +141,15 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
 @Composable
 private fun LessonsListComponent(
     modifier: Modifier = Modifier,
+    onLearningLesson: () -> Unit,
     lessonsList: List<LessonModel> = listOf()
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        itemsIndexed(lessonsList) {index, lesson ->
-            LessonItem(lesson = lesson, lastItem = index == lessonsList.lastIndex)
+        itemsIndexed(lessonsList) { index, lesson ->
+            LessonItem(lesson = lesson, lastItem = index == lessonsList.lastIndex, onLearningLesson = onLearningLesson::invoke)
         }
     }
 }
@@ -162,11 +158,12 @@ private fun LessonsListComponent(
 @Composable
 private fun LessonItem(
     modifier: Modifier = Modifier,
+    onLearningLesson: () -> Unit,
     lesson: LessonModel,
     lastItem: Boolean
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.clickable { onLearningLesson() },
     ) {
         ImageLessonAndDivider(lastItem = lastItem, imageLesson = lesson.image)
 
@@ -220,7 +217,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
             )
         }
 
-        if(!lastItem) {
+        if (!lastItem) {
             Divider(
                 color = GreyLight,
                 modifier = Modifier
@@ -235,6 +232,6 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
 @Preview
 private fun LessonsListScreenPreview() {
     Column {
-        LessonsListScreen(modifier = Modifier.weight(1f), hiltViewModel())
+        LessonsListScreen(modifier = Modifier.weight(1f), onLearningLesson = {}, hiltViewModel())
     }
 }

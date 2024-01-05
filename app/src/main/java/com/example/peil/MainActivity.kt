@@ -69,6 +69,7 @@ class MainActivity : ComponentActivity() {
 fun NavigationBarWithContent(
     modifier: Modifier = Modifier,
     onWelcomeScreen: () -> Unit,
+    onLearningLesson: () -> Unit,
     lessonsListViewModel: LessonsListViewModel
 ) {
     if (sharedPreferences(LocalContext.current).getString("token", null).isNullOrEmpty()) {
@@ -83,7 +84,7 @@ fun NavigationBarWithContent(
     )
 
     Column {
-        NavigationItemsContent(modifier = Modifier.weight(1f), state = selectedItem, lessonsListViewModel = lessonsListViewModel)
+        NavigationItemsContent(modifier = Modifier.weight(1f), state = selectedItem, lessonsListViewModel = lessonsListViewModel, onLearningLesson = onLearningLesson)
         NavigationBar {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
@@ -102,10 +103,10 @@ fun NavigationBarWithContent(
 }
 
 @Composable
-fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel) {
+fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel, onLearningLesson: () -> Unit) {
     when (state) {
         0 -> {
-            LessonsListScreen(modifier, viewModel = lessonsListViewModel)
+            LessonsListScreen(modifier, onLearningLesson::invoke, viewModel = lessonsListViewModel)
         }
 
         1 -> Text(text = "Вкладка 2", modifier)
@@ -117,6 +118,6 @@ fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsLis
 @Composable
 fun GreetingPreview() {
     PeilTheme {
-        NavigationBarWithContent(onWelcomeScreen = { }, lessonsListViewModel = hiltViewModel())
+        NavigationBarWithContent(onWelcomeScreen = { }, onLearningLesson = {}, lessonsListViewModel = hiltViewModel())
     }
 }
