@@ -1,4 +1,4 @@
-package com.example.peil.ui.screens.sublessons
+package com.example.peil.ui.screens.sublessons.new_info
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +21,6 @@ import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.LoginButton
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 
 @Composable
 fun SubLessonNewInfoScreen(subLessonItem: SubLessonModel, listState: LazyListState, index: Int) {
@@ -77,6 +76,7 @@ private fun ButtonNextSubLesson(
     val coroutineScope = rememberCoroutineScope()
     LoginButton(
         textButton = R.string.continue_text,
+        horizontalPadding = 0.dp,
         onClick = { coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) } }) { }
 }
 
