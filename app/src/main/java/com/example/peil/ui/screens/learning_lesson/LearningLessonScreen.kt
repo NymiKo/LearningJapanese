@@ -1,9 +1,7 @@
 package com.example.peil.ui.screens.learning_lesson
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -26,8 +22,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
-import com.example.peil.ui.screens.sublessons.SubLessonChoosingOptionItem
-import com.example.peil.ui.screens.sublessons.SubLessonNewInfoScreen
+import com.example.peil.ui.screens.sublessons.choosing_option.SubLessonChoosingOptionItem
+import com.example.peil.ui.screens.sublessons.new_info.SubLessonNewInfoScreen
 import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
 
@@ -49,7 +45,8 @@ fun LearningLessonScreen() {
             newWord = "Konnichiwa / こんにちは",
             translationWord = "Здравствуйте",
             completed = false,
-            variants = arrayOf("Konnichiwa", "Arigatou"),
+            options = arrayOf("Konnichiwa", "Arigatou"),
+            correctOption = "Konnichiwa",
             type = 1
         )
     )

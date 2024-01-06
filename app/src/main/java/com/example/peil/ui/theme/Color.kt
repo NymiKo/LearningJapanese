@@ -11,5 +11,7 @@ val GreyTransparent = Color(0xFF0053D3)
 val GreenLight = Color(0xFF11EE92)
 val Green = Color(0xFF0EBE75)
 val GreyLight = Color(0xFF979797)
+val GreyLightBD = Color(0xFFBDBDBD)
+val RedLight = Color(0xFFFDA0A0)
 
 val Pink40 = Color(0xFF7D5260)

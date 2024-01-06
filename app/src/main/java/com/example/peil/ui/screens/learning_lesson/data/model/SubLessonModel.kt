@@ -6,6 +6,7 @@ data class SubLessonModel(
     val newWord: String = "",
     val translationWord: String = "",
     val completed: Boolean,
-    val variants: Array<String> = arrayOf(""),
+    val options: Array<String> = arrayOf(""),
+    val correctOption: String = "",
     val type: Int
 )

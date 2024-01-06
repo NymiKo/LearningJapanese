@@ -22,4 +22,7 @@
     <string name="please_try_to_login">Пожалуйста, попробуй войти.</string>
     <string name="no_thanks">Нет, спасибо</string>
     <string name="download_lesson">Загрузить урок</string>
+    <string name="correctly">Правильно</string>
+    <string name="wrong">Неправильно</string>
+    <string name="answer">Ответ:</string>
 </resources>
