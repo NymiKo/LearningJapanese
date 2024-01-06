@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +24,12 @@ import com.example.peil.ui.view_components.LoginButton
 import kotlinx.coroutines.launch
 
 @Composable
-fun SubLessonNewInfoScreen(subLessonItem: SubLessonModel, listState: LazyListState, index: Int) {
+fun SubLessonNewInfoScreen(
+    subLessonItem: SubLessonModel,
+    listState: LazyListState,
+    index: Int,
+    onCompleted: (completed: Boolean) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -33,7 +39,7 @@ fun SubLessonNewInfoScreen(subLessonItem: SubLessonModel, listState: LazyListSta
         NewWordLesson(newWordText = subLessonItem.newWord)
         TranslationWordLesson(translationWordText = subLessonItem.translationWord)
         Spacer(modifier = Modifier.weight(1f))
-        ButtonNextSubLesson(listState = listState, index = index)
+        ButtonNextSubLesson(listState = listState, index = index, onCompleted = onCompleted::invoke)
     }
 }
 
@@ -71,21 +77,27 @@ private fun TranslationWordLesson(modifier: Modifier = Modifier, translationWord
 private fun ButtonNextSubLesson(
     modifier: Modifier = Modifier,
     listState: LazyListState,
-    index: Int
+    index: Int,
+    onCompleted: (completed: Boolean) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     LoginButton(
         textButton = R.string.continue_text,
         horizontalPadding = 0.dp,
-        onClick = { coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) } }) { }
+        onClick = {
+            onCompleted(true)
+            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+        }
+    ) { }
 }
 
 @Preview
 @Composable
 private fun SubLessonNewInfoScreenPreview() {
     SubLessonNewInfoScreen(
-        SubLessonModel(0, completed = false, type = 0),
+        SubLessonModel(0, completed = mutableStateOf(false), type = 0),
         rememberLazyListState(),
-        1
+        1,
+        onCompleted = {}
     )
 }

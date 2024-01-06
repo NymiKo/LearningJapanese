@@ -58,7 +58,7 @@ import com.example.peil.ui.theme.RedLight
 import com.example.peil.ui.view_components.LoginButton
 
 @Composable
-fun SubLessonChoosingOptionItem(subLessonItem: SubLessonModel) {
+fun SubLessonChoosingOptionItem(subLessonItem: SubLessonModel, onCompleted: (completed: Boolean) -> Unit) {
 
     var textSelectedOption by remember { mutableStateOf("             ") }
     var success by remember { mutableStateOf(false) }
@@ -86,7 +86,8 @@ fun SubLessonChoosingOptionItem(subLessonItem: SubLessonModel) {
             BottomCard(
                 success = success,
                 correctOption = subLessonItem.correctOption,
-                translationWord = subLessonItem.translationWord
+                translationWord = subLessonItem.translationWord,
+                onCompleted = { onCompleted(success) }
             )
         }
     }
@@ -159,7 +160,7 @@ private fun OptionButtons(
                     ),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (checkSuccess) Green else if (checkError) Color.Red else MaterialTheme.colorScheme.primary,
-                        disabledContainerColor = if (checkSuccess) Green else if (checkError) Color.Red else MaterialTheme.colorScheme.primary
+                        disabledContainerColor = if (checkSuccess) Green else if (checkError) Color.Red else GreyLightBD
                     ),
                     enabled = enabledButton
                 ) {
@@ -175,7 +176,7 @@ private fun OptionButtons(
 }
 
 @Composable
-private fun BottomCard(success: Boolean, correctOption: String, translationWord: String) {
+private fun BottomCard(success: Boolean, correctOption: String, translationWord: String, onCompleted: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -204,7 +205,7 @@ private fun BottomCard(success: Boolean, correctOption: String, translationWord:
                 textButton = R.string.continue_text,
                 containerColor = Green,
                 horizontalPadding = 0.dp,
-                onClick = { }) {}
+                onClick = onCompleted::invoke) {}
         }
     }
 }
@@ -238,5 +239,5 @@ private fun IconWithText(success: Boolean) {
 @Preview
 @Composable
 private fun SubLessonNewInfoScreenPreview() {
-    SubLessonChoosingOptionItem(SubLessonModel(1, completed = false, type = 1))
+    SubLessonChoosingOptionItem(SubLessonModel(1, completed = mutableStateOf(false), type = 1), onCompleted = {})
 }
