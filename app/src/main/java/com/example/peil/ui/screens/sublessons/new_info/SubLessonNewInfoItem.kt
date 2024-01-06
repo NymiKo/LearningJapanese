@@ -18,8 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
-import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.GreyLight
+import com.example.peil.ui.theme.baseBlue
+import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.view_components.LoginButton
 import kotlinx.coroutines.launch
 
@@ -48,7 +49,7 @@ private fun HeaderLesson(modifier: Modifier = Modifier, headerText: String) {
     Text(
         text = headerText,
         fontWeight = FontWeight.Bold,
-        color = Blue,
+        color = baseBlue,
         fontSize = 14.sp
     )
 }

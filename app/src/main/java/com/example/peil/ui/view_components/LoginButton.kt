@@ -1,7 +1,6 @@
 package com.example.peil.ui.view_components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -15,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.peil.ui.theme.Blue
+import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.White
 
 @Composable
@@ -23,7 +22,7 @@ fun LoginButton(
     modifier: Modifier = Modifier,
     textButton: Int,
     enabled: Boolean = true,
-    containerColor: Color = Blue,
+    containerColor: Color = baseBlue,
     onClick: () -> Unit,
     horizontalPadding: Dp = 16.dp,
     content: @Composable () -> Unit

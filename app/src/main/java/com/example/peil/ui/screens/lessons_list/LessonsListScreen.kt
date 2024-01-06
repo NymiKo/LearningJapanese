@@ -47,10 +47,11 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
 import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
-import com.example.peil.ui.theme.Blue
 import com.example.peil.ui.theme.Green
 import com.example.peil.ui.theme.GreyLight
+import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
+import com.example.peil.ui.theme.baseBlue
 
 @Composable
 fun LessonsListScreen(
@@ -61,7 +62,10 @@ fun LessonsListScreen(
     Column(modifier) {
         TopAppBar()
         LearningProgress(progressValue = 25F)
-        LessonsListComponent(lessonsList = viewModel.lessonsList, onLearningLesson = onLearningLesson::invoke)
+        LessonsListComponent(
+            lessonsList = viewModel.lessonsList,
+            onLearningLesson = onLearningLesson::invoke
+        )
     }
 }
 
@@ -108,7 +112,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
                 modifier = Modifier.scale(scaleX = 1f, scaleY = 2f),
                 colors = SliderDefaults.colors(
                     activeTrackColor = Green,
-                    inactiveTrackColor = GreyLight
+                    inactiveTrackColor = GreyLightBD
                 ),
                 sliderPositions = it
             )
@@ -149,7 +153,11 @@ private fun LessonsListComponent(
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         itemsIndexed(lessonsList) { index, lesson ->
-            LessonItem(lesson = lesson, lastItem = index == lessonsList.lastIndex, onLearningLesson = onLearningLesson::invoke)
+            LessonItem(
+                lesson = lesson,
+                lastItem = index == lessonsList.lastIndex,
+                onLearningLesson = onLearningLesson::invoke
+            )
         }
     }
 }
@@ -186,7 +194,7 @@ private fun LessonItem(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.Default.CloudDownload,
                 contentDescription = stringResource(id = R.string.download_lesson),
-                tint = Blue
+                tint = baseBlue
             )
         }
     }
@@ -203,7 +211,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
             modifier = Modifier
                 .padding(6.dp)
                 .size(70.dp)
-                .border(4.dp, GreyLight, CircleShape)
+                .border(4.dp, GreyLightBD, CircleShape)
                 .padding(4.dp)
         ) {
             GlideImage(
@@ -212,7 +220,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
-                    .border(4.dp, White, CircleShape)
+                    .border(4.dp, MaterialTheme.colorScheme.background, CircleShape)
                     .clip(CircleShape)
             )
         }

@@ -1,10 +1,6 @@
 package com.example.peil.ui.screens.sublessons.choosing_option
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +22,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,9 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
-import com.example.peil.ui.theme.Blue
-import com.example.peil.ui.theme.Green
-import com.example.peil.ui.theme.GreenLight
+import com.example.peil.ui.theme.baseBlue
+import com.example.peil.ui.theme.correctlyOptionGreen
+import com.example.peil.ui.theme.backgroundIconGreenLight
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.RedLight
@@ -99,7 +94,7 @@ private fun HeaderLesson(modifier: Modifier = Modifier, headerText: String) {
         modifier = Modifier.padding(16.dp),
         text = headerText,
         fontWeight = FontWeight.Bold,
-        color = Blue,
+        color = baseBlue,
         fontSize = 14.sp
     )
 }
@@ -117,7 +112,7 @@ private fun NewWordLessonField(
         fontWeight = FontWeight.Bold,
         textDecoration = TextDecoration.Underline,
         fontSize = 18.sp,
-        color = if (success) Green else if (error) Color.Red else Blue
+        color = if (success) correctlyOptionGreen else if (error) Color.Red else baseBlue
     )
 }
 
@@ -159,8 +154,8 @@ private fun OptionButtons(
                         defaultElevation = 2.dp
                     ),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (checkSuccess) Green else if (checkError) Color.Red else MaterialTheme.colorScheme.primary,
-                        disabledContainerColor = if (checkSuccess) Green else if (checkError) Color.Red else GreyLightBD
+                        containerColor = if (checkSuccess) correctlyOptionGreen else if (checkError) Color.Red else MaterialTheme.colorScheme.primary,
+                        disabledContainerColor = if (checkSuccess) correctlyOptionGreen else if (checkError) Color.Red else GreyLightBD
                     ),
                     enabled = enabledButton
                 ) {
@@ -203,7 +198,7 @@ private fun BottomCard(success: Boolean, correctOption: String, translationWord:
             Text(text = translationWord, fontSize = 14.sp, color = GreyLight)
             LoginButton(
                 textButton = R.string.continue_text,
-                containerColor = Green,
+                containerColor = correctlyOptionGreen,
                 horizontalPadding = 0.dp,
                 onClick = onCompleted::invoke) {}
         }
@@ -213,25 +208,25 @@ private fun BottomCard(success: Boolean, correctOption: String, translationWord:
 @Composable
 private fun IconWithText(success: Boolean) {
     Row(
-        modifier = Modifier.padding(bottom = 8.dp),
+        modifier = Modifier.padding(bottom = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             modifier = Modifier
                 .size(20.dp)
                 .clip(CircleShape)
-                .background(if (success) GreenLight else RedLight, shape = CircleShape)
+                .background(if (success) backgroundIconGreenLight else RedLight, shape = CircleShape)
                 .padding(3.dp),
             imageVector = if (success) Icons.Default.Check else Icons.Default.Close,
             contentDescription = "",
-            tint = if (success) Green else Color.Red
+            tint = if (success) correctlyOptionGreen else Color.Red
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
             text = stringResource(id = if (success) R.string.correctly else R.string.wrong),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = if (success) Green else Color.Red
+            color = if (success) correctlyOptionGreen else Color.Red
         )
     }
 }

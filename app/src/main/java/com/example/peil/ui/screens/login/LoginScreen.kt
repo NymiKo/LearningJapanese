@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.R
 import com.example.peil.ui.screens.login.state.LoginEvent
-import com.example.peil.ui.theme.Blue
+import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
@@ -101,7 +101,7 @@ private fun LoadingScreenContent(
             enabled = !progress
         ) {
             if (progress) {
-                CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Blue)
+                CircularProgressIndicator(modifier = Modifier.size(20.dp), color = baseBlue)
             }
         }
     }
@@ -138,7 +138,7 @@ fun ForgotPasswordText() {
         withStyle(
             SpanStyle(
                 textDecoration = TextDecoration.Underline,
-                color = Blue,
+                color = baseBlue,
                 fontWeight = FontWeight.Bold
             )
         ) {

@@ -1,7 +1,5 @@
 package com.example.peil.ui.screens.learning_lesson
 
-import android.util.Log
-import android.util.LogPrinter
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,12 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.screens.sublessons.choosing_option.SubLessonChoosingOptionItem
 import com.example.peil.ui.screens.sublessons.new_info.SubLessonNewInfoScreen
-import com.example.peil.ui.theme.Blue
-import com.example.peil.ui.theme.GreyLight
+import com.example.peil.ui.theme.baseBlue
+import com.example.peil.ui.theme.GreyLightBD
 
 @Composable
 fun LearningLessonScreen(
@@ -60,8 +52,8 @@ private fun TopAppBar(progress: Float) {
                     .fillMaxWidth()
                     .height(5.dp)
                     .clip(RoundedCornerShape(10.dp)),
-                trackColor = GreyLight,
-                color = Blue
+                trackColor = GreyLightBD,
+                color = baseBlue
             )
         },
         navigationIcon = {
@@ -69,7 +61,7 @@ private fun TopAppBar(progress: Float) {
                 modifier = Modifier.padding(start = 8.dp),
                 imageVector = Icons.Default.Close,
                 contentDescription = "",
-                tint = Blue
+                tint = baseBlue
             )
         }
     )

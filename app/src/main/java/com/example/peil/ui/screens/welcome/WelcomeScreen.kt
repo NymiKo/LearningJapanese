@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,13 +33,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
-import com.example.peil.ui.navigation.Screens
-import com.example.peil.ui.theme.Blue
-import com.example.peil.ui.theme.GreenLight
+import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.Purple
+import com.example.peil.ui.theme.buttonWelcomeScreen
 import com.example.peil.ui.view_components.AlreadyHaveAccountText
 
 @Composable
@@ -51,7 +47,7 @@ fun WelcomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = Brush.verticalGradient(0.1f to Blue, 0.6f to Purple))
+            .background(brush = Brush.verticalGradient(0.1f to baseBlue, 0.6f to Purple))
     ) {
         Row(
             modifier = Modifier
@@ -124,7 +120,7 @@ private fun CardContent(modifier: Modifier = Modifier, onLoginClick: () -> Unit,
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = GreenLight
+            containerColor = buttonWelcomeScreen
         ),
         content = {
             Text(
