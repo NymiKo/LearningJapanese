@@ -36,7 +36,7 @@ fun LearningLessonScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(progress = viewModel.progress)
-        PagerLesson(lessonsList = viewModel.subLessons, onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) })
+        PagerLesson(subLessonsList = viewModel.subLessons, onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) })
     }
 }
 
@@ -68,7 +68,7 @@ private fun TopAppBar(progress: Float) {
 }
 
 @Composable
-private fun PagerLesson(lessonsList: List<SubLessonModel>, onCompleted: (item: SubLessonModel, competed: Boolean) -> Unit) {
+private fun PagerLesson(subLessonsList: List<SubLessonModel>, onCompleted: (item: SubLessonModel, competed: Boolean) -> Unit) {
 
     val listState = rememberLazyListState()
 
@@ -77,12 +77,12 @@ private fun PagerLesson(lessonsList: List<SubLessonModel>, onCompleted: (item: S
         userScrollEnabled = false,
         state = listState
     ) {
-        itemsIndexed(lessonsList) {index, subLesson ->
+        itemsIndexed(subLessonsList) { index, subLesson ->
             Box(modifier = Modifier.fillParentMaxSize()) {
                 when(subLesson.type) {
-                    0 -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(lessonsList[index], completed) })
-                    1 -> SubLessonChoosingOptionItem(subLesson, onCompleted = { completed -> onCompleted(lessonsList[index], completed) })
-                    else -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(lessonsList[index], completed) })
+                    0 -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
+                    1, 2 -> SubLessonChoosingOptionItem(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
+                    else -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
                 }
             }
         }
