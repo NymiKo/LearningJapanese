@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 data class SubLessonModel(
     val idSubLesson: Int,
     val header: String = "",
+    val lessonImage: String = "",
     val newWord: String = "",
     val translationWord: String = "",
     var completed: MutableState<Boolean> = mutableStateOf(false),
