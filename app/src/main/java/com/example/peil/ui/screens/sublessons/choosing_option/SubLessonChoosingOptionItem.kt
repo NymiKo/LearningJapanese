@@ -57,8 +57,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun SubLessonChoosingOptionItem(
     subLessonItem: SubLessonModel,
-    listState: LazyListState,
-    index: Int,
     onCompleted: (completed: Boolean) -> Unit
 ) {
 
@@ -100,8 +98,6 @@ fun SubLessonChoosingOptionItem(
                 translationWord = subLessonItem.translationWord,
                 type = subLessonItem.type,
                 remark = subLessonItem.remark,
-                index = index,
-                listState = listState,
                 onCompleted = { onCompleted(success) }
             )
         }
@@ -202,12 +198,8 @@ private fun BottomCard(
     translationWord: String,
     type: Int,
     remark: String,
-    index: Int,
-    listState: LazyListState,
     onCompleted: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -242,7 +234,6 @@ private fun BottomCard(
                 horizontalPadding = 0.dp,
                 onClick = {
                     onCompleted()
-                    coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                 }
             ) {}
         }
@@ -283,6 +274,6 @@ private fun IconWithText(success: Boolean) {
 private fun SubLessonNewInfoScreenPreview() {
     SubLessonChoosingOptionItem(
         SubLessonModel(1, completed = mutableStateOf(false), type = 1),
-        onCompleted = {}, index = 1, listState = rememberLazyListState()
+        onCompleted = {}
     )
 }
