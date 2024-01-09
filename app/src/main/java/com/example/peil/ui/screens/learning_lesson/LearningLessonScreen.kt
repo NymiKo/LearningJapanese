@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.screens.sublessons.choosing_option.SubLessonChoosingOptionItem
+import com.example.peil.ui.screens.sublessons.finish_sentence.SubLessonFinishSentenceItem
 import com.example.peil.ui.screens.sublessons.new_info.SubLessonNewInfoScreen
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.GreyLightBD
@@ -82,6 +83,7 @@ private fun PagerLesson(subLessonsList: List<SubLessonModel>, onCompleted: (item
                 when(subLesson.type) {
                     0 -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
                     1, 2 -> SubLessonChoosingOptionItem(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
+                    3 -> SubLessonFinishSentenceItem(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
                     else -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
                 }
             }
