@@ -1,4 +1,4 @@
-package com.example.peil.ui.view_components
+package com.example.peil.ui.view_components.text
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

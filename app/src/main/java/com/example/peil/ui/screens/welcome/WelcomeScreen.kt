@@ -37,7 +37,7 @@ import com.example.peil.R
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.Purple
 import com.example.peil.ui.theme.buttonWelcomeScreen
-import com.example.peil.ui.view_components.AlreadyHaveAccountText
+import com.example.peil.ui.view_components.text.AlreadyHaveAccountText
 
 @Composable
 fun WelcomeScreen(
