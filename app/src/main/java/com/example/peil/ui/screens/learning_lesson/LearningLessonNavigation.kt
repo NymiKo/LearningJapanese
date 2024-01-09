@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 
 const val learningLessonScreenRoute = "learning_lesson"
 
-fun NavGraphBuilder.learningLessonScreen() {
+fun NavGraphBuilder.learningLessonScreen(onLessonCompletionScreen: () -> Unit) {
     composable(learningLessonScreenRoute) {
         val viewModel: LearningLessonViewModel = hiltViewModel()
-        LearningLessonScreen(viewModel)
+        LearningLessonScreen(viewModel, onLessonCompletionScreen::invoke)
     }
 }
 

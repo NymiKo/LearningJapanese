@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import javax.inject.Inject
 
-class LearningLessonViewModel @Inject constructor(): ViewModel() {
+class LearningLessonViewModel @Inject constructor() : ViewModel() {
 
     private val _subLessons = listOf(
         SubLessonModel(
@@ -65,11 +65,12 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
             idSubLesson = 5,
             header = "Закончи предложения.",
             newWord = "",
-            translationWord = "",
-            sentence = arrayOf("Konnichiwa. ", "", "jime", "","shite."),
+            translationWord = "Здравствуйте. Приятно познакомиться.",
+            sentence = arrayOf("Konnichiwa. ", "", "jime", "", "shite."),
             completed = mutableStateOf(false),
             options = arrayOf("ma", "Ha", "na", "Ta"),
             correctOption = arrayOf("Ha", "ma"),
+            remark = "Konnichiwa. Hajimemashite.",
             type = 3
         )
     ).toMutableStateList()
@@ -80,7 +81,8 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
 
     fun updateCompleted(item: SubLessonModel, completed: Boolean) {
         if (completed) {
-            _subLessons.find { it.idSubLesson == item.idSubLesson }?.let { it.completed.value = completed }
+            _subLessons.find { it.idSubLesson == item.idSubLesson }
+                ?.let { it.completed.value = completed }
             val completedSubLessons = _subLessons.filter { it.completed.value }
             progress = completedSubLessons.size.toFloat() / _subLessons.size.toFloat()
         } else {
