@@ -15,6 +15,7 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
         SubLessonModel(
             idSubLesson = 0,
             header = "Смотри-ка, кое-что новенькое!",
+            lessonImage = "https://i.ytimg.com/vi/1o8hcvOBNAY/maxresdefault.jpg",
             newWord = "Konnichiwa / こんにちは",
             translationWord = "Здравствуйте",
             completed = mutableStateOf(false),
@@ -33,6 +34,7 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
         SubLessonModel(
             idSubLesson = 2,
             header = "Смотри-ка, кое-что новенькое!",
+            lessonImage = "https://tipsparatuviaje.com/wp-content/uploads/2018/10/no-des-apreton-de-manos.jpg",
             newWord = "Hajimemashite / はじめまして",
             translationWord = "Приятно познакомиться",
             completed = mutableStateOf(false),
@@ -66,9 +68,13 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
     var progress by mutableFloatStateOf(0.0F)
 
     fun updateCompleted(item: SubLessonModel, completed: Boolean) {
-        _subLessons.find { it.idSubLesson == item.idSubLesson }?.let { it.completed.value = completed }
-        val completedSubLessons = _subLessons.filter { it.completed.value }
-        progress = completedSubLessons.size.toFloat() / _subLessons.size.toFloat()
+        if (completed) {
+            _subLessons.find { it.idSubLesson == item.idSubLesson }?.let { it.completed.value = completed }
+            val completedSubLessons = _subLessons.filter { it.completed.value }
+            progress = completedSubLessons.size.toFloat() / _subLessons.size.toFloat()
+        } else {
+            _subLessons.add(item)
+        }
     }
 
 
