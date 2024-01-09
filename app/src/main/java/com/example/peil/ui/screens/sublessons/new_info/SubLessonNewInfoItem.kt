@@ -32,12 +32,9 @@ import com.example.peil.ui.view_components.image.SubLessonImage
 import com.example.peil.ui.view_components.text.HeaderLessonText
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun SubLessonNewInfoScreen(
     subLessonItem: SubLessonModel,
-    listState: LazyListState,
-    index: Int,
     onCompleted: (completed: Boolean) -> Unit
 ) {
     Column(
@@ -50,7 +47,7 @@ fun SubLessonNewInfoScreen(
         NewWordLesson(newWordText = subLessonItem.newWord)
         TranslationWordLesson(translationWordText = subLessonItem.translationWord)
         Spacer(modifier = Modifier.weight(1f))
-        ButtonNextSubLesson(listState = listState, index = index, onCompleted = onCompleted::invoke)
+        ButtonNextSubLesson(onCompleted = onCompleted::invoke)
     }
 }
 
@@ -77,17 +74,13 @@ private fun TranslationWordLesson(modifier: Modifier = Modifier, translationWord
 @Composable
 private fun ButtonNextSubLesson(
     modifier: Modifier = Modifier,
-    listState: LazyListState,
-    index: Int,
     onCompleted: (completed: Boolean) -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
     LoginButton(
         textButton = R.string.continue_text,
         horizontalPadding = 0.dp,
         onClick = {
             onCompleted(true)
-            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
         }
     ) { }
 }
@@ -97,8 +90,6 @@ private fun ButtonNextSubLesson(
 private fun SubLessonNewInfoScreenPreview() {
     SubLessonNewInfoScreen(
         SubLessonModel(0, completed = mutableStateOf(false), type = 0),
-        rememberLazyListState(),
-        1,
         onCompleted = {}
     )
 }
