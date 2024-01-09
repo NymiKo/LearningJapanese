@@ -17,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,18 +27,23 @@ import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.screens.sublessons.choosing_option.SubLessonChoosingOptionItem
 import com.example.peil.ui.screens.sublessons.finish_sentence.SubLessonFinishSentenceItem
 import com.example.peil.ui.screens.sublessons.new_info.SubLessonNewInfoScreen
-import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.GreyLightBD
+import com.example.peil.ui.theme.baseBlue
+import kotlinx.coroutines.launch
 
 @Composable
 fun LearningLessonScreen(
-    viewModel: LearningLessonViewModel
+    viewModel: LearningLessonViewModel,
+    onLessonCompletionScreen: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(progress = viewModel.progress)
-        PagerLesson(subLessonsList = viewModel.subLessons, onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) })
+        PagerLesson(
+            subLessonsList = viewModel.subLessons,
+            onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) },
+            onLessonCompletionScreen = onLessonCompletionScreen::invoke)
     }
 }
 
@@ -69,9 +75,14 @@ private fun TopAppBar(progress: Float) {
 }
 
 @Composable
-private fun PagerLesson(subLessonsList: List<SubLessonModel>, onCompleted: (item: SubLessonModel, competed: Boolean) -> Unit) {
+private fun PagerLesson(
+    subLessonsList: List<SubLessonModel>,
+    onCompleted: (item: SubLessonModel, competed: Boolean) -> Unit,
+    onLessonCompletionScreen: () -> Unit
+) {
 
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
 
     LazyRow(
         modifier = Modifier.fillMaxSize(),
@@ -80,11 +91,42 @@ private fun PagerLesson(subLessonsList: List<SubLessonModel>, onCompleted: (item
     ) {
         itemsIndexed(subLessonsList) { index, subLesson ->
             Box(modifier = Modifier.fillParentMaxSize()) {
-                when(subLesson.type) {
-                    0 -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
-                    1, 2 -> SubLessonChoosingOptionItem(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
-                    3 -> SubLessonFinishSentenceItem(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
-                    else -> SubLessonNewInfoScreen(subLesson, listState, index, onCompleted = { completed -> onCompleted(subLessonsList[index], completed) })
+                when (subLesson.type) {
+                    0 -> SubLessonNewInfoScreen(subLesson, onCompleted = { completed ->
+                        onCompleted(subLessonsList[index], completed)
+                        if (index != subLessonsList.lastIndex) {
+                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                        } else {
+                            onLessonCompletionScreen()
+                        }
+                    })
+
+                    1, 2 -> SubLessonChoosingOptionItem(subLesson, onCompleted = { completed ->
+                        onCompleted(subLessonsList[index], completed)
+                        if (index != subLessonsList.lastIndex) {
+                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                        } else {
+                            onLessonCompletionScreen()
+                        }
+                    })
+
+                    3 -> SubLessonFinishSentenceItem(subLesson, onCompleted = { completed ->
+                        onCompleted(subLessonsList[index], completed)
+                        if (index != subLessonsList.lastIndex) {
+                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                        } else {
+                            onLessonCompletionScreen()
+                        }
+                    })
+
+                    else -> SubLessonNewInfoScreen(subLesson, onCompleted = { completed ->
+                        onCompleted(subLessonsList[index], completed)
+                        if (index != subLessonsList.lastIndex) {
+                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                        } else {
+                            onLessonCompletionScreen()
+                        }
+                    })
                 }
             }
         }
@@ -94,5 +136,5 @@ private fun PagerLesson(subLessonsList: List<SubLessonModel>, onCompleted: (item
 @Preview
 @Composable
 private fun LearningLessonScreenPreview() {
-    LearningLessonScreen(hiltViewModel())
+    LearningLessonScreen(hiltViewModel(), {})
 }

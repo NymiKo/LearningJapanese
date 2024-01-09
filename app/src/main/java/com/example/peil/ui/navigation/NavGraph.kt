@@ -11,6 +11,8 @@ import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAc
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
 import com.example.peil.ui.screens.learning_lesson.learningLessonScreen
 import com.example.peil.ui.screens.learning_lesson.navigateToLearningLessonScreen
+import com.example.peil.ui.screens.lesson_completion.lessonCompletion
+import com.example.peil.ui.screens.lesson_completion.navigateToLessonCompletionScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
 import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreen
@@ -60,6 +62,10 @@ fun NavGraph(navController: NavHostController) {
             onLearningLesson = navController::navigateToLearningLessonScreen
         )
 
-        learningLessonScreen()
+        learningLessonScreen(
+            onLessonCompletionScreen = navController::navigateToLessonCompletionScreen
+        )
+
+        lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreen)
     }
 }
