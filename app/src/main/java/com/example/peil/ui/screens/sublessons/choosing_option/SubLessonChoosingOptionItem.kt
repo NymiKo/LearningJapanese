@@ -51,6 +51,7 @@ import com.example.peil.ui.theme.backgroundIconGreenLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.LoginButton
+import com.example.peil.ui.view_components.text.HeaderLessonText
 import kotlinx.coroutines.launch
 
 @Composable
@@ -68,7 +69,10 @@ fun SubLessonChoosingOptionItem(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        HeaderLesson(headerText = subLessonItem.header)
+        HeaderLessonText(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            headerText = subLessonItem.header
+        )
         if (subLessonItem.type == 1) {
             NewWordLessonField(text = textSelectedOption, success = success, error = error)
         } else {
@@ -105,17 +109,6 @@ fun SubLessonChoosingOptionItem(
 }
 
 @Composable
-private fun HeaderLesson(modifier: Modifier = Modifier, headerText: String) {
-    Text(
-        modifier = Modifier.padding(16.dp),
-        text = headerText,
-        fontWeight = FontWeight.Bold,
-        color = baseBlue,
-        fontSize = 14.sp
-    )
-}
-
-@Composable
 private fun NewWordLessonField(
     modifier: Modifier = Modifier,
     text: String,
@@ -123,7 +116,7 @@ private fun NewWordLessonField(
     success: Boolean
 ) {
     Text(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         text = text,
         fontWeight = FontWeight.Bold,
         textDecoration = TextDecoration.Underline,
@@ -135,7 +128,7 @@ private fun NewWordLessonField(
 @Composable
 private fun InfoText(modifier: Modifier = Modifier, infoText: String) {
     Text(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         text = infoText,
         color = GreyLight,
         fontSize = 14.sp
@@ -146,7 +139,7 @@ private fun InfoText(modifier: Modifier = Modifier, infoText: String) {
 private fun OptionButtons(
     modifier: Modifier = Modifier,
     variants: Array<String>,
-    correctOption: String,
+    correctOption: Array<String>,
     type: Int,
     onTextChange: (text: String) -> Unit,
     onSuccess: (success: Boolean) -> Unit,
@@ -158,7 +151,7 @@ private fun OptionButtons(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         content = {
             variants.forEach { text ->
@@ -170,7 +163,7 @@ private fun OptionButtons(
                         .fillMaxWidth()
                         .weight(1F),
                     onClick = {
-                        if (text == correctOption) {
+                        if (text == correctOption[0]) {
                             checkSuccess = true
                             onSuccess(true)
                         } else {
@@ -198,13 +191,14 @@ private fun OptionButtons(
                     )
                 }
             }
-        })
+        }
+    )
 }
 
 @Composable
 private fun BottomCard(
     success: Boolean,
-    correctOption: String,
+    correctOption: Array<String>,
     translationWord: String,
     type: Int,
     remark: String,
@@ -235,7 +229,7 @@ private fun BottomCard(
                 color = GreyLightBD
             )
             Text(
-                text = if (type == 1) correctOption else remark,
+                text = if (type == 1) correctOption[0] else remark,
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.secondary,
                 fontStyle = if (type == 1) FontStyle.Italic else FontStyle.Normal,
