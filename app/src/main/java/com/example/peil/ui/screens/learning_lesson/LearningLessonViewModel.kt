@@ -28,7 +28,7 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
             translationWord = "Здравствуйте",
             completed = mutableStateOf(false),
             options = arrayOf("Konnichiwa", "Arigatou"),
-            correctOption = "Konnichiwa",
+            correctOption = arrayOf("Konnichiwa"),
             type = 1
         ),
         SubLessonModel(
@@ -47,7 +47,7 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
             translationWord = "",
             completed = mutableStateOf(false),
             options = arrayOf("Правильно", "Неправильно"),
-            correctOption = "Правильно",
+            correctOption = arrayOf("Правильно"),
             remark = "\"Hajimemashite\" говорят, когда встречают кого-то впервые",
             type = 2
         ),
@@ -58,8 +58,19 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
             translationWord = "Приятно познакомиться",
             completed = mutableStateOf(false),
             options = arrayOf("Konnichiwa", "Hajimemashite"),
-            correctOption = "Hajimemashite",
+            correctOption = arrayOf("Hajimemashite"),
             type = 1
+        ),
+        SubLessonModel(
+            idSubLesson = 5,
+            header = "Закончи предложения.",
+            newWord = "",
+            translationWord = "",
+            sentence = arrayOf("Konnichiwa. ", "", "jime", "","shite."),
+            completed = mutableStateOf(false),
+            options = arrayOf("ma", "Ha", "na", "Ta"),
+            correctOption = arrayOf("Ha", "ma"),
+            type = 3
         )
     ).toMutableStateList()
 
@@ -76,6 +87,4 @@ class LearningLessonViewModel @Inject constructor(): ViewModel() {
             _subLessons.add(item)
         }
     }
-
-
 }

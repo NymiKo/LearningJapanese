@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.registration
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,16 +27,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
-import com.example.peil.ui.navigation.Screens
 import com.example.peil.ui.theme.GreyLight
-import com.example.peil.ui.view_components.AlreadyHaveAccountText
+import com.example.peil.ui.view_components.text.AlreadyHaveAccountText
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
-import com.example.peil.ui.view_components.TextLabel
+import com.example.peil.ui.view_components.text.TextLabel
 
 @Composable
 fun RegistrationEmailScreen(

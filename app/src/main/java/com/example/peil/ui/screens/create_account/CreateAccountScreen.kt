@@ -1,10 +1,8 @@
 package com.example.peil.ui.screens.create_account
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -13,22 +11,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
-import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
-import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
-import com.example.peil.ui.screens.create_account.data.CreateAccountService
-import com.example.peil.ui.screens.create_account.dialog_screen.HaveAccountDialog
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
-import com.example.peil.ui.view_components.TextLabel
+import com.example.peil.ui.view_components.text.TextLabel
 
 @Composable
 fun CreateAccountScreen(
