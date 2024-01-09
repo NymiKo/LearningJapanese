@@ -32,7 +32,7 @@ import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
-import com.example.peil.ui.view_components.TextLabel
+import com.example.peil.ui.view_components.text.TextLabel
 import com.example.peil.util.sharedPreferences
 
 @Composable
