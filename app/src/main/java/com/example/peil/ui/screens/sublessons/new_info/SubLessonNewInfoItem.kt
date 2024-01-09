@@ -28,6 +28,8 @@ import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.view_components.LoginButton
+import com.example.peil.ui.view_components.image.SubLessonImage
+import com.example.peil.ui.view_components.text.HeaderLessonText
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -40,33 +42,16 @@ fun SubLessonNewInfoScreen(
 ) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxSize()
     ) {
-        HeaderLesson(headerText = subLessonItem.header)
-        GlideImage(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .border(width = 1.dp, color = GreyLightBD, shape = RoundedCornerShape(10.dp)),
-            model = subLessonItem.lessonImage,
-            contentDescription = null
-        )
+        HeaderLessonText(modifier = Modifier.padding(vertical = 8.dp), headerText = subLessonItem.header)
+        SubLessonImage(subLessonImageUrl = subLessonItem.lessonImage)
         NewWordLesson(newWordText = subLessonItem.newWord)
         TranslationWordLesson(translationWordText = subLessonItem.translationWord)
         Spacer(modifier = Modifier.weight(1f))
         ButtonNextSubLesson(listState = listState, index = index, onCompleted = onCompleted::invoke)
     }
-}
-
-@Composable
-private fun HeaderLesson(modifier: Modifier = Modifier, headerText: String) {
-    Text(
-        text = headerText,
-        fontWeight = FontWeight.Bold,
-        color = baseBlue,
-        fontSize = 14.sp
-    )
 }
 
 @Composable
