@@ -26,4 +26,5 @@
     <string name="wrong">Неправильно</string>
     <string name="answer">Ответ:</string>
     <string name="remark">Примечание:</string>
+    <string name="lesson_completed">Урок пройден!</string>
 </resources>
