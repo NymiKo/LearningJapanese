@@ -11,7 +11,8 @@ data class SubLessonModel(
     val translationWord: String = "",
     var completed: MutableState<Boolean> = mutableStateOf(false),
     val options: Array<String> = arrayOf(""),
-    val correctOption: String = "",
+    val correctOption: Array<String> = arrayOf(""),
+    val sentence: Array<String> = arrayOf(""),
     val remark: String = "",
     val type: Int
 ) {
