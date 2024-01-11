@@ -14,6 +14,7 @@ val Green = Color(0xFF0EBE75)
 val correctlyOptionGreen = Color(0xFF008A22)
 val GreyLight = Color(0xFF979797)
 val GreyLightBD = Color(0xFFBDBDBD)
+val ActiveButtonGrey = Color(0xFFF3F3F3)
 val RedLight = Color(0xFFFDA0A0)
 
 val Pink40 = Color(0xFF7D5260)
