@@ -27,6 +27,7 @@ import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.screens.sublessons.arrange_words.SubLessonArrangeWordsItem
 import com.example.peil.ui.screens.sublessons.choosing_option.SubLessonChoosingOptionItem
 import com.example.peil.ui.screens.sublessons.finish_sentence.SubLessonFinishSentenceItem
+import com.example.peil.ui.screens.sublessons.hint.SubLessonHintItem
 import com.example.peil.ui.screens.sublessons.new_info.SubLessonNewInfoScreen
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.baseBlue
@@ -121,6 +122,15 @@ private fun PagerLesson(
                     })
 
                     4 -> SubLessonArrangeWordsItem(subLesson, onCompleted = { completed ->
+                        onCompleted(subLessonsList[index], completed)
+                        if (index != subLessonsList.lastIndex) {
+                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                        } else {
+                            onLessonCompletionScreen()
+                        }
+                    })
+
+                    5 -> SubLessonHintItem(subLesson, onCompleted = { completed ->
                         onCompleted(subLessonsList[index], completed)
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
