@@ -18,3 +18,11 @@ fun NavGraphBuilder.lessonsListScreen(onWelcomeScreen: () -> Unit, onLearningLes
 fun NavController.navigateToLessonsListScreen() {
     navigate(lessonsListScreenRoute)
 }
+
+fun NavController.navigateToLessonsListScreenWithClearBackStack() {
+    navigate(lessonsListScreenRoute) {
+        popUpTo(lessonsListScreenRoute) {
+            inclusive = true
+        }
+    }
+}

@@ -3,8 +3,6 @@ package com.example.peil.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.peil.NavigationBarWithContent
 import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
@@ -16,6 +14,7 @@ import com.example.peil.ui.screens.lesson_completion.navigateToLessonCompletionS
 import com.example.peil.ui.screens.lessons_list.lessonsListScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
 import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreen
+import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreenWithClearBackStack
 import com.example.peil.ui.screens.login.navigation.loginScreen
 import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
@@ -66,6 +65,6 @@ fun NavGraph(navController: NavHostController) {
             onLessonCompletionScreen = navController::navigateToLessonCompletionScreen
         )
 
-        lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreen)
+        lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
     }
 }
