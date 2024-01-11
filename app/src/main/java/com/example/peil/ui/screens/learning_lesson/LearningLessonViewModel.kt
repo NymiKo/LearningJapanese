@@ -22,6 +22,18 @@ class LearningLessonViewModel @Inject constructor() : ViewModel() {
             type = 0
         ),
         SubLessonModel(
+            idSubLesson = 6,
+            header = "Расставь слова в правильном порядке.",
+            newWord = "",
+            translationWord = "Я - Акира",
+            sentence = arrayOf(""),
+            completed = mutableStateOf(false),
+            options = arrayOf("Watashi", "desu.", "wa", "Akira"),
+            correctOption = arrayOf("Watashi", "wa", "Akira", "desu."),
+            remark = "",
+            type = 4
+        ),
+        SubLessonModel(
             idSubLesson = 1,
             header = "Выбери слово, которое переводится как: \"Привет\".",
             newWord = "",
