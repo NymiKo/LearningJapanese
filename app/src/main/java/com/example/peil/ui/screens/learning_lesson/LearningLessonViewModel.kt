@@ -22,21 +22,25 @@ class LearningLessonViewModel @Inject constructor() : ViewModel() {
             type = 0
         ),
         SubLessonModel(
+            idSubLesson = 7,
+            header = "Представление себя",
+            newWord = "\"Hajimemashite\" буквально означает \"(мы встречаемся) впервые\" и  произносится при встрече.\n\n\"Douzo yoroshiku\" буквально означает \"пожалуйста, будь со мной вежлив\", поэтому эту фразу произносят в конце представления.",
+            completed = mutableStateOf(false),
+            correctOption = arrayOf("В начале", "Hajimemashite", "В конце", "Douzo yoroshiku"),
+            type = 5
+        ),
+        SubLessonModel(
             idSubLesson = 6,
             header = "Расставь слова в правильном порядке.",
-            newWord = "",
             translationWord = "Я - Акира",
-            sentence = arrayOf(""),
             completed = mutableStateOf(false),
             options = arrayOf("Watashi", "desu.", "wa", "Akira"),
             correctOption = arrayOf("Watashi", "wa", "Akira", "desu."),
-            remark = "",
             type = 4
         ),
         SubLessonModel(
             idSubLesson = 1,
             header = "Выбери слово, которое переводится как: \"Привет\".",
-            newWord = "",
             translationWord = "Здравствуйте",
             completed = mutableStateOf(false),
             options = arrayOf("Konnichiwa", "Arigatou"),
@@ -66,7 +70,6 @@ class LearningLessonViewModel @Inject constructor() : ViewModel() {
         SubLessonModel(
             idSubLesson = 4,
             header = "Выбери предложение, чтобы сказать: \"Приятно познакомиться\".",
-            newWord = "",
             translationWord = "Приятно познакомиться",
             completed = mutableStateOf(false),
             options = arrayOf("Konnichiwa", "Hajimemashite"),
@@ -76,7 +79,6 @@ class LearningLessonViewModel @Inject constructor() : ViewModel() {
         SubLessonModel(
             idSubLesson = 5,
             header = "Закончи предложения.",
-            newWord = "",
             translationWord = "Здравствуйте. Приятно познакомиться.",
             sentence = arrayOf("Konnichiwa. ", "", "jime", "", "shite."),
             completed = mutableStateOf(false),
