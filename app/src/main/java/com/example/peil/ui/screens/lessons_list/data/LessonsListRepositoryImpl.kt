@@ -11,13 +11,13 @@ class LessonsListRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher,
     private val lessonsListService: LessonsListService
 ): LessonsListRepository {
-    override suspend fun getLessonsList(): NetworkResult<List<LessonModel>> = withContext(ioDispatcher) {
+    override suspend fun getLessonsList(): NetworkResult<Map<String, List<LessonModel>>> = withContext(ioDispatcher) {
         return@withContext when(val result = handleApi { lessonsListService.getLessonsList() }) {
             is NetworkResult.Error -> {
                 NetworkResult.Error(result.code)
             }
             is NetworkResult.Success -> {
-                NetworkResult.Success(result.data.map { it.toLessonModel() })
+                NetworkResult.Success(result.data.map { it.toLessonModel() }.groupBy { it.chapter }.toSortedMap())
             }
         }
     }
