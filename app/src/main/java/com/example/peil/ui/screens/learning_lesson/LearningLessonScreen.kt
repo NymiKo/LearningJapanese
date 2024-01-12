@@ -45,7 +45,8 @@ fun LearningLessonScreen(
         PagerLesson(
             subLessonsList = viewModel.subLessons,
             onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) },
-            onLessonCompletionScreen = onLessonCompletionScreen::invoke)
+            onLessonCompletionScreen = onLessonCompletionScreen::invoke
+        )
     }
 }
 

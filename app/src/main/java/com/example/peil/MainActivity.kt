@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
 fun NavigationBarWithContent(
     modifier: Modifier = Modifier,
     onWelcomeScreen: () -> Unit,
-    onLearningLesson: () -> Unit,
+    onLearningLesson: (idLesson: Int) -> Unit,
     lessonsListViewModel: LessonsListViewModel
 ) {
     if (sharedPreferences(LocalContext.current).getString("token", null).isNullOrEmpty()) {
@@ -103,7 +103,7 @@ fun NavigationBarWithContent(
 }
 
 @Composable
-fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel, onLearningLesson: () -> Unit) {
+fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel, onLearningLesson: (idLesson: Int) -> Unit) {
     when (state) {
         0 -> {
             LessonsListScreen(modifier, onLearningLesson::invoke, viewModel = lessonsListViewModel)

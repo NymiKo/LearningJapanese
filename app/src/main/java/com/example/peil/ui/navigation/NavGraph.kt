@@ -58,7 +58,7 @@ fun NavGraph(navController: NavHostController) {
 
         lessonsListScreen(
             onWelcomeScreen = navController::navigateToWelcomeScreen,
-            onLearningLesson = navController::navigateToLearningLessonScreen
+            onLearningLesson = { idLesson -> navController.navigateToLearningLessonScreen(idLesson) }
         )
 
         learningLessonScreen(

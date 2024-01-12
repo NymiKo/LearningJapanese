@@ -8,7 +8,7 @@ import com.example.peil.NavigationBarWithContent
 
 const val lessonsListScreenRoute = "lessons_list"
 
-fun NavGraphBuilder.lessonsListScreen(onWelcomeScreen: () -> Unit, onLearningLesson: () -> Unit) {
+fun NavGraphBuilder.lessonsListScreen(onWelcomeScreen: () -> Unit, onLearningLesson: (idLesson: Int) -> Unit) {
     composable(lessonsListScreenRoute) {
         val viewModel: LessonsListViewModel = hiltViewModel()
         NavigationBarWithContent(onWelcomeScreen = onWelcomeScreen::invoke, onLearningLesson = onLearningLesson::invoke, lessonsListViewModel = viewModel)

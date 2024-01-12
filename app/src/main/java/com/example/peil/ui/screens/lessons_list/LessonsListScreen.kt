@@ -56,7 +56,7 @@ import com.example.peil.ui.theme.baseBlue
 @Composable
 fun LessonsListScreen(
     modifier: Modifier = Modifier,
-    onLearningLesson: () -> Unit,
+    onLearningLesson: (idLesson: Int) -> Unit,
     viewModel: LessonsListViewModel
 ) {
     Column(modifier) {
@@ -145,7 +145,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
 @Composable
 private fun LessonsListComponent(
     modifier: Modifier = Modifier,
-    onLearningLesson: () -> Unit,
+    onLearningLesson: (idLesson: Int) -> Unit,
     lessonsList: List<LessonModel> = listOf()
 ) {
     LazyColumn(
@@ -166,12 +166,12 @@ private fun LessonsListComponent(
 @Composable
 private fun LessonItem(
     modifier: Modifier = Modifier,
-    onLearningLesson: () -> Unit,
+    onLearningLesson: (idLesson: Int) -> Unit,
     lesson: LessonModel,
     lastItem: Boolean
 ) {
     Row(
-        modifier = modifier.clickable { onLearningLesson() },
+        modifier = modifier.clickable { onLearningLesson(lesson.idLesson) },
     ) {
         ImageLessonAndDivider(lastItem = lastItem, imageLesson = lesson.image)
 
