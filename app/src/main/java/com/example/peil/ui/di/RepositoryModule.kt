@@ -2,6 +2,8 @@ package com.example.peil.ui.di
 
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
+import com.example.peil.ui.screens.learning_lesson.data.LearningLessonRepository
+import com.example.peil.ui.screens.learning_lesson.data.LearningLessonRepositoryImpl
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepository
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepositoryImpl
 import com.example.peil.ui.screens.login.data.LoginRepository
@@ -27,4 +29,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindLessonsListRepository(repository: LessonsListRepositoryImpl): LessonsListRepository
+
+    @Binds
+    @Singleton
+    fun bindLearningLessonRepository(repository: LearningLessonRepositoryImpl): LearningLessonRepository
 }
