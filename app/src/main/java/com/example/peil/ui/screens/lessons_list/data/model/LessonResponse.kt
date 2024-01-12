@@ -4,7 +4,7 @@ data class LessonResponse(
     val idLesson: Int,
     val header: String,
     val image: String,
-    val chapter: String
+    val chapter: Int
 ) {
     fun toLessonModel() = LessonModel(
         idLesson = idLesson,

@@ -51,7 +51,6 @@ import com.example.peil.R
 import com.example.peil.ui.screens.lessons_list.data.model.LessonCategory
 import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 import com.example.peil.ui.theme.Green
-import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
@@ -161,7 +160,7 @@ private fun LessonsListComponent(
                 Text(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background),
-                    text = lessonWithCategory.chapter,
+                    text = stringResource(id = R.string.chapter, lessonWithCategory.chapter),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -169,7 +168,11 @@ private fun LessonsListComponent(
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                         .padding(bottom = 8.dp),
-                    text = "Пройдено уроков ${lessonWithCategory.lessonsList.filter { it.completed }.size}/${lessonWithCategory.lessonsList.size}",
+                    text = stringResource(
+                        id = R.string.lessons_completed,
+                        lessonWithCategory.lessonsList.filter { it.completed }.size,
+                        lessonWithCategory.lessonsList.size
+                    ),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
