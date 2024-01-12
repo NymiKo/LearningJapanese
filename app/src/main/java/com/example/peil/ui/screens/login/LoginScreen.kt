@@ -33,7 +33,7 @@ import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
 import com.example.peil.ui.view_components.text.TextLabel
-import com.example.peil.util.sharedPreferences
+import com.example.peil.util.sharedPreferencesUser
 
 @Composable
 fun LoginScreen(
@@ -49,7 +49,7 @@ fun LoginScreen(
         val state = viewModel.state.value
 
         if (state.successLogin) {
-            sharedPreferences(LocalContext.current).edit().putString("token", state.token).apply()
+            sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
             onLessonsListScreen()
         }
 

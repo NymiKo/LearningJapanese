@@ -4,6 +4,6 @@ data class LessonModel(
     val idLesson: Int,
     val header: String,
     val image: String,
-    val chapter: String,
+    val chapter: Int,
     val completed: Boolean = false
 )

@@ -28,7 +28,7 @@ import com.example.peil.ui.navigation.NavGraph
 import com.example.peil.ui.screens.lessons_list.LessonsListScreen
 import com.example.peil.ui.screens.lessons_list.LessonsListViewModel
 import com.example.peil.ui.theme.PeilTheme
-import com.example.peil.util.sharedPreferences
+import com.example.peil.util.sharedPreferencesUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,7 +72,7 @@ fun NavigationBarWithContent(
     onLearningLesson: (idLesson: Int) -> Unit,
     lessonsListViewModel: LessonsListViewModel
 ) {
-    if (sharedPreferences(LocalContext.current).getString("token", null).isNullOrEmpty()) {
+    if (sharedPreferencesUser(LocalContext.current).getString("token", null).isNullOrEmpty()) {
         onWelcomeScreen()
     }
 
