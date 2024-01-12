@@ -1,6 +1,8 @@
 package com.example.peil.ui.screens.lessons_list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -46,6 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
+import com.example.peil.ui.screens.lessons_list.data.model.LessonCategory
 import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 import com.example.peil.ui.theme.Green
 import com.example.peil.ui.theme.GreyLight
@@ -142,22 +145,42 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LessonsListComponent(
     modifier: Modifier = Modifier,
     onLearningLesson: (idLesson: Int) -> Unit,
-    lessonsList: List<LessonModel> = listOf()
+    lessonsList: List<LessonCategory>
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        contentPadding = PaddingValues(horizontal = 24.dp)
     ) {
-        itemsIndexed(lessonsList) { index, lesson ->
-            LessonItem(
-                lesson = lesson,
-                lastItem = index == lessonsList.lastIndex,
-                onLearningLesson = onLearningLesson::invoke
-            )
+        lessonsList.forEach { lessonWithCategory ->
+            stickyHeader {
+                Text(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background),
+                    text = lessonWithCategory.chapter,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+                Text(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(bottom = 8.dp),
+                    text = "Пройдено уроков ${lessonWithCategory.lessonsList.filter { it.completed }.size}/${lessonWithCategory.lessonsList.size}",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            }
+            itemsIndexed(lessonWithCategory.lessonsList) { index, lesson ->
+                LessonItem(
+                    lesson = lesson,
+                    lastItem = index == lessonWithCategory.lessonsList.lastIndex,
+                    onLearningLesson = onLearningLesson::invoke
+                )
+            }
         }
     }
 }
@@ -209,7 +232,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
     ) {
         Box(
             modifier = Modifier
-                .padding(6.dp)
+                .padding(vertical = 6.dp)
                 .size(70.dp)
                 .border(4.dp, GreyLightBD, CircleShape)
                 .padding(4.dp)
@@ -227,7 +250,7 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
 
         if (!lastItem) {
             Divider(
-                color = GreyLight,
+                color = GreyLightBD,
                 modifier = Modifier
                     .height(20.dp)
                     .width(3.dp)
