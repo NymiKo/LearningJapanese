@@ -28,4 +28,6 @@
     <string name="remark">Примечание:</string>
     <string name="lesson_completed">Урок пройден!</string>
     <string name="choose_the_words">Выбери слова, чтобы добавить их сюда</string>
+    <string name="chapter">Глава %1$d</string>
+    <string name="lessons_completed">Пройдено уроков: %1$d/%2$d</string>
 </resources>

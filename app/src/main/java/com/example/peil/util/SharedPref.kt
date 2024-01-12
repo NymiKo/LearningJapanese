@@ -10,7 +10,7 @@ private val mainKeyAlias by lazy {
     MasterKeys.getOrCreate(keyGenSpec)
 }
 
-fun sharedPreferences(context: Context): SharedPreferences {
+fun sharedPreferencesUser(context: Context): SharedPreferences {
     val sharedPrefsFile = "user"
 
     return EncryptedSharedPreferences.create(
