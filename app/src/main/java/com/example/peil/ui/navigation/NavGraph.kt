@@ -62,7 +62,7 @@ fun NavGraph(navController: NavHostController) {
         )
 
         learningLessonScreen(
-            onLessonCompletionScreen = navController::navigateToLessonCompletionScreen
+            onLessonCompletionScreen = { idLessonCompleted -> navController.navigateToLessonCompletionScreen(idLessonCompleted) }
         )
 
         lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)

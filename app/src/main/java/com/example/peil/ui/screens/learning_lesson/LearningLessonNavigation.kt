@@ -11,18 +11,18 @@ const val idLessonKeyArg = "idLesson"
 const val learningLessonScreen = "learning_lesson"
 const val learningLessonScreenRoute = "learning_lesson/{$idLessonKeyArg}"
 
-fun NavGraphBuilder.learningLessonScreen(onLessonCompletionScreen: () -> Unit) {
+fun NavGraphBuilder.learningLessonScreen(onLessonCompletionScreen: (idLesson: Int) -> Unit) {
     composable(
         route = learningLessonScreenRoute,
         arguments = listOf(
             navArgument(idLessonKeyArg) { type = NavType.IntType}
         )
     ) { backStackEntry ->
-        val idLesson = backStackEntry.arguments?.getInt(idLessonKeyArg)
+        val idLesson = backStackEntry.arguments?.getInt(idLessonKeyArg) ?: 0
 
         val viewModel: LearningLessonViewModel = hiltViewModel()
-        viewModel.getSubLessonsList(idLesson = idLesson ?: 0)
-        LearningLessonScreen(viewModel, onLessonCompletionScreen::invoke)
+        viewModel.getSubLessonsList(idLesson = idLesson)
+        LearningLessonScreen(viewModel, idLesson, onLessonCompletionScreen::invoke)
     }
 }
 
