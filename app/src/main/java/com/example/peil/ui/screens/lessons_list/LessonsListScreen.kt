@@ -20,6 +20,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,6 +56,7 @@ import com.example.peil.ui.theme.Green
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
+import com.example.peil.ui.theme.correctlyOptionGreen
 
 @Composable
 fun LessonsListScreen(
@@ -199,7 +202,11 @@ private fun LessonItem(
     Row(
         modifier = modifier.clickable { onLearningLesson(lesson.idLesson) },
     ) {
-        ImageLessonAndDivider(lastItem = lastItem, imageLesson = lesson.image)
+        ImageLessonAndDivider(
+            lastItem = lastItem,
+            imageLesson = lesson.image,
+            completed = lesson.completed
+        )
 
         Row(
             modifier = Modifier
@@ -228,7 +235,12 @@ private fun LessonItem(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imageLesson: String) {
+fun ImageLessonAndDivider(
+    modifier: Modifier = Modifier,
+    lastItem: Boolean,
+    imageLesson: String,
+    completed: Boolean
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -237,8 +249,9 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
             modifier = Modifier
                 .padding(vertical = 6.dp)
                 .size(70.dp)
-                .border(4.dp, GreyLightBD, CircleShape)
-                .padding(4.dp)
+                .border(4.dp, if (completed) Green else GreyLightBD, CircleShape)
+                .padding(4.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
             GlideImage(
                 model = imageLesson,
@@ -249,11 +262,20 @@ fun ImageLessonAndDivider(modifier: Modifier = Modifier, lastItem: Boolean, imag
                     .border(4.dp, MaterialTheme.colorScheme.background, CircleShape)
                     .clip(CircleShape)
             )
+
+            if (completed) {
+                Icon(
+                    modifier = Modifier.size(20.dp).border(1.5.dp, White, CircleShape).background(Green, CircleShape).padding(2.dp),
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    tint = White
+                )
+            }
         }
 
         if (!lastItem) {
             Divider(
-                color = GreyLightBD,
+                color = if (completed) Green else GreyLightBD,
                 modifier = Modifier
                     .height(20.dp)
                     .width(3.dp)
