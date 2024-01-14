@@ -36,7 +36,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun LearningLessonScreen(
     viewModel: LearningLessonViewModel,
-    onLessonCompletionScreen: () -> Unit
+    idLesson: Int,
+    onLessonCompletionScreen: (idLesson: Int) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -44,6 +45,7 @@ fun LearningLessonScreen(
         TopAppBar(progress = viewModel.progress)
         PagerLesson(
             subLessonsList = viewModel.subLessons,
+            idLesson = idLesson,
             onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) },
             onLessonCompletionScreen = onLessonCompletionScreen::invoke
         )
@@ -80,8 +82,9 @@ private fun TopAppBar(progress: Float) {
 @Composable
 private fun PagerLesson(
     subLessonsList: List<SubLessonModel>,
+    idLesson: Int,
     onCompleted: (item: SubLessonModel, competed: Boolean) -> Unit,
-    onLessonCompletionScreen: () -> Unit
+    onLessonCompletionScreen: (idLesson: Int) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -100,7 +103,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
 
@@ -109,7 +112,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
 
@@ -118,7 +121,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
 
@@ -127,7 +130,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
 
@@ -136,7 +139,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
 
@@ -145,7 +148,7 @@ private fun PagerLesson(
                         if (index != subLessonsList.lastIndex) {
                             coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
                         } else {
-                            onLessonCompletionScreen()
+                            onLessonCompletionScreen(idLesson)
                         }
                     })
                 }
@@ -157,5 +160,5 @@ private fun PagerLesson(
 @Preview
 @Composable
 private fun LearningLessonScreenPreview() {
-    LearningLessonScreen(hiltViewModel(), {})
+    LearningLessonScreen(hiltViewModel(), 0, {})
 }
