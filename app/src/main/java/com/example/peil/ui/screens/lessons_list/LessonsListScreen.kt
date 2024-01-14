@@ -265,10 +265,10 @@ fun ImageLessonAndDivider(
 
             if (completed) {
                 Icon(
-                    modifier = Modifier.size(20.dp).border(1.5.dp, White, CircleShape).background(Green, CircleShape).padding(2.dp),
+                    modifier = Modifier.size(20.dp).border(1.5.dp, MaterialTheme.colorScheme.background, CircleShape).background(Green, CircleShape).padding(2.dp),
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
-                    tint = White
+                    tint = MaterialTheme.colorScheme.background
                 )
             }
         }
