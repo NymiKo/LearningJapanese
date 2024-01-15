@@ -1,8 +1,11 @@
 package com.example.peil.ui.screens.sublessons.finish_sentence
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -81,6 +85,7 @@ fun SubLessonFinishSentenceItem(
                 success = answers.filterValues { it }.size == 2,
                 translationWord = subLessonItem.translationWord,
                 remark = subLessonItem.remark,
+                audio = subLessonItem.audio,
                 onCompleted = { onCompleted(answers.filterValues { it }.size == 2) }
             )
         }
@@ -190,6 +195,7 @@ private fun BottomCard(
     success: Boolean,
     translationWord: String,
     remark: String,
+    audio: String,
     onCompleted: () -> Unit
 ) {
     Card(
@@ -212,13 +218,35 @@ private fun BottomCard(
                 fontSize = 12.sp,
                 color = GreyLightBD
             )
-            Text(
-                text = remark,
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                fontStyle = FontStyle.Italic,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = remark,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold
+                )
+                if (audio.isNotEmpty()) {
+                    val mediaPlayer = MediaPlayer()
+                    mediaPlayer.setAudioAttributes(
+                        AudioAttributes.Builder().setContentType(
+                            AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                    mediaPlayer.setDataSource(audio)
+                    mediaPlayer.prepare()
+
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clickable { mediaPlayer.start() },
+                        imageVector = Icons.Default.VolumeUp,
+                        contentDescription = null,
+                        tint = baseBlue
+                    )
+                }
+            }
             Text(text = translationWord, fontSize = 14.sp, color = GreyLight)
             LoginButton(
                 textButton = R.string.continue_text,
