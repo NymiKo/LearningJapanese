@@ -16,7 +16,8 @@ data class SubLessonResponseModel(
     val correctOption: String,
     val sentence: String,
     val remark: String,
-    val type: Int
+    val type: Int,
+    val audio: String
 ) {
     fun toSubLessonModel() = SubLessonModel(
         idSubLesson = idSubLesson,
@@ -29,6 +30,7 @@ data class SubLessonResponseModel(
         correctOption = correctOption.split(",").toTypedArray(),
         sentence = sentence.split(",").toTypedArray(),
         remark = remark,
-        type = type
+        type = type,
+        audio = audio
     )
 }

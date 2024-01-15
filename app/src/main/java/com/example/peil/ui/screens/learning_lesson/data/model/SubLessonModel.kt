@@ -14,7 +14,8 @@ data class SubLessonModel(
     val correctOption: Array<String> = arrayOf(""),
     val sentence: Array<String> = arrayOf(""),
     val remark: String = "",
-    val type: Int
+    val type: Int,
+    val audio: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
