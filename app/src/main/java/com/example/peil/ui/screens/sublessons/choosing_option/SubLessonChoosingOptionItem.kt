@@ -1,7 +1,11 @@
 package com.example.peil.ui.screens.sublessons.choosing_option
 
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,13 +14,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -28,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,7 +54,6 @@ import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.text.HeaderLessonText
-import kotlinx.coroutines.launch
 
 @Composable
 fun SubLessonChoosingOptionItem(
@@ -98,6 +99,7 @@ fun SubLessonChoosingOptionItem(
                 translationWord = subLessonItem.translationWord,
                 type = subLessonItem.type,
                 remark = subLessonItem.remark,
+                audio = subLessonItem.audio,
                 onCompleted = { onCompleted(success) }
             )
         }
@@ -198,6 +200,7 @@ private fun BottomCard(
     translationWord: String,
     type: Int,
     remark: String,
+    audio: String,
     onCompleted: () -> Unit
 ) {
     Card(
@@ -220,13 +223,31 @@ private fun BottomCard(
                 fontSize = 12.sp,
                 color = GreyLightBD
             )
-            Text(
-                text = if (type == 1) correctOption[0] else remark,
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                fontStyle = if (type == 1) FontStyle.Italic else FontStyle.Normal,
-                fontWeight = if (type == 1) FontWeight.Bold else FontWeight.Normal
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = if (type == 1) correctOption[0] else remark,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontStyle = if (type == 1) FontStyle.Italic else FontStyle.Normal,
+                    fontWeight = if (type == 1) FontWeight.Bold else FontWeight.Normal
+                )
+                if (audio.isNotEmpty()) {
+                    val mediaPlayer = MediaPlayer()
+                    mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                    mediaPlayer.setDataSource(audio)
+                    mediaPlayer.prepare()
+
+                    Icon(
+                        modifier = Modifier.padding(start = 8.dp).clickable { mediaPlayer.start() },
+                        imageVector = Icons.Default.VolumeUp,
+                        contentDescription = null,
+                        tint = baseBlue
+                    )
+                }
+            }
             Text(text = translationWord, fontSize = 14.sp, color = GreyLight)
             LoginButton(
                 textButton = R.string.continue_text,
