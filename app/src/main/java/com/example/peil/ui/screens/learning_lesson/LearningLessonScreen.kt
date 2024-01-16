@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.learning_lesson
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +38,8 @@ import kotlinx.coroutines.launch
 fun LearningLessonScreen(
     viewModel: LearningLessonViewModel,
     idLesson: Int,
-    onLessonCompletionScreen: (idLesson: Int) -> Unit
+    onLessonCompletionScreen: (idLesson: Int) -> Unit,
+    showCancelLessonDialog: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -49,6 +51,9 @@ fun LearningLessonScreen(
             onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) },
             onLessonCompletionScreen = onLessonCompletionScreen::invoke
         )
+        BackHandler(enabled = true) {
+            showCancelLessonDialog()
+        }
     }
 }
 
@@ -160,5 +165,5 @@ private fun PagerLesson(
 @Preview
 @Composable
 private fun LearningLessonScreenPreview() {
-    LearningLessonScreen(hiltViewModel(), 0, {})
+    LearningLessonScreen(hiltViewModel(), 0, {}, {})
 }
