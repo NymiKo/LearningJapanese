@@ -30,4 +30,8 @@
     <string name="choose_the_words">Выбери слова, чтобы добавить их сюда</string>
     <string name="chapter">Глава %1$d</string>
     <string name="lessons_completed">Пройдено уроков: %1$d/%2$d</string>
+    <string name="want_to_get_out">Ты действительно хочешь выйти?</string>
+    <string name="progress_not_be_saved">Твой прогресс не будет сохранен</string>
+    <string name="continue_studies">Продолжить обучение</string>
+    <string name="exit">Выйти</string>
 </resources>
