@@ -55,6 +55,7 @@ import com.example.peil.ui.theme.backgroundIconGreenLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.LoginButton
+import com.example.peil.ui.view_components.icon.IconVolume
 import com.example.peil.ui.view_components.text.HeaderLessonText
 
 @Composable
@@ -230,21 +231,7 @@ private fun BottomCard(
                     fontWeight = FontWeight.Bold
                 )
                 if (audio.isNotEmpty()) {
-                    val mediaPlayer = MediaPlayer()
-                    mediaPlayer.setAudioAttributes(
-                        AudioAttributes.Builder().setContentType(
-                            AudioAttributes.CONTENT_TYPE_MUSIC).build())
-                    mediaPlayer.setDataSource(audio)
-                    mediaPlayer.prepare()
-
-                    Icon(
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .clickable { mediaPlayer.start() },
-                        imageVector = Icons.Default.VolumeUp,
-                        contentDescription = null,
-                        tint = baseBlue
-                    )
+                    IconVolume(audio = audio)
                 }
             }
             Text(text = translationWord, fontSize = 14.sp, color = GreyLight)
