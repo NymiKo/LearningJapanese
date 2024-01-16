@@ -84,7 +84,12 @@ fun NavigationBarWithContent(
     )
 
     Column {
-        NavigationItemsContent(modifier = Modifier.weight(1f), state = selectedItem, lessonsListViewModel = lessonsListViewModel, onLearningLesson = onLearningLesson)
+        NavigationItemsContent(
+            modifier = Modifier.weight(1f),
+            state = selectedItem,
+            lessonsListViewModel = lessonsListViewModel,
+            onLearningLesson = onLearningLesson
+        )
         NavigationBar {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
@@ -103,7 +108,12 @@ fun NavigationBarWithContent(
 }
 
 @Composable
-fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsListViewModel: LessonsListViewModel, onLearningLesson: (idLesson: Int) -> Unit) {
+fun NavigationItemsContent(
+    modifier: Modifier = Modifier,
+    state: Int,
+    lessonsListViewModel: LessonsListViewModel,
+    onLearningLesson: (idLesson: Int) -> Unit
+) {
     when (state) {
         0 -> {
             LessonsListScreen(modifier, onLearningLesson::invoke, viewModel = lessonsListViewModel)
@@ -118,6 +128,10 @@ fun NavigationItemsContent(modifier: Modifier = Modifier, state: Int, lessonsLis
 @Composable
 fun GreetingPreview() {
     PeilTheme {
-        NavigationBarWithContent(onWelcomeScreen = { }, onLearningLesson = {}, lessonsListViewModel = hiltViewModel())
+        NavigationBarWithContent(
+            onWelcomeScreen = { },
+            onLearningLesson = {},
+            lessonsListViewModel = hiltViewModel()
+        )
     }
 }

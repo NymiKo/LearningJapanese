@@ -7,6 +7,8 @@ import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
+import com.example.peil.ui.screens.learning_lesson.dialog.cancelLessonDialog
+import com.example.peil.ui.screens.learning_lesson.dialog.navigateToCancelLessonDialog
 import com.example.peil.ui.screens.learning_lesson.learningLessonScreen
 import com.example.peil.ui.screens.learning_lesson.navigateToLearningLessonScreen
 import com.example.peil.ui.screens.lesson_completion.lessonCompletion
@@ -62,9 +64,12 @@ fun NavGraph(navController: NavHostController) {
         )
 
         learningLessonScreen(
-            onLessonCompletionScreen = { idLessonCompleted -> navController.navigateToLessonCompletionScreen(idLessonCompleted) }
+            onLessonCompletionScreen = { idLessonCompleted -> navController.navigateToLessonCompletionScreen(idLessonCompleted) },
+            showCancelLessonDialog = navController::navigateToCancelLessonDialog
         )
 
         lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
+
+        cancelLessonDialog(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
     }
 }
