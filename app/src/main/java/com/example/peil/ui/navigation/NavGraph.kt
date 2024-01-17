@@ -70,6 +70,9 @@ fun NavGraph(navController: NavHostController) {
 
         lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
 
-        cancelLessonDialog(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
+        cancelLessonDialog(
+            onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack,
+            onDismissRequest = navController::popBackStack
+        )
     }
 }

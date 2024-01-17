@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.peil.R
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.baseBlue
@@ -25,52 +26,57 @@ import com.example.peil.ui.theme.baseBlue
 @Composable
 fun CancelLessonDialog(
     modifier: Modifier = Modifier,
-    onLessonsListScreen: () -> Unit
+    onLessonsListScreen: () -> Unit,
+    onDismissRequest: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .background(
-                color = MaterialTheme.colorScheme.background,
-                shape = RoundedCornerShape(5.dp)
-            )
-            .padding(16.dp)
-    ) {
-        Text(
+    Dialog(onDismissRequest = onDismissRequest::invoke) {
+        Column(
             modifier = Modifier
-                .padding(bottom = 16.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.want_to_get_out),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.secondary
-        )
-        Text(
-            modifier = Modifier.padding(bottom = 24.dp).fillMaxWidth(),
-            text = stringResource(id = R.string.progress_not_be_saved),
-            fontSize = 14.sp,
-            color = GreyLightBD,
-            textAlign = TextAlign.Center
-        )
-        TextButton(
-            modifier = Modifier.align(Alignment.End),
-            onClick = { }
+                .background(
+                    color = MaterialTheme.colorScheme.background,
+                    shape = RoundedCornerShape(5.dp)
+                )
+                .padding(16.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.continue_studies).uppercase(),
-                fontSize = 14.sp,
-                color = baseBlue
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(id = R.string.want_to_get_out),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary
             )
-        }
-        TextButton(
-            modifier = Modifier.align(Alignment.End),
-            onClick = onLessonsListScreen::invoke
-        ) {
             Text(
-                text = stringResource(id = R.string.exit).uppercase(),
+                modifier = Modifier
+                    .padding(bottom = 24.dp)
+                    .fillMaxWidth(),
+                text = stringResource(id = R.string.progress_not_be_saved),
                 fontSize = 14.sp,
-                color = Color.Red
+                color = GreyLightBD,
+                textAlign = TextAlign.Center
             )
+            TextButton(
+                modifier = Modifier.align(Alignment.End),
+                onClick = onDismissRequest::invoke
+            ) {
+                Text(
+                    text = stringResource(id = R.string.continue_studies).uppercase(),
+                    fontSize = 14.sp,
+                    color = baseBlue
+                )
+            }
+            TextButton(
+                modifier = Modifier.align(Alignment.End),
+                onClick = onLessonsListScreen::invoke
+            ) {
+                Text(
+                    text = stringResource(id = R.string.exit).uppercase(),
+                    fontSize = 14.sp,
+                    color = Color.Red
+                )
+            }
         }
     }
 }
@@ -78,5 +84,5 @@ fun CancelLessonDialog(
 @Preview
 @Composable
 private fun CancelLessonDialogPreview() {
-    CancelLessonDialog(onLessonsListScreen = {})
+    CancelLessonDialog(onLessonsListScreen = {}, onDismissRequest = {})
 }

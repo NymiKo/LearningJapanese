@@ -6,9 +6,9 @@ import androidx.navigation.compose.dialog
 
 private const val cancelLessonDialogRoute = "cancel_lesson"
 
-fun NavGraphBuilder.cancelLessonDialog(onLessonsListScreen: () -> Unit) {
+fun NavGraphBuilder.cancelLessonDialog(onLessonsListScreen: () -> Unit, onDismissRequest: () -> Unit) {
     dialog(cancelLessonDialogRoute) {
-        CancelLessonDialog(onLessonsListScreen = onLessonsListScreen)
+        CancelLessonDialog(onLessonsListScreen = onLessonsListScreen, onDismissRequest = onDismissRequest)
     }
 }
 

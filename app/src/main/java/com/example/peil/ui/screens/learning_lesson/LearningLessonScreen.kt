@@ -1,6 +1,7 @@
 package com.example.peil.ui.screens.learning_lesson
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,7 +45,7 @@ fun LearningLessonScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopAppBar(progress = viewModel.progress)
+        TopAppBar(progress = viewModel.progress, showCancelLessonDialog = showCancelLessonDialog::invoke)
         PagerLesson(
             subLessonsList = viewModel.subLessons,
             idLesson = idLesson,
@@ -59,7 +60,7 @@ fun LearningLessonScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(progress: Float) {
+private fun TopAppBar(progress: Float, showCancelLessonDialog: () -> Unit) {
     TopAppBar(
         title = {
             LinearProgressIndicator(
@@ -75,7 +76,7 @@ private fun TopAppBar(progress: Float) {
         },
         navigationIcon = {
             Icon(
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier.padding(start = 8.dp).clickable { showCancelLessonDialog() },
                 imageVector = Icons.Default.Close,
                 contentDescription = "",
                 tint = baseBlue
