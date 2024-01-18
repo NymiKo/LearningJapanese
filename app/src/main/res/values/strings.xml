@@ -34,4 +34,7 @@
     <string name="progress_not_be_saved">Твой прогресс не будет сохранен</string>
     <string name="continue_studies">Продолжить обучение</string>
     <string name="exit">Выйти</string>
+    <string name="profile">Профиль</string>
+    <string name="knowledge_language">Знание языка</string>
+    <string name="japan">Японский</string>
 </resources>

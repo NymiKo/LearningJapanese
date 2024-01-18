@@ -66,7 +66,7 @@ fun LessonsListScreen(
 ) {
     Column(modifier) {
         TopAppBar()
-        LearningProgress(progressValue = 25F)
+        LearningProgress(progressValue = viewModel.progress)
         LessonsListComponent(
             lessonsList = viewModel.lessonsList,
             onLearningLesson = onLearningLesson::invoke
@@ -111,7 +111,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
         modifier = modifier.fillMaxWidth(),
         value = progressValue,
         onValueChange = {},
-        valueRange = 0F..100F,
+        valueRange = 0.0F..1.0F,
         track = {
             SliderDefaults.Track(
                 modifier = Modifier.scale(scaleX = 1f, scaleY = 2f),
@@ -137,7 +137,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
                 Text(
                     modifier = Modifier.fillMaxSize(),
                     textAlign = TextAlign.Center,
-                    text = "${progressValue.toInt()}%",
+                    text = "${(progressValue * 100).toInt()}%",
                     fontSize = 10.sp,
                     color = White,
                     fontWeight = FontWeight.Bold
