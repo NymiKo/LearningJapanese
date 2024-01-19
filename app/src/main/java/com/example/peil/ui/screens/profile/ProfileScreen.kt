@@ -1,6 +1,7 @@
 package com.example.peil.ui.screens.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -28,6 +33,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
 import com.example.peil.ui.theme.GreyLightBD
+import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.progress.CustomProgress
 
@@ -107,15 +113,24 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        GlideImage(
-            modifier = Modifier
-                .padding(16.dp)
-                .size(80.dp)
-                .clip(CircleShape)
-                .border(1.dp, GreyLightBD, CircleShape),
-            model = avatar,
-            contentDescription = null
-        )
+        Box(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            GlideImage(
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .border(1.dp, GreyLightBD, RoundedCornerShape(16.dp)),
+                model = avatar,
+                contentDescription = null
+            )
+            Icon(
+                modifier = Modifier.size(15.dp).align(Alignment.BottomEnd).background(White, CircleShape),
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = baseBlue
+            )
+        }
         Text(
             modifier = Modifier.padding(bottom = 16.dp),
             text = nickname,
