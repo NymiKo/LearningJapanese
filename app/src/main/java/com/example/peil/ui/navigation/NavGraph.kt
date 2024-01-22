@@ -3,6 +3,8 @@ package com.example.peil.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.peil.ui.screens.bottom_nav_bar.NavigationBarWithContent
 import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
@@ -10,13 +12,9 @@ import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
 import com.example.peil.ui.screens.learning_lesson.dialog.cancelLessonDialog
 import com.example.peil.ui.screens.learning_lesson.dialog.navigateToCancelLessonDialog
 import com.example.peil.ui.screens.learning_lesson.learningLessonScreen
-import com.example.peil.ui.screens.learning_lesson.navigateToLearningLessonScreen
 import com.example.peil.ui.screens.lesson_completion.lessonCompletion
 import com.example.peil.ui.screens.lesson_completion.navigateToLessonCompletionScreen
-import com.example.peil.ui.screens.lessons_list.lessonsListScreen
-import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
 import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreen
-import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreenWithClearBackStack
 import com.example.peil.ui.screens.login.navigation.loginScreen
 import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
@@ -26,10 +24,10 @@ import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
 import com.example.peil.ui.screens.welcome.welcomeScreen
 
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun RootNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = lessonsListScreenRoute
+        startDestination = bottomNavGraphRoute
     ) {
         welcomeScreen(
             onLoginClick = navController::navigateToLoginScreen,
@@ -37,7 +35,7 @@ fun NavGraph(navController: NavHostController) {
         )
 
         loginScreen(
-            onLessonsListScreen = navController::navigateToLessonsListScreen,
+            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
             onBack = navController::popBackStackToWelcomeScreen
         )
 
@@ -58,21 +56,8 @@ fun NavGraph(navController: NavHostController) {
             onDismissRequest = navController::popBackStack
         )
 
-        lessonsListScreen(
-            onWelcomeScreen = navController::navigateToWelcomeScreen,
-            onLearningLesson = { idLesson -> navController.navigateToLearningLessonScreen(idLesson) }
-        )
-
-        learningLessonScreen(
-            onLessonCompletionScreen = { idLessonCompleted -> navController.navigateToLessonCompletionScreen(idLessonCompleted) },
-            showCancelLessonDialog = navController::navigateToCancelLessonDialog
-        )
-
-        lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack)
-
-        cancelLessonDialog(
-            onLessonsListScreen = navController::navigateToLessonsListScreenWithClearBackStack,
-            onDismissRequest = navController::popBackStack
-        )
+        composable(route = bottomNavGraphRoute) {
+            NavigationBarWithContent(onWelcomeScreen = navController::navigateToWelcomeScreen)
+        }
     }
 }
