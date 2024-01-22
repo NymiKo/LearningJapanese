@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 
 const val idLessonKeyArg = "idLesson"
 const val learningLessonScreen = "learning_lesson"
-const val learningLessonScreenRoute = "learning_lesson/{$idLessonKeyArg}"
+private const val learningLessonScreenRoute = "learning_lesson/{$idLessonKeyArg}"
 
 fun NavGraphBuilder.learningLessonScreen(onLessonCompletionScreen: (idLesson: Int) -> Unit, showCancelLessonDialog: () -> Unit) {
     composable(
