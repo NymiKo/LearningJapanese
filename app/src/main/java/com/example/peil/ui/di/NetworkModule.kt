@@ -7,6 +7,7 @@ import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
 import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionService
 import com.example.peil.ui.screens.lessons_list.data.LessonsListService
 import com.example.peil.ui.screens.login.data.LoginService
+import com.example.peil.ui.screens.profile.data.ProfileService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,4 +61,7 @@ object NetworkModule {
 
     @Provides
     fun provideLessonCompletionService(retrofit: Retrofit): LessonCompletionService = retrofit.create(LessonCompletionService::class.java)
+
+    @Provides
+    fun provideProfileService(retrofit: Retrofit): ProfileService = retrofit.create(ProfileService::class.java)
 }
