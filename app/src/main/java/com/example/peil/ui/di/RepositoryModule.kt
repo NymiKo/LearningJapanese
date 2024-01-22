@@ -10,6 +10,8 @@ import com.example.peil.ui.screens.lessons_list.data.LessonsListRepository
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepositoryImpl
 import com.example.peil.ui.screens.login.data.LoginRepository
 import com.example.peil.ui.screens.login.data.LoginRepositoryImpl
+import com.example.peil.ui.screens.profile.data.ProfileRepository
+import com.example.peil.ui.screens.profile.data.ProfileRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -39,4 +41,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindLessonCompletionRepository(repository: LessonCompletionRepositoryImpl): LessonCompletionRepository
+
+    @Binds
+    @Singleton
+    fun bindProfileRepository(repository: ProfileRepositoryImpl): ProfileRepository
 }
