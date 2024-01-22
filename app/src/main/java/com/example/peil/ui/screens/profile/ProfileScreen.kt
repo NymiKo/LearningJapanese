@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
@@ -39,7 +40,7 @@ import com.example.peil.ui.view_components.progress.CustomProgress
 
 @Composable
 fun ProfileScreen(
-
+    viewModel: ProfileViewModel
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -125,7 +126,10 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
                 contentDescription = null
             )
             Icon(
-                modifier = Modifier.size(15.dp).align(Alignment.BottomEnd).background(White, CircleShape),
+                modifier = Modifier
+                    .size(15.dp)
+                    .align(Alignment.BottomEnd)
+                    .background(White, CircleShape),
                 imageVector = Icons.Default.Add,
                 contentDescription = null,
                 tint = baseBlue
@@ -144,5 +148,5 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileScreen(hiltViewModel())
 }
