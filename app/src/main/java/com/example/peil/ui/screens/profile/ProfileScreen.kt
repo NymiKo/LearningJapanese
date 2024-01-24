@@ -8,18 +8,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
+import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
@@ -40,13 +46,15 @@ import com.example.peil.ui.view_components.progress.CustomProgress
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel
+    viewModel: ProfileViewModel,
+    onSettingsScreen: () -> Unit
 ) {
+    val profile = viewModel.profile.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopAppBarProfile()
-        AvatarAndNickname(avatar = "", nickname = "Nymiko")
+        TopAppBarProfile(onSettingsScreen = onSettingsScreen::invoke)
+        AvatarAndNickname(avatar = profile.value?.avatar ?: "", nickname = profile.value?.nickname ?: "")
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -82,13 +90,14 @@ fun ProfileScreen(
         ) {
             CustomProgress(
                 modifier = Modifier.size(150.dp),
-                progress = 0.5F,
+                progress = profile.value?.progress ?: 0.0F,
                 color = baseBlue,
-                strokeWidth = 6.dp
+                strokeWidth = 6.dp,
+                trackColor = GreyLight
             )
             Text(
                 modifier = Modifier.padding(bottom = 24.dp),
-                text = "50%",
+                text = "${((profile.value?.progress ?: 0.0F) * 100).toInt()}%",
                 fontWeight = FontWeight.Bold,
                 fontSize = 40.sp,
                 color = MaterialTheme.colorScheme.secondary
@@ -99,27 +108,35 @@ fun ProfileScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBarProfile() {
-    TopAppBar(title = {
-        Text(
-            text = stringResource(id = R.string.profile),
-            fontWeight = FontWeight.Bold
-        )
-    })
+private fun TopAppBarProfile(onSettingsScreen: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(
+                text = stringResource(id = R.string.profile),
+                fontWeight = FontWeight.Bold
+            )
+        },
+        actions = {
+            IconButton(onClick = onSettingsScreen::invoke) {
+                Icon(imageVector = Icons.Default.Tune, contentDescription = null)
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun AvatarAndNickname(avatar: String, nickname: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(vertical = 8.dp)
         ) {
             GlideImage(
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(120.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .border(1.dp, GreyLightBD, RoundedCornerShape(16.dp)),
                 model = avatar,
@@ -127,7 +144,7 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
             )
             Icon(
                 modifier = Modifier
-                    .size(15.dp)
+                    .size(20.dp)
                     .align(Alignment.BottomEnd)
                     .background(White, CircleShape),
                 imageVector = Icons.Default.Add,
@@ -138,7 +155,7 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
         Text(
             modifier = Modifier.padding(bottom = 16.dp),
             text = nickname,
-            fontSize = 20.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.secondary
         )
@@ -148,5 +165,5 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen(hiltViewModel())
+    ProfileScreen(hiltViewModel(), {})
 }
