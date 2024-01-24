@@ -37,7 +37,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.example.peil.R
+import com.example.peil.ui.theme.ActiveButtonGrey
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
@@ -93,7 +95,7 @@ fun ProfileScreen(
                 progress = profile.value?.progress ?: 0.0F,
                 color = baseBlue,
                 strokeWidth = 6.dp,
-                trackColor = GreyLight
+                trackColor = GreyLightBD
             )
             Text(
                 modifier = Modifier.padding(bottom = 24.dp),
@@ -138,9 +140,12 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
                 modifier = Modifier
                     .size(120.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .border(1.dp, GreyLightBD, RoundedCornerShape(16.dp)),
+                    .border(1.dp, GreyLightBD, RoundedCornerShape(16.dp))
+                    .background(ActiveButtonGrey, RoundedCornerShape(16.dp)),
                 model = avatar,
-                contentDescription = null
+                contentDescription = null,
+                loading = placeholder(R.drawable.ic_person),
+                failure = placeholder(R.drawable.ic_person)
             )
             Icon(
                 modifier = Modifier
