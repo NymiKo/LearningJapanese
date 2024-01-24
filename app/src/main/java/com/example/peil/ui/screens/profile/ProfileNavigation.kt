@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 
 const val profileScreenRoute = "profile_screen"
 
-fun NavGraphBuilder.profileScreen() {
+fun NavGraphBuilder.profileScreen(onSettingsScreen: () -> Unit) {
     composable(profileScreenRoute) {
         val viewModel: ProfileViewModel = hiltViewModel()
-        ProfileScreen(viewModel = viewModel)
+        ProfileScreen(viewModel = viewModel, onSettingsScreen = onSettingsScreen::invoke)
     }
 }
 
