@@ -41,4 +41,6 @@
     <string name="account">Аккаунт</string>
     <string name="avatar">Аватар</string>
     <string name="version_build">1.0.0</string>
+    <string name="username">Имя пользователя</string>
+    <string name="done">Готово</string>
 </resources>

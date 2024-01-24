@@ -40,6 +40,7 @@ import com.example.peil.ui.theme.baseBlue
 
 @Composable
 fun SettingsScreen(
+    onChangeNicknameScreen: () -> Unit,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -51,9 +52,9 @@ fun SettingsScreen(
                 .fillMaxSize()
         ) {
             HeaderCategory(text = R.string.account)
-            ChangeNameItem(nameSetting = R.string.name, text = "Nymiko")
+            ChangeNameItem(nameSetting = R.string.name, text = "Nymiko", onChangeNicknameScreen = onChangeNicknameScreen::invoke)
             ChangeAvatarItem(avatar = "")
-            ChangeNameItem(nameSetting = R.string.email, text = "dimon.kabernik@gmail.com")
+            ChangeNameItem(nameSetting = R.string.email, text = "dimon.kabernik@gmail.com", onChangeNicknameScreen = {})
             Spacer(modifier = Modifier.weight(1F))
             Text(
                 modifier = Modifier
@@ -72,7 +73,9 @@ fun SettingsScreen(
                     .padding(bottom = 16.dp)
                     .fillMaxWidth(),
                 text = stringResource(id = R.string.version_build),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                color = GreyLight
             )
         }
     }
@@ -115,12 +118,12 @@ private fun HeaderCategory(text: Int) {
 }
 
 @Composable
-private fun ChangeNameItem(nameSetting: Int, text: String) {
+private fun ChangeNameItem(nameSetting: Int, text: String, onChangeNicknameScreen: () -> Unit) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onChangeNicknameScreen() }
             .padding(vertical = 8.dp)
     ) {
         NameSettingText(name = nameSetting)
@@ -168,5 +171,5 @@ private fun NameSettingText(name: Int) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen({})
+    SettingsScreen({}, {})
 }
