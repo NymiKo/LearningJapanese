@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,10 +50,11 @@ fun OutlinedLoginField(
             }
         },
         visualTransformation = if (password) if (!passwordShow) PasswordVisualTransformation() else VisualTransformation.None else VisualTransformation.None,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.secondary,
             cursorColor = MaterialTheme.colorScheme.secondary,
-            textColor = MaterialTheme.colorScheme.secondary
+            focusedTextColor = MaterialTheme.colorScheme.secondary,
+            unfocusedTextColor = MaterialTheme.colorScheme.secondary
         ),
         isError = error
     )
