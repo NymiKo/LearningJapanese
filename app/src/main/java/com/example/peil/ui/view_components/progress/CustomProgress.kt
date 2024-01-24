@@ -20,19 +20,31 @@ fun CustomProgress(
     progress: Float,
     modifier: Modifier = Modifier,
     color: Color = ProgressIndicatorDefaults.circularColor,
-    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth
+    strokeWidth: Dp = ProgressIndicatorDefaults.CircularStrokeWidth,
+    trackColor: Color = ProgressIndicatorDefaults.circularTrackColor,
+    strokeCap: StrokeCap = ProgressIndicatorDefaults.CircularDeterminateStrokeCap,
+    sizeCircularProgress: Dp = 100.dp
 ) {
+    val coercedProgress = progress.coerceIn(0f, 1f)
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Butt)
     }
     Canvas(
         modifier
-            .progressSemantics(progress)
-            .size(100.dp)
+            .progressSemantics(coercedProgress)
+            .size(sizeCircularProgress)
     ) {
         // Start at 12 o'clock
         val startAngle = 140f
         val sweep = progress * 260f
+        drawArc(
+            color = trackColor,
+            startAngle = startAngle,
+            sweepAngle = 260f,
+            style = stroke,
+            useCenter = false,
+            size = Size(size.width, size.height)
+        )
         drawArc(
             color = color,
             startAngle = startAngle,
