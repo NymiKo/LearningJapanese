@@ -2,6 +2,7 @@ package com.example.peil.ui.di
 
 import android.content.Context
 import com.example.peil.data.AuthInterceptor
+import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameService
 import com.example.peil.ui.screens.create_account.data.CreateAccountService
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
 import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionService
@@ -64,4 +65,7 @@ object NetworkModule {
 
     @Provides
     fun provideProfileService(retrofit: Retrofit): ProfileService = retrofit.create(ProfileService::class.java)
+
+    @Provides
+    fun provideChangeNicknameService(retrofit: Retrofit): ChangeNicknameService = retrofit.create(ChangeNicknameService::class.java)
 }
