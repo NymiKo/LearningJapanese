@@ -19,7 +19,11 @@ class ProfileViewModel @Inject constructor(
     private val _profile = MutableLiveData<ProfileModel>()
     val profile: LiveData<ProfileModel> get() = _profile
 
-    fun getProfile() = viewModelScope.launch {
+    init {
+        getProfile()
+    }
+
+    private fun getProfile() = viewModelScope.launch {
         when (val result = repository.getProfile()) {
             is NetworkResult.Error -> {
 
