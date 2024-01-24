@@ -37,4 +37,8 @@
     <string name="profile">Профиль</string>
     <string name="knowledge_language">Знание языка</string>
     <string name="japan">Японский</string>
+    <string name="settings">Настройки</string>
+    <string name="account">Аккаунт</string>
+    <string name="avatar">Аватар</string>
+    <string name="version_build">1.0.0</string>
 </resources>
