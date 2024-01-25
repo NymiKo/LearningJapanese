@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +27,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,11 +40,11 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.example.peil.R
 import com.example.peil.ui.theme.ActiveButtonGrey
-import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.progress.CustomProgress
+
 
 @Composable
 fun ProfileScreen(
@@ -56,7 +56,10 @@ fun ProfileScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBarProfile(onSettingsScreen = onSettingsScreen::invoke)
-        AvatarAndNickname(avatar = profile.value?.avatar ?: "", nickname = profile.value?.nickname ?: "")
+        AvatarAndNickname(
+            avatar = profile.value?.avatar ?: "",
+            nickname = profile.value?.nickname ?: ""
+        )
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -145,16 +148,8 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
                 model = avatar,
                 contentDescription = null,
                 loading = placeholder(R.drawable.ic_person),
-                failure = placeholder(R.drawable.ic_person)
-            )
-            Icon(
-                modifier = Modifier
-                    .size(20.dp)
-                    .align(Alignment.BottomEnd)
-                    .background(White, CircleShape),
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = baseBlue
+                failure = placeholder(R.drawable.ic_person),
+                contentScale = ContentScale.Crop
             )
         }
         Text(
