@@ -49,6 +49,7 @@ import com.example.peil.R
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.util.getFileName
+import com.example.peil.util.sharedPreferencesUser
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -57,9 +58,11 @@ import java.io.FileOutputStream
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onChangeNicknameScreen: (nickname: String) -> Unit,
+    onWelcomeScreen: () -> Unit,
     onBack: () -> Unit
 ) {
     val profile = viewModel.profile.observeAsState()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = { TopAppBar(onBack = onBack::invoke) }
@@ -87,7 +90,9 @@ fun SettingsScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        sharedPreferencesUser(context).edit().putString("token", "").apply()
+                    }
                     .padding(vertical = 16.dp),
                 text = stringResource(id = R.string.exit),
                 color = Color.Red,
@@ -224,5 +229,5 @@ private fun NameSettingText(name: Int) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(hiltViewModel(), {}, {})
+    SettingsScreen(hiltViewModel(), {}, {}, {})
 }

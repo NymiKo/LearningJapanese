@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 
 const val settingsScreenRoute = "settings_screen"
 
-fun NavGraphBuilder.settingsScreen(onChangeNicknameScreen: (nickname: String) -> Unit, onBack: () -> Unit) {
+fun NavGraphBuilder.settingsScreen(onChangeNicknameScreen: (nickname: String) -> Unit, onWelcomeScreen: () -> Unit, onBack: () -> Unit) {
     composable(settingsScreenRoute) {
         val viewModel: SettingsViewModel = hiltViewModel()
-        SettingsScreen(viewModel = viewModel, onChangeNicknameScreen = onChangeNicknameScreen::invoke, onBack = onBack)
+        SettingsScreen(viewModel = viewModel, onChangeNicknameScreen = onChangeNicknameScreen::invoke, onWelcomeScreen = onWelcomeScreen::invoke, onBack = onBack)
     }
 }
 

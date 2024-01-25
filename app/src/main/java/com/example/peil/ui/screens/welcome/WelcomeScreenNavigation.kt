@@ -13,7 +13,11 @@ fun NavGraphBuilder.welcomeScreen(onLoginClick: () -> Unit, onRegistrationEmailC
 }
 
 fun NavController.navigateToWelcomeScreen() {
-    navigate(welcomeScreenRoute)
+    navigate(welcomeScreenRoute) {
+        popUpTo(welcomeScreenRoute) {
+            inclusive = true
+        }
+    }
 }
 
 fun NavController.popBackStackToWelcomeScreen() {
