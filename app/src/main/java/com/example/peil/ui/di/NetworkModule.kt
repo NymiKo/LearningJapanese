@@ -9,6 +9,7 @@ import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionServic
 import com.example.peil.ui.screens.lessons_list.data.LessonsListService
 import com.example.peil.ui.screens.login.data.LoginService
 import com.example.peil.ui.screens.profile.data.ProfileService
+import com.example.peil.ui.screens.settings.data.SettingsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,4 +69,7 @@ object NetworkModule {
 
     @Provides
     fun provideChangeNicknameService(retrofit: Retrofit): ChangeNicknameService = retrofit.create(ChangeNicknameService::class.java)
+
+    @Provides
+    fun provideSettingsService(retrofit: Retrofit): SettingsService = retrofit.create(SettingsService::class.java)
 }
