@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,9 +56,11 @@ import java.io.FileOutputStream
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onChangeNicknameScreen: () -> Unit,
+    onChangeNicknameScreen: (nickname: String) -> Unit,
     onBack: () -> Unit
 ) {
+    val profile = viewModel.profile.observeAsState()
+
     Scaffold(
         topBar = { TopAppBar(onBack = onBack::invoke) }
     ) {
@@ -68,9 +70,18 @@ fun SettingsScreen(
                 .fillMaxSize()
         ) {
             HeaderCategory(text = R.string.account)
-            ChangeNameItem(nameSetting = R.string.name, text = "Nymiko", onChangeNicknameScreen = onChangeNicknameScreen::invoke)
-            ChangeAvatarItem(avatar = "", loadAvatar = { file -> viewModel.loadAvatar(file) })
-            ChangeNameItem(nameSetting = R.string.email, text = "dimon.kabernik@gmail.com", onChangeNicknameScreen = {})
+            ChangeNameItem(
+                nameSetting = R.string.name,
+                text = profile.value?.nickname ?: "",
+                onChangeNicknameScreen = onChangeNicknameScreen::invoke
+            )
+            ChangeAvatarItem(
+                avatar = profile.value?.avatar ?: "",
+                loadAvatar = { file -> viewModel.loadAvatar(file) })
+            ChangeNameItem(
+                nameSetting = R.string.email,
+                text = profile.value?.email ?: "",
+                onChangeNicknameScreen = {})
             Spacer(modifier = Modifier.weight(1F))
             Text(
                 modifier = Modifier
@@ -134,12 +145,12 @@ private fun HeaderCategory(text: Int) {
 }
 
 @Composable
-private fun ChangeNameItem(nameSetting: Int, text: String, onChangeNicknameScreen: () -> Unit) {
+private fun ChangeNameItem(nameSetting: Int, text: String, onChangeNicknameScreen: (nickname: String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxWidth()
-            .clickable { onChangeNicknameScreen() }
+            .clickable { onChangeNicknameScreen(text) }
             .padding(vertical = 8.dp)
     ) {
         NameSettingText(name = nameSetting)
@@ -190,7 +201,10 @@ private fun ChangeAvatarItem(avatar: String, loadAvatar: (file: File) -> Unit) {
             LocalContext.current.contentResolver.openFileDescriptor(uri, "r", null)
         val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
         val file =
-            File(LocalContext.current.cacheDir, LocalContext.current.contentResolver.getFileName(fileUri = uri))
+            File(
+                LocalContext.current.cacheDir,
+                LocalContext.current.contentResolver.getFileName(fileUri = uri)
+            )
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
         loadAvatar(file)

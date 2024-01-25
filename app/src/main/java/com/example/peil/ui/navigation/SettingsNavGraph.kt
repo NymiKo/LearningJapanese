@@ -19,12 +19,12 @@ fun NavGraphBuilder.settingsNavGraph(
         startDestination = settingsScreenRoute
     ) {
         settingsScreen(
-            onChangeNicknameScreen = navController::navigateToChangeNickname,
+            onChangeNicknameScreen = { nickname -> navController.navigateToChangeNickname(nickname) },
             onBack = navController::popBackStack
         )
 
         changeNicknameScreen(
-            onBack = { navController.popBackStack(settingsScreenRoute, false) }
+            onBack = { navController.popBackStack(route = settingsScreenRoute, inclusive = false)}
         )
     }
 }

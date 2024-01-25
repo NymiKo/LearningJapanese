@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.change_nickname
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -13,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -40,7 +38,7 @@ fun ChangeNicknameScreen(
     }
 
     Scaffold(
-        topBar = { TopAppBar(changeNickname = viewModel::changeNickname, onBack = onBack::invoke) }
+        topBar = { TopAppBar(changeNickname = viewModel::changeNickname, isNewNickname = state.isNewNickname, onBack = onBack::invoke) }
     ) {
         TextField(
             modifier = Modifier
@@ -65,6 +63,7 @@ fun ChangeNicknameScreen(
 @Composable
 private fun TopAppBar(
     modifier: Modifier = Modifier,
+    isNewNickname: Boolean,
     changeNickname: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -90,7 +89,7 @@ private fun TopAppBar(
             containerColor = baseBlue
         ),
         actions = {
-            TextButton(onClick = changeNickname::invoke) {
+            TextButton(onClick = changeNickname::invoke, enabled = isNewNickname) {
                 Text(text = stringResource(id = R.string.done).uppercase(), color = White)
             }
         }
