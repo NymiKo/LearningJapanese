@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.settings
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -8,7 +9,8 @@ const val settingsScreenRoute = "settings_screen"
 
 fun NavGraphBuilder.settingsScreen(onChangeNicknameScreen: () -> Unit, onBack: () -> Unit) {
     composable(settingsScreenRoute) {
-        SettingsScreen(onChangeNicknameScreen = onChangeNicknameScreen::invoke, onBack = onBack)
+        val viewModel: SettingsViewModel = hiltViewModel()
+        SettingsScreen(viewModel = viewModel, onChangeNicknameScreen = onChangeNicknameScreen::invoke, onBack = onBack)
     }
 }
 
