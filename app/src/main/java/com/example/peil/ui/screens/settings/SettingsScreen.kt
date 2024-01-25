@@ -1,5 +1,8 @@
 package com.example.peil.ui.screens.settings
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,24 +25,37 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.example.peil.R
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.baseBlue
+import com.example.peil.util.getFileName
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 @Composable
 fun SettingsScreen(
+    viewModel: SettingsViewModel,
     onChangeNicknameScreen: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -53,7 +69,7 @@ fun SettingsScreen(
         ) {
             HeaderCategory(text = R.string.account)
             ChangeNameItem(nameSetting = R.string.name, text = "Nymiko", onChangeNicknameScreen = onChangeNicknameScreen::invoke)
-            ChangeAvatarItem(avatar = "")
+            ChangeAvatarItem(avatar = "", loadAvatar = { file -> viewModel.loadAvatar(file) })
             ChangeNameItem(nameSetting = R.string.email, text = "dimon.kabernik@gmail.com", onChangeNicknameScreen = {})
             Spacer(modifier = Modifier.weight(1F))
             Text(
@@ -138,11 +154,21 @@ private fun ChangeNameItem(nameSetting: Int, text: String, onChangeNicknameScree
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun ChangeAvatarItem(avatar: String) {
+private fun ChangeAvatarItem(avatar: String, loadAvatar: (file: File) -> Unit) {
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { }
+            .clickable { launcher.launch("image/*") }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -151,10 +177,23 @@ private fun ChangeAvatarItem(avatar: String) {
         GlideImage(
             modifier = Modifier
                 .size(40.dp)
-                .background(GreyLight, CircleShape), model = avatar, contentDescription = null,
+                .background(GreyLight, CircleShape)
+                .clip(CircleShape), model = imageUri ?: avatar, contentDescription = null,
             loading = placeholder(R.drawable.ic_person),
-            failure = placeholder(R.drawable.ic_person)
+            failure = placeholder(R.drawable.ic_person),
+            contentScale = ContentScale.Crop
         )
+    }
+
+    imageUri?.let { uri ->
+        val parcelFileDescriptor =
+            LocalContext.current.contentResolver.openFileDescriptor(uri, "r", null)
+        val inputStream = FileInputStream(parcelFileDescriptor?.fileDescriptor)
+        val file =
+            File(LocalContext.current.cacheDir, LocalContext.current.contentResolver.getFileName(fileUri = uri))
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        loadAvatar(file)
     }
 }
 
@@ -171,5 +210,5 @@ private fun NameSettingText(name: Int) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen({}, {})
+    SettingsScreen(hiltViewModel(), {}, {})
 }
