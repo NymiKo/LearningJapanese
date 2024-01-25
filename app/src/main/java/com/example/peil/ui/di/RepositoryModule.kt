@@ -14,6 +14,8 @@ import com.example.peil.ui.screens.login.data.LoginRepository
 import com.example.peil.ui.screens.login.data.LoginRepositoryImpl
 import com.example.peil.ui.screens.profile.data.ProfileRepository
 import com.example.peil.ui.screens.profile.data.ProfileRepositoryImpl
+import com.example.peil.ui.screens.settings.data.SettingsRepository
+import com.example.peil.ui.screens.settings.data.SettingsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -51,4 +53,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindChangeNicknameRepository(repository: ChangeNicknameRepositoryImpl): ChangeNicknameRepository
+
+    @Binds
+    @Singleton
+    fun bindSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
 }
