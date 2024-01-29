@@ -4,6 +4,7 @@ import com.example.peil.data.NetworkResult
 import com.example.peil.data.handleApi
 import com.example.peil.ui.screens.profile.data.model.ProfileModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody

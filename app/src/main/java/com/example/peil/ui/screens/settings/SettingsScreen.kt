@@ -61,6 +61,7 @@ fun SettingsScreen(
     onWelcomeScreen: () -> Unit,
     onBack: () -> Unit
 ) {
+    viewModel.getFullProfile()
     val profile = viewModel.profile.observeAsState()
     val context = LocalContext.current
 

@@ -20,10 +20,10 @@ class ProfileViewModel @Inject constructor(
     val profile: LiveData<ProfileModel> get() = _profile
 
     init {
-        getProfile()
+
     }
 
-    private fun getProfile() = viewModelScope.launch {
+    fun getProfile() = viewModelScope.launch {
         when (val result = repository.getProfile()) {
             is NetworkResult.Error -> {
 

@@ -43,4 +43,7 @@
     <string name="version_build">1.0.0</string>
     <string name="username">Имя пользователя</string>
     <string name="done">Готово</string>
+    <string name="email_or_password_incorrect">Почта или пароль указаны неверно</string>
+    <string name="email_incorrect">Введите почту правильно</string>
+    <string name="password_incorrect">Длина пароля меньше 6 символов</string>
 </resources>
