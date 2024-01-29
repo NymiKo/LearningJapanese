@@ -10,74 +10,91 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.R
+import com.example.peil.ui.screens.create_account.state.CreateAccountEvent
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.ui.view_components.text.TextLabel
+import com.example.peil.util.sharedPreferencesUser
 
 @Composable
 fun CreateAccountScreen(
-    onRegistrationClick: () -> Unit,
+    onLessonsListScreen: () -> Unit,
     showHaveAccountDialog: () -> Unit,
     onBack: () -> Unit,
-    viewModel: CreateAccountViewModel,
-    email: String?
+    email: String,
+    viewModel: CreateAccountViewModel
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        val state = viewModel.state.observeAsState()
+        val state = viewModel.state.value
+
+        if (state.successCreateAccount) {
+            sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token)
+                .apply()
+            onLessonsListScreen()
+        }
 
         BaseAppBar(
             title = R.string.create_account,
             imageVector = Icons.Default.ArrowBack
         ) { onBack() }
-        TextLabel(modifier = Modifier.padding(top = 30.dp), textLabel = R.string.email)
-        OutlinedLoginField(value = viewModel.email, valueChange = viewModel::updateEmail)
+        if (state.isError) {
+            AuthorizationErrorMessage(errorMessage = state.errorMessage)
+        }
+        TextLabel(
+            modifier = Modifier.padding(top = if (!state.isError) 30.dp else 0.dp),
+            textLabel = R.string.email
+        )
+        OutlinedLoginField(
+            value = state.email.text,
+            valueChange = { viewModel.createEvent(CreateAccountEvent.EnteringEmail(it)) },
+            error = state.email.isError
+        )
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.name)
-        OutlinedLoginField(value = viewModel.nickname, valueChange = viewModel::updateNickname)
+        OutlinedLoginField(
+            value = state.nickname.text,
+            valueChange = { viewModel.createEvent(CreateAccountEvent.EnteringNickname(it)) },
+            error = state.nickname.isError
+        )
         TextLabel(modifier = Modifier.padding(top = 16.dp), textLabel = R.string.password_min_char)
-        OutlinedLoginField(value = viewModel.password, password = true, valueChange = viewModel::updatePassword)
-        LoginButton(modifier = Modifier.padding(top = 30.dp), textButton = R.string.registration, onClick = viewModel::createAccount) {
-            if (state.value is CreateAccountUiState.LOADING) {
+        OutlinedLoginField(
+            value = state.password.text,
+            password = true,
+            valueChange = { viewModel.createEvent(CreateAccountEvent.EnteringPassword(it)) },
+            error = state.password.isError
+        )
+        LoginButton(
+            modifier = Modifier.padding(top = 30.dp),
+            textButton = R.string.registration,
+            onClick = { viewModel.createEvent(CreateAccountEvent.OnCreateAccount) },
+            enabled = !state.progress
+        ) {
+            if (state.progress) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))
             }
         }
-        checkState(state = state.value, showHaveAccountDialog::invoke)
-    }
-}
-@Composable
-private fun checkState(state: CreateAccountUiState?, showHaveAccountDialog: () -> Unit) {
-    when(state) {
-        is CreateAccountUiState.LOADING -> {
-
-        }
-        is CreateAccountUiState.SUCCESS -> {
-
-        }
-        is CreateAccountUiState.HAVE_ACCOUNT -> {
+        if (state.isOpenHaveAccountDialog) {
             showHaveAccountDialog()
+            viewModel.updateStateDialog()
         }
-        is CreateAccountUiState.ERROR -> {
-
-        }
-
-        else -> {}
     }
 }
 
-//@Composable
-//@Preview
-//private fun CreateAccountScreenPreview() {
-//    CreateAccountScreen(
-//        rememberNavController(),
-//        CreateAccountViewModel(CreateAccountRepositoryImpl(CreateAccountService)),
-//        ""
-//    )
-//}
+@Composable
+@Preview
+private fun CreateAccountScreenPreview() {
+    CreateAccountScreen(
+        {}, {}, {}, "", hiltViewModel()
+    )
+}

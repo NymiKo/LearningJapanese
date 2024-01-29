@@ -108,7 +108,7 @@ private fun NavigationIconTopAppBar() {
 @Composable
 private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float) {
     Slider(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth(),
         value = progressValue,
         onValueChange = {},
         valueRange = 0.0F..1.0F,

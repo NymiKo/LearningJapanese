@@ -46,7 +46,7 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         createAccountScreen(
-            {},
+            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
             showHaveAccountDialog = navController::navigateToHaveAccountDialog,
             onBack = navController::popBackStack
         )
