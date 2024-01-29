@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,6 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -28,10 +31,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.R
 import com.example.peil.ui.screens.login.state.LoginEvent
+import com.example.peil.ui.theme.RedLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.ui.view_components.text.TextLabel
 import com.example.peil.util.sharedPreferencesUser
 
@@ -49,7 +54,8 @@ fun LoginScreen(
         val state = viewModel.state.value
 
         if (state.successLogin) {
-            sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
+            sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token)
+                .apply()
             onLessonsListScreen()
         }
 
@@ -64,6 +70,11 @@ fun LoginScreen(
             valueEmail = state.email.text,
             valuePassword = state.password.text,
             progress = state.progress,
+            errorEmail = state.email.isError,
+            errorPassword = state.password.isError,
+            isLogin = state.successLogin,
+            isError = state.isError,
+            errorMessage = state.errorMessage,
             onLogin = { viewModel.createEvent(LoginEvent.OnLogin) }
         )
     }
@@ -75,23 +86,33 @@ private fun LoadingScreenContent(
     valuePasswordChange: (password: String) -> Unit,
     valueEmail: String,
     valuePassword: String,
+    errorEmail: Boolean,
+    errorPassword: Boolean,
+    isLogin: Boolean,
+    isError: Boolean,
+    errorMessage: Int,
     progress: Boolean,
     onLogin: () -> Unit
 ) {
     Column {
         Header()
+        if (!isLogin && isError) {
+            AuthorizationErrorMessage(errorMessage = errorMessage)
+        }
         FieldItem(
-            modifier = Modifier.padding(top = 40.dp),
+            modifier = Modifier.padding(top = if (!isError) 40.dp else 0.dp),
             textLabel = R.string.email,
             valueChange = valueEmailChange,
-            value = valueEmail
+            value = valueEmail,
+            error = errorEmail
         )
         FieldItem(
             modifier = Modifier.padding(top = 40.dp),
             textLabel = R.string.password,
             password = true,
             valueChange = valuePasswordChange,
-            value = valuePassword
+            value = valuePassword,
+            error = errorPassword
         )
         ForgotPasswordText()
         LoginButton(
@@ -126,10 +147,15 @@ private fun FieldItem(
     textLabel: Int,
     password: Boolean = false,
     valueChange: (value: String) -> Unit,
-    value: String
+    value: String,
+    error: Boolean
 ) {
     TextLabel(modifier, textLabel = textLabel)
-    OutlinedLoginField(password = password, value = value) { newValue -> valueChange(newValue) }
+    OutlinedLoginField(password = password, value = value, error = error) { newValue ->
+        valueChange(
+            newValue
+        )
+    }
 }
 
 @Composable
