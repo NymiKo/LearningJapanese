@@ -1,15 +1,16 @@
 package com.example.peil.ui.screens.create_account
 
-import androidx.compose.runtime.getValue
+import android.util.Patterns
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.R
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
+import com.example.peil.ui.screens.create_account.state.CreateAccountEvent
+import com.example.peil.ui.screens.create_account.state.CreateAccountScreenState
+import com.example.peil.ui.screens.login.state.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,59 +18,159 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
     private val repository: CreateAccountRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val _state = MutableLiveData<CreateAccountUiState>()
-    val state: LiveData<CreateAccountUiState> = _state
+    private val _state = mutableStateOf(CreateAccountScreenState(isError = false))
+    val state: State<CreateAccountScreenState> = _state
 
-    var email by mutableStateOf("")
-        private set
-
-    var nickname by mutableStateOf("")
-        private set
-
-    var password by mutableStateOf("")
-        private set
-
-    var isOpenHaveAccountDialog by mutableStateOf(false)
-        private set
-
-    fun updateNickname(inputNickname: String) {
-        nickname = inputNickname
+    fun createEvent(event: CreateAccountEvent) {
+        onEvent(event = event)
     }
 
-    fun updatePassword(inputPassword: String) {
-        password = inputPassword
+    private fun onEvent(event: CreateAccountEvent) {
+        when (event) {
+            is CreateAccountEvent.EnteringEmail -> {
+                _state.value = state.value.copy(
+                    email = state.value.email.copy(
+                        text = event.value
+                    ),
+                    isOpenHaveAccountDialog = false
+                )
+            }
+
+            is CreateAccountEvent.EnteringPassword -> {
+                _state.value = state.value.copy(
+                    password = state.value.password.copy(
+                        text = event.value
+                    ),
+                    isOpenHaveAccountDialog = false
+                )
+            }
+
+            is CreateAccountEvent.EnteringNickname -> {
+                _state.value = state.value.copy(
+                    nickname = state.value.nickname.copy(
+                        text = event.value
+                    ),
+                    isOpenHaveAccountDialog = false
+                )
+            }
+
+            is CreateAccountEvent.OnCreateAccount -> {
+                checkValidEmail(_state.value.email.text)
+                checkValidNickname(_state.value.nickname.text)
+                checkValidPassword(_state.value.password.text)
+                if (!_state.value.email.isError && !_state.value.nickname.isError && !_state.value.password.isError) {
+                    createAccount()
+                }
+            }
+        }
     }
 
-    fun updateEmail(inputEmail: String) {
-        email = inputEmail
+    private fun checkValidEmail(email: String) {
+        if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _state.value = state.value.copy(
+                email = state.value.email.copy(
+                    isError = false
+                )
+            )
+        } else {
+            _state.value = state.value.copy(
+                email = state.value.email.copy(
+                    isError = true
+                ),
+                isError = true,
+                errorMessage = R.string.email_incorrect
+            )
+        }
     }
 
-    fun updateOpenHaveAccountDialog(isOpen: Boolean) {
-        isOpenHaveAccountDialog = isOpen
+    private fun checkValidNickname(nickname: String) {
+        if (nickname.isEmpty()) {
+            _state.value = state.value.copy(
+                nickname = state.value.nickname.copy(
+                    isError = true
+                ),
+                isError = true,
+                errorMessage = R.string.nickname_empty
+            )
+        } else {
+            _state.value = state.value.copy(
+                nickname = state.value.nickname.copy(
+                    isError = false
+                )
+            )
+        }
     }
 
-    fun createAccount() = viewModelScope.launch {
-        _state.value = CreateAccountUiState.LOADING
-        when(val result = repository.createAccount(email, nickname, password)) {
+    private fun checkValidPassword(password: String) {
+        if (password.length < 6) {
+            _state.value = state.value.copy(
+                password = state.value.password.copy(
+                    isError = true
+                ),
+                isError = true,
+                errorMessage = R.string.password_incorrect
+            )
+        } else {
+            _state.value = state.value.copy(
+                password = state.value.password.copy(
+                    isError = false
+                )
+            )
+        }
+    }
+
+    fun updateStateDialog() = viewModelScope.launch {
+        _state.value = state.value.copy(isOpenHaveAccountDialog = false)
+    }
+
+    private fun createAccount() = viewModelScope.launch {
+        _state.value = state.value.copy(progress = true)
+        when (val result = repository.createAccount(
+            _state.value.email.text,
+            _state.value.nickname.text,
+            _state.value.password.text
+        )) {
             is NetworkResult.Error -> {
                 errorHandler(result.code)
             }
+
             is NetworkResult.Success -> {
-                _state.value = CreateAccountUiState.SUCCESS(result.data)
+                _state.value = state.value.copy(
+                    progress = false,
+                    isError = false,
+                    successCreateAccount = true,
+                    token = result.data
+                )
             }
         }
     }
 
     private fun errorHandler(errorCode: Int) {
-        when(errorCode) {
-            105 -> _state.value = CreateAccountUiState.ERROR(R.string.check_your_internet_connection)
+        when (errorCode) {
+            105 -> _state.value = state.value.copy(
+                progress = false,
+                isError = true,
+                errorMessage = R.string.check_your_internet_connection,
+                successCreateAccount = false
+            )
+
             400 -> {
-                _state.value = CreateAccountUiState.HAVE_ACCOUNT
-                isOpenHaveAccountDialog = true
+                _state.value = state.value.copy(
+                    progress = false,
+                    isError = false,
+                    isOpenHaveAccountDialog = true,
+                    successCreateAccount = false
+                )
             }
-            else -> _state.value = CreateAccountUiState.ERROR(R.string.unknown_error)
+
+            else -> _state.value = state.value.copy(
+                progress = false,
+                isError = true,
+                errorMessage = R.string.unknown_error,
+                successCreateAccount = false
+            )
         }
     }
 }
