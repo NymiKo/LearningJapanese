@@ -161,14 +161,14 @@ private fun LessonsListComponent(
         lessonsList.forEach { lessonWithCategory ->
             stickyHeader {
                 Text(
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background),
                     text = stringResource(id = R.string.chapter, lessonWithCategory.chapter),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(bottom = 8.dp),
                     text = stringResource(
