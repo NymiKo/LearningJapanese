@@ -1,6 +1,7 @@
 package com.example.peil.ui.screens.learning_lesson.data.model
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.google.gson.annotations.SerializedName
 
 data class SubLessonResponseModel(
@@ -30,7 +31,7 @@ data class SubLessonResponseModel(
         correctOption = correctOption.split(",").toTypedArray(),
         sentence = sentence.split(",").toTypedArray(),
         remark = remark,
-        type = type,
+        type = SubLessonsType.entries.find { it.type == type } ?: SubLessonsType.SubLessonNewInfo,
         audio = audio
     )
 }

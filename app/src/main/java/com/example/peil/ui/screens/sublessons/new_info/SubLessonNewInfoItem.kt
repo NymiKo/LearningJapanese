@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.peil.R
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.baseBlue
@@ -106,7 +107,7 @@ private fun ButtonNextSubLesson(
 @Composable
 private fun SubLessonNewInfoScreenPreview() {
     SubLessonNewInfoScreen(
-        SubLessonModel(0, completed = mutableStateOf(false), type = 0),
+        SubLessonModel(0, completed = mutableStateOf(false), type = SubLessonsType.SubLessonNewInfo),
         onCompleted = {}
     )
 }
