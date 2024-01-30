@@ -6,5 +6,6 @@ enum class SubLessonsType(val type: Int) {
     SubLessonTrueOrFalse(2),
     SubLessonFinishSentenceItem(3),
     SubLessonArrangeWordsItem(4),
-    SubLessonHintItem(5)
+    SubLessonHintItem(5),
+    SubLessonListenAndChooseItem(6)
 }
