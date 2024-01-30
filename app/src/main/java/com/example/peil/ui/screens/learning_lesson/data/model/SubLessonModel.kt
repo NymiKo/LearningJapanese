@@ -2,6 +2,7 @@ package com.example.peil.ui.screens.learning_lesson.data.model
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 
 data class SubLessonModel(
     val idSubLesson: Int,
@@ -14,7 +15,7 @@ data class SubLessonModel(
     val correctOption: Array<String> = arrayOf(""),
     val sentence: Array<String> = arrayOf(""),
     val remark: String = "",
-    val type: Int,
+    val type: SubLessonsType,
     val audio: String = ""
 ) {
     override fun equals(other: Any?): Boolean {

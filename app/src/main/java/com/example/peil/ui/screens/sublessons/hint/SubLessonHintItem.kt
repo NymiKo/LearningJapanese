@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.HintYellow
@@ -103,5 +104,5 @@ private fun InfoBlock(elementsList: List<String>) {
 @Preview
 @Composable
 private fun SubLessonHintItemPreview() {
-    SubLessonHintItem(SubLessonModel(idSubLesson = 0, type = 0), onCompleted = {})
+    SubLessonHintItem(SubLessonModel(idSubLesson = 0, type = SubLessonsType.SubLessonHintItem), onCompleted = {})
 }

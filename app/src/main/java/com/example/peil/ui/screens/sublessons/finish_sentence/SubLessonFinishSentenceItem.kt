@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,10 +45,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
@@ -116,6 +120,7 @@ private fun SentenceSubLesson(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun OptionButtons(
     modifier: Modifier = Modifier,
@@ -128,67 +133,66 @@ private fun OptionButtons(
     var countAnswer by remember { mutableIntStateOf(0) }
     var enabledButton by remember { mutableStateOf(true) }
 
-    Row(
+    FlowRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        content = {
-            variants.forEachIndexed { index, text ->
-                var checkSuccess by remember { mutableStateOf(false) }
-                var checkError by remember { mutableStateOf(false) }
-                var activeButton by remember { mutableStateOf(false) }
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        variants.forEachIndexed { index, text ->
+            var checkSuccess by remember { mutableStateOf(false) }
+            var checkError by remember { mutableStateOf(false) }
+            var activeButton by remember { mutableStateOf(false) }
 
-                Button(
-                    onClick = {
-                        activeButton = !activeButton
-                        if (correctOption.contains(text) && activeButton) {
-                            checkSuccess = true
-                            addAnswer(index, true)
-                        } else if (!correctOption.contains(text) && activeButton) {
-                            checkError = true
-                            addAnswer(index, false)
-                        }
-                        if (activeButton) countAnswer += 1
-                        else {
-                            countAnswer -= 1
-                            checkSuccess = false
-                            checkError = false
-                            removeAnswer(index)
-                        }
-                        if (countAnswer == 2) {
-                            enabledButton = false
-                        }
+            Button(
+                onClick = {
+                    activeButton = !activeButton
+                    if (correctOption.contains(text) && activeButton) {
+                        checkSuccess = true
+                        addAnswer(index, true)
+                    } else if (!correctOption.contains(text) && activeButton) {
+                        checkError = true
+                        addAnswer(index, false)
+                    }
+                    if (activeButton) countAnswer += 1
+                    else {
+                        countAnswer -= 1
+                        checkSuccess = false
+                        checkError = false
+                        removeAnswer(index)
+                    }
+                    if (countAnswer == 2) {
+                        enabledButton = false
+                    }
+                },
+                shape = RoundedCornerShape(10.dp),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 2.dp
+                ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = when {
+                        checkSuccess && countAnswer == 2 -> correctlyOptionGreen
+                        checkError && countAnswer == 2 -> Color.Red
+                        else -> MaterialTheme.colorScheme.primary
                     },
-                    shape = RoundedCornerShape(10.dp),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 2.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = when {
-                            checkSuccess && countAnswer == 2 -> correctlyOptionGreen
-                            checkError && countAnswer == 2 -> Color.Red
-                            else -> MaterialTheme.colorScheme.primary
-                        },
-                        disabledContainerColor = when {
-                            checkSuccess && countAnswer == 2 -> correctlyOptionGreen
-                            checkError && countAnswer == 2 -> Color.Red
-                            else -> GreyLightBD
-                        }
-                    ),
-                    enabled = enabledButton,
-                    border = if (activeButton) BorderStroke(1.dp, baseBlue) else null
-                ) {
-                    Text(
-                        text = text,
-                        color = MaterialTheme.colorScheme.secondary,
-                        fontSize = 14.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                    disabledContainerColor = when {
+                        checkSuccess && countAnswer == 2 -> correctlyOptionGreen
+                        checkError && countAnswer == 2 -> Color.Red
+                        else -> GreyLightBD
+                    }
+                ),
+                enabled = enabledButton,
+                border = if (activeButton) BorderStroke(1.dp, baseBlue) else null
+            ) {
+                Text(
+                    text = text,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                )
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -224,11 +228,14 @@ private fun BottomCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
+                    modifier = Modifier.weight(1F),
                     text = remark,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.secondary,
                     fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
                 )
                 if (audio.isNotEmpty()) {
                     IconVolume(audio = audio)
@@ -280,7 +287,7 @@ private fun IconWithText(success: Boolean) {
 @Composable
 private fun SubLessonFinishSentenceItemPreview() {
     SubLessonFinishSentenceItem(
-        subLessonItem = SubLessonModel(idSubLesson = 0, type = 0),
+        subLessonItem = SubLessonModel(idSubLesson = 0, type = SubLessonsType.SubLessonFinishSentenceItem),
         onCompleted = {}
     )
 }
