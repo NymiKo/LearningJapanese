@@ -45,7 +45,10 @@ fun LearningLessonScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        TopAppBar(progress = viewModel.progress, showCancelLessonDialog = showCancelLessonDialog::invoke)
+        TopAppBar(
+            progress = viewModel.progress,
+            showCancelLessonDialog = showCancelLessonDialog::invoke
+        )
         PagerLesson(
             subLessonsList = viewModel.subLessons,
             idLesson = idLesson,
@@ -76,7 +79,9 @@ private fun TopAppBar(progress: Float, showCancelLessonDialog: () -> Unit) {
         },
         navigationIcon = {
             Icon(
-                modifier = Modifier.padding(start = 8.dp).clickable { showCancelLessonDialog() },
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .clickable { showCancelLessonDialog() },
                 imageVector = Icons.Default.Close,
                 contentDescription = "",
                 tint = baseBlue
@@ -104,59 +109,65 @@ private fun PagerLesson(
         itemsIndexed(subLessonsList) { index, subLesson ->
             Box(modifier = Modifier.fillParentMaxSize()) {
                 when (subLesson.type) {
-                    0 -> SubLessonNewInfoScreen(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
+                    SubLessonsType.SubLessonNewInfo -> SubLessonNewInfoScreen(
+                        subLesson,
+                        onCompleted = { completed ->
+                            onCompleted(subLessonsList[index], completed)
+                            if (index != subLessonsList.lastIndex) {
+                                coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                            } else {
+                                onLessonCompletionScreen(idLesson)
+                            }
                         }
-                    })
+                    )
 
-                    1, 2 -> SubLessonChoosingOptionItem(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
+                    SubLessonsType.SubLessonChoosingOption, SubLessonsType.SubLessonTrueOrFalse -> SubLessonChoosingOptionItem(
+                        subLesson,
+                        onCompleted = { completed ->
+                            onCompleted(subLessonsList[index], completed)
+                            if (index != subLessonsList.lastIndex) {
+                                coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                            } else {
+                                onLessonCompletionScreen(idLesson)
+                            }
                         }
-                    })
+                    )
 
-                    3 -> SubLessonFinishSentenceItem(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
+                    SubLessonsType.SubLessonFinishSentenceItem -> SubLessonFinishSentenceItem(
+                        subLesson,
+                        onCompleted = { completed ->
+                            onCompleted(subLessonsList[index], completed)
+                            if (index != subLessonsList.lastIndex) {
+                                coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                            } else {
+                                onLessonCompletionScreen(idLesson)
+                            }
                         }
-                    })
+                    )
 
-                    4 -> SubLessonArrangeWordsItem(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
+                    SubLessonsType.SubLessonArrangeWordsItem -> SubLessonArrangeWordsItem(
+                        subLesson,
+                        onCompleted = { completed ->
+                            onCompleted(subLessonsList[index], completed)
+                            if (index != subLessonsList.lastIndex) {
+                                coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                            } else {
+                                onLessonCompletionScreen(idLesson)
+                            }
                         }
-                    })
+                    )
 
-                    5 -> SubLessonHintItem(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
+                    SubLessonsType.SubLessonHintItem -> SubLessonHintItem(
+                        subLesson,
+                        onCompleted = { completed ->
+                            onCompleted(subLessonsList[index], completed)
+                            if (index != subLessonsList.lastIndex) {
+                                coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
+                            } else {
+                                onLessonCompletionScreen(idLesson)
+                            }
                         }
-                    })
-
-                    else -> SubLessonNewInfoScreen(subLesson, onCompleted = { completed ->
-                        onCompleted(subLessonsList[index], completed)
-                        if (index != subLessonsList.lastIndex) {
-                            coroutineScope.launch { listState.animateScrollToItem(index.plus(1)) }
-                        } else {
-                            onLessonCompletionScreen(idLesson)
-                        }
-                    })
+                    )
                 }
             }
         }
