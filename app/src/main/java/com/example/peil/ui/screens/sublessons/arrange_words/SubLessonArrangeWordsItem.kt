@@ -7,6 +7,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +48,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.theme.ActiveButtonGrey
 import com.example.peil.ui.theme.GreyLight
@@ -104,6 +107,7 @@ fun SubLessonArrangeWordsItem(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FrameForWords(
     modifier: Modifier = Modifier,
@@ -112,7 +116,7 @@ private fun FrameForWords(
     correctOptions: Array<String>,
     removeWord: (word: String) -> Unit
 ) {
-    Row(
+    FlowRow(
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
@@ -161,6 +165,7 @@ private fun FrameForWords(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun OptionButtons(
     modifier: Modifier = Modifier,
@@ -168,43 +173,42 @@ private fun OptionButtons(
     lastRemovedWord: MutableState<String>,
     addWord: (word: String) -> Unit
 ) {
-    Row(
+    FlowRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        content = {
-            variants.forEachIndexed { _, word ->
-                var activeButton by remember { mutableStateOf(false) }
-                if (word == lastRemovedWord.value) {
-                    activeButton = false
-                    lastRemovedWord.value = ""
-                }
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        variants.forEachIndexed { _, word ->
+            var activeButton by remember { mutableStateOf(false) }
+            if (word == lastRemovedWord.value) {
+                activeButton = false
+                lastRemovedWord.value = ""
+            }
 
-                Button(
-                    onClick = {
-                        activeButton = true
-                        addWord(word)
-                    },
-                    shape = RoundedCornerShape(10.dp),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = if (activeButton) 0.dp else 2.dp
-                    ),
-                    border = if (activeButton) BorderStroke(1.dp, GreyLight) else null,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (activeButton) ActiveButtonGrey else MaterialTheme.colorScheme.primary
-                    )
-                ) {
-                    Text(
-                        text = word,
-                        color = if (activeButton) ActiveButtonGrey else MaterialTheme.colorScheme.secondary,
-                        fontSize = 14.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
+            Button(
+                onClick = {
+                    activeButton = true
+                    addWord(word)
+                },
+                shape = RoundedCornerShape(10.dp),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = if (activeButton) 0.dp else 2.dp
+                ),
+                border = if (activeButton) BorderStroke(1.dp, GreyLight) else null,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (activeButton) ActiveButtonGrey else MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Text(
+                    text = word,
+                    color = if (activeButton) ActiveButtonGrey else MaterialTheme.colorScheme.secondary,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                )
             }
         }
-    )
+    }
 }
 
 @Composable
@@ -287,5 +291,5 @@ private fun IconWithText(success: Boolean) {
 @Preview
 @Composable
 private fun SubLessonArrangeWordsItemPreview() {
-    SubLessonArrangeWordsItem(SubLessonModel(idSubLesson = 0, type = 0), onCompleted = {})
+    SubLessonArrangeWordsItem(SubLessonModel(idSubLesson = 0, type = SubLessonsType.SubLessonArrangeWordsItem), onCompleted = {})
 }

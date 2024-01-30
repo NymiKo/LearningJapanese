@@ -41,10 +41,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.peil.R
+import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.example.peil.ui.screens.learning_lesson.data.model.SubLessonModel
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.theme.GreyLightBD
@@ -73,7 +75,7 @@ fun SubLessonChoosingOptionItem(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             headerText = subLessonItem.header
         )
-        if (subLessonItem.type == 1) {
+        if (subLessonItem.type == SubLessonsType.SubLessonChoosingOption) {
             NewWordLessonField(text = textSelectedOption, success = success, error = error)
         } else {
             InfoText(infoText = subLessonItem.newWord)
@@ -139,7 +141,7 @@ private fun OptionButtons(
     modifier: Modifier = Modifier,
     variants: Array<String>,
     correctOption: Array<String>,
-    type: Int,
+    type: SubLessonsType,
     onTextChange: (text: String) -> Unit,
     onSuccess: (success: Boolean) -> Unit,
     onError: (error: Boolean) -> Unit
@@ -158,7 +160,7 @@ private fun OptionButtons(
                 var checkError by remember { mutableStateOf(false) }
 
                 Button(
-                    modifier = if (type == 1) Modifier else Modifier
+                    modifier = if (type == SubLessonsType.SubLessonChoosingOption) Modifier else Modifier
                         .fillMaxWidth()
                         .weight(1F),
                     onClick = {
@@ -199,7 +201,7 @@ private fun BottomCard(
     success: Boolean,
     correctOption: Array<String>,
     translationWord: String,
-    type: Int,
+    type: SubLessonsType,
     remark: String,
     audio: String,
     onCompleted: () -> Unit
@@ -220,7 +222,7 @@ private fun BottomCard(
         ) {
             IconWithText(success = success)
             Text(
-                text = stringResource(id = if (type == 1) R.string.answer else R.string.remark),
+                text = stringResource(id = if (type == SubLessonsType.SubLessonChoosingOption) R.string.answer else R.string.remark),
                 fontSize = 12.sp,
                 color = GreyLightBD
             )
@@ -229,11 +231,14 @@ private fun BottomCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (type == 1) correctOption[0] else remark,
+                    modifier = Modifier.weight(1F),
+                    text = if (type == SubLessonsType.SubLessonChoosingOption) correctOption[0] else remark,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.secondary,
-                    fontStyle = if (type == 1) FontStyle.Italic else FontStyle.Normal,
-                    fontWeight = if (type == 1) FontWeight.Bold else FontWeight.Normal
+                    fontStyle = if (type == SubLessonsType.SubLessonChoosingOption) FontStyle.Italic else FontStyle.Normal,
+                    fontWeight = if (type == SubLessonsType.SubLessonChoosingOption) FontWeight.Bold else FontWeight.Normal,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
                 )
                 if (audio.isNotEmpty()) {
                     IconVolume(audio = audio)
@@ -285,7 +290,7 @@ private fun IconWithText(success: Boolean) {
 @Composable
 private fun SubLessonNewInfoScreenPreview() {
     SubLessonChoosingOptionItem(
-        SubLessonModel(1, completed = mutableStateOf(false), type = 1),
+        SubLessonModel(1, completed = mutableStateOf(false), type = SubLessonsType.SubLessonChoosingOption),
         onCompleted = {}
     )
 }
