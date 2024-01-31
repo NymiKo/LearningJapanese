@@ -1,5 +1,9 @@
 package com.example.peil.ui.screens.login.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -10,7 +14,15 @@ import com.example.peil.ui.screens.login.LoginViewModel
 const val loginScreenRoute = "login_screen"
 
 fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onBack: () -> Unit) {
-    composable(loginScreenRoute) {
+    composable(
+        route = loginScreenRoute,
+        enterTransition = {
+            scaleIn(animationSpec = tween(300))
+        },
+        popExitTransition = {
+            scaleOut(animationSpec = tween(300))
+        }
+    ) {
         val viewModel: LoginViewModel = hiltViewModel()
         LoginScreen(onLessonsListScreen::invoke, onBack::invoke, viewModel)
     }
