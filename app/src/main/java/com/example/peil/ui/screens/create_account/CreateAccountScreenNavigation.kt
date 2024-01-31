@@ -1,5 +1,8 @@
 package com.example.peil.ui.screens.create_account
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,11 +20,18 @@ fun NavGraphBuilder.createAccountScreen(onLessonsListScreen: () -> Unit, showHav
         route = createAcountScreenRoute,
         arguments = listOf(
             navArgument(emailKeyArg) { type = NavType.StringType }
-        )
+        ),
+        enterTransition = {
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(300))
+        },
+        popExitTransition = {
+            slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
+        }
     ) {backStackEntry ->
         val email = backStackEntry.arguments?.getString(emailKeyArg)
 
         val viewModel = hiltViewModel<CreateAccountViewModel>()
+        viewModel.createEvent(CreateAccountEvent.EnteringEmail(email ?: ""))
         CreateAccountScreen(
             onLessonsListScreen = onLessonsListScreen::invoke,
             showHaveAccountDialog = showHaveAccountDialog,
