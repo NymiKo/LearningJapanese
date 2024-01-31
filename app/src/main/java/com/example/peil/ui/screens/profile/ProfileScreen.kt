@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,14 +53,14 @@ fun ProfileScreen(
     onSettingsScreen: () -> Unit
 ) {
     viewModel.getProfile()
-    val profile = viewModel.profile.observeAsState()
+    val profile by viewModel.profile.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBarProfile(onSettingsScreen = onSettingsScreen::invoke)
         AvatarAndNickname(
-            avatar = profile.value?.avatar ?: "",
-            nickname = profile.value?.nickname ?: ""
+            avatar = profile?.avatar ?: "",
+            nickname = profile?.nickname ?: ""
         )
         Row(
             modifier = Modifier.padding(16.dp),
@@ -96,14 +97,14 @@ fun ProfileScreen(
         ) {
             CustomProgress(
                 modifier = Modifier.size(150.dp),
-                progress = profile.value?.progress ?: 0.0F,
+                progress = profile?.progress ?: 0.0F,
                 color = baseBlue,
                 strokeWidth = 6.dp,
                 trackColor = GreyLightBD
             )
             Text(
                 modifier = Modifier.padding(bottom = 24.dp),
-                text = "${((profile.value?.progress ?: 0.0F) * 100).toInt()}%",
+                text = "${((profile?.progress ?: 0.0F) * 100).toInt()}%",
                 fontWeight = FontWeight.Bold,
                 fontSize = 40.sp,
                 color = MaterialTheme.colorScheme.secondary

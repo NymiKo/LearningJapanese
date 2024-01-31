@@ -1,5 +1,10 @@
 package com.example.peil.ui.screens.lessons_list
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,10 +39,17 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -104,12 +116,27 @@ private fun NavigationIconTopAppBar() {
     )
 }
 
+@SuppressLint("RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float) {
+
+    var progress by remember { mutableFloatStateOf(0F) }
+    val progressAnimation by animateFloatAsState(
+        targetValue = progressValue,
+        animationSpec = tween(durationMillis = 1500, easing = FastOutSlowInEasing),
+        label = ""
+    )
+
+    LaunchedEffect(progressValue) {
+        progress = progressValue
+    }
+
     Slider(
-        modifier = modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-        value = progressValue,
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        value = progressAnimation,
         onValueChange = {},
         valueRange = 0.0F..1.0F,
         track = {
@@ -137,7 +164,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
                 Text(
                     modifier = Modifier.fillMaxSize(),
                     textAlign = TextAlign.Center,
-                    text = "${(progressValue * 100).toInt()}%",
+                    text = "${(progressAnimation * 100).toInt()}%",
                     fontSize = 10.sp,
                     color = White,
                     fontWeight = FontWeight.Bold
@@ -161,14 +188,16 @@ private fun LessonsListComponent(
         lessonsList.forEach { lessonWithCategory ->
             stickyHeader {
                 Text(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background),
                     text = stringResource(id = R.string.chapter, lessonWithCategory.chapter),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
                         .padding(bottom = 8.dp),
                     text = stringResource(
@@ -265,7 +294,11 @@ fun ImageLessonAndDivider(
 
             if (completed) {
                 Icon(
-                    modifier = Modifier.size(20.dp).border(1.5.dp, MaterialTheme.colorScheme.background, CircleShape).background(Green, CircleShape).padding(2.dp),
+                    modifier = Modifier
+                        .size(20.dp)
+                        .border(1.5.dp, MaterialTheme.colorScheme.background, CircleShape)
+                        .background(Green, CircleShape)
+                        .padding(2.dp),
                     imageVector = Icons.Default.Check,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.background

@@ -1,5 +1,7 @@
 package com.example.peil.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.ui.Modifier
@@ -21,7 +23,11 @@ fun BottomNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    NavHost(modifier = modifier, navController = navController, route = bottomNavGraphRoute, startDestination = lessonsListScreenRoute) {
+    NavHost(
+        modifier = modifier, navController = navController,
+        route = bottomNavGraphRoute,
+        startDestination = lessonsListScreenRoute
+    ) {
         lessonsListScreen(
             onLearningLesson = { idLesson -> navController.navigateToLearningLessonScreen(idLesson) }
         )
