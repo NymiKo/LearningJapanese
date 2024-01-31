@@ -69,6 +69,7 @@ private fun NewWordLesson(modifier: Modifier = Modifier, newWordText: String, au
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
+            modifier = Modifier.weight(1F),
             text = newWordText,
             color = MaterialTheme.colorScheme.secondary,
             fontSize = 20.sp

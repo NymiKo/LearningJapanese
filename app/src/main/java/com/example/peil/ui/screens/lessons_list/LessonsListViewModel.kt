@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.lessons_list
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -21,18 +20,22 @@ class LessonsListViewModel @Inject constructor(
 
     var lessonsList by mutableStateOf(listOf<LessonCategory>())
     var progress by mutableFloatStateOf(0.0F)
+    var loading by mutableStateOf(true)
 
     init {
         getLessonsList()
     }
 
     private fun getLessonsList() = viewModelScope.launch {
+        loading = true
         when (val result = repository.getLessonsList()) {
             is NetworkResult.Success -> {
                 lessonsList = result.data.map { LessonCategory(it.key, it.value) }
-                val completedSubLessons = result.data.values.sumOf { list -> list.filter { it.completed }.size }
+                val completedSubLessons =
+                    result.data.values.sumOf { list -> list.filter { it.completed }.size }
                 val listSize = result.data.values.sumOf { it.size }
                 progress = completedSubLessons.toFloat() / listSize.toFloat()
+                loading = false
             }
 
             is NetworkResult.Error -> {

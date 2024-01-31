@@ -1,10 +1,15 @@
 package com.example.peil.ui.screens.lessons_list
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +31,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,14 +46,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,7 +70,6 @@ import com.example.peil.ui.theme.Green
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
-import com.example.peil.ui.theme.correctlyOptionGreen
 
 @Composable
 fun LessonsListScreen(
@@ -79,10 +80,29 @@ fun LessonsListScreen(
     Column(modifier) {
         TopAppBar()
         LearningProgress(progressValue = viewModel.progress)
-        LessonsListComponent(
-            lessonsList = viewModel.lessonsList,
-            onLearningLesson = onLearningLesson::invoke
-        )
+        AnimatedContent(
+            targetState = viewModel.loading,
+            transitionSpec = {
+                slideInVertically(animationSpec = tween(2000)) { 100 } +
+                fadeIn(animationSpec = tween(2000)) togetherWith fadeOut(
+                    animationSpec = tween(700)
+                )
+            },
+            label = ""
+        ) { targetState ->
+            when (targetState) {
+                true -> {
+                    ShimmerComponent()
+                }
+
+                false -> {
+                    LessonsListComponent(
+                        onLearningLesson = onLearningLesson::invoke,
+                        lessonsList = viewModel.lessonsList
+                    )
+                }
+            }
+        }
     }
 }
 
