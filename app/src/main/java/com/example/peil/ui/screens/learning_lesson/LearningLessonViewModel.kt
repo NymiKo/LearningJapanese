@@ -21,10 +21,12 @@ class LearningLessonViewModel @Inject constructor(
 
     private val _subLessons = listOf<SubLessonModel>().toMutableStateList()
     val subLessons: List<SubLessonModel> get() = _subLessons
+    var loading by mutableStateOf(true)
 
     var progress by mutableFloatStateOf(0.0F)
 
     fun getSubLessonsList(idLesson: Int) = viewModelScope.launch {
+        loading = true
         when(val result = repository.getSubLessons(idLesson)) {
             is NetworkResult.Error -> {
 
@@ -32,6 +34,7 @@ class LearningLessonViewModel @Inject constructor(
             is NetworkResult.Success -> {
                 _subLessons.clear()
                 _subLessons.addAll(result.data)
+                loading = false
             }
         }
     }
