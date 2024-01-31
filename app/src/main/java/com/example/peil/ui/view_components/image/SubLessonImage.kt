@@ -14,12 +14,14 @@ import com.example.peil.ui.theme.GreyLightBD
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun SubLessonImage(modifier: Modifier = Modifier, subLessonImageUrl: String) {
-    GlideImage(
-        modifier = Modifier
-            .padding(top = 8.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .border(width = 1.dp, color = GreyLightBD, shape = RoundedCornerShape(10.dp)),
-        model = subLessonImageUrl,
-        contentDescription = null
-    )
+    if (subLessonImageUrl.isNotEmpty()) {
+        GlideImage(
+            modifier = modifier
+                .padding(top = 8.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .border(width = 1.dp, color = GreyLightBD, shape = RoundedCornerShape(10.dp)),
+            model = subLessonImageUrl,
+            contentDescription = null
+        )
+    }
 }

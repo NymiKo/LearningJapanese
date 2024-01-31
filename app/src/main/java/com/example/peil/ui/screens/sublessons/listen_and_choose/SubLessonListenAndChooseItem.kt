@@ -55,6 +55,7 @@ import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.AudioPlayer
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.icon.IconVolume
+import com.example.peil.ui.view_components.image.SubLessonImage
 import com.example.peil.ui.view_components.text.HeaderLessonText
 
 @Composable
@@ -74,6 +75,8 @@ fun SubLessonListenAndChooseItem(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             headerText = subLessonItem.header
         )
+
+        SubLessonImage(modifier = Modifier.padding(horizontal = 16.dp), subLessonImageUrl = subLessonItem.lessonImage)
 
         AudioPlayer(audio = subLessonItem.audio)
 

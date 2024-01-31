@@ -57,6 +57,7 @@ import com.example.peil.ui.theme.RedLight
 import com.example.peil.ui.theme.backgroundIconGreenLight
 import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.LoginButton
+import com.example.peil.ui.view_components.image.SubLessonImage
 import com.example.peil.ui.view_components.text.HeaderLessonText
 
 @Composable

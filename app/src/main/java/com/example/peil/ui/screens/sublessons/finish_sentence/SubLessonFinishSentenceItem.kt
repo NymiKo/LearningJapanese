@@ -60,6 +60,7 @@ import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.theme.correctlyOptionGreen
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.icon.IconVolume
+import com.example.peil.ui.view_components.image.SubLessonImage
 import com.example.peil.ui.view_components.text.HeaderLessonText
 
 @Composable
@@ -73,6 +74,7 @@ fun SubLessonFinishSentenceItem(
         modifier = Modifier.fillMaxSize()
     ) {
         HeaderLessonText(modifier = Modifier.padding(16.dp), headerText = subLessonItem.header)
+        SubLessonImage(modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 8.dp), subLessonImageUrl = subLessonItem.lessonImage)
         SentenceSubLesson(
             sentence = subLessonItem.sentence
         )
