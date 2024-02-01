@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.lessons_list
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -9,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepository
 import com.example.peil.ui.screens.lessons_list.data.model.LessonCategory
+import com.example.peil.ui.screens.lessons_list.state.LessonListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,28 +20,31 @@ class LessonsListViewModel @Inject constructor(
     private val repository: LessonsListRepository
 ) : ViewModel() {
 
-    var lessonsList by mutableStateOf(listOf<LessonCategory>())
-    var progress by mutableFloatStateOf(0.0F)
-    var loading by mutableStateOf(true)
+    private val _state = mutableStateOf(LessonListScreenState(isError = false))
+    val state: State<LessonListScreenState> = _state
 
     init {
         getLessonsList()
     }
 
     private fun getLessonsList() = viewModelScope.launch {
-        loading = true
+        _state.value = state.value.copy(progressLoading = true)
         when (val result = repository.getLessonsList()) {
             is NetworkResult.Success -> {
-                lessonsList = result.data.map { LessonCategory(it.key, it.value) }
                 val completedSubLessons =
                     result.data.values.sumOf { list -> list.filter { it.completed }.size }
                 val listSize = result.data.values.sumOf { it.size }
-                progress = completedSubLessons.toFloat() / listSize.toFloat()
-                loading = false
+                val progress = completedSubLessons.toFloat() / listSize.toFloat()
+
+                _state.value = state.value.copy(
+                    progressLoading = false,
+                    lessonsList = result.data.map { LessonCategory(it.key, it.value) },
+                    progressStudy = progress
+                )
             }
 
             is NetworkResult.Error -> {
-
+                _state.value = state.value.copy(isError = true, progressLoading = false)
             }
         }
     }

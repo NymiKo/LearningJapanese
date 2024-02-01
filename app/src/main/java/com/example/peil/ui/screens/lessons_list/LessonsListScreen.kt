@@ -78,13 +78,15 @@ fun LessonsListScreen(
     viewModel: LessonsListViewModel
 ) {
     Column(modifier) {
+        val state = viewModel.state.value
+
         TopAppBar()
-        LearningProgress(progressValue = viewModel.progress)
+        LearningProgress(progressValue = state.progressStudy)
         AnimatedContent(
-            targetState = viewModel.loading,
+            targetState = state.progressLoading,
             transitionSpec = {
-                slideInVertically(animationSpec = tween(2000)) { 100 } +
-                fadeIn(animationSpec = tween(2000)) togetherWith fadeOut(
+                slideInVertically(animationSpec = tween(1200)) { 100 } +
+                fadeIn(animationSpec = tween(1200)) togetherWith fadeOut(
                     animationSpec = tween(700)
                 )
             },
@@ -98,7 +100,7 @@ fun LessonsListScreen(
                 false -> {
                     LessonsListComponent(
                         onLearningLesson = onLearningLesson::invoke,
-                        lessonsList = viewModel.lessonsList
+                        lessonsList = state.lessonsList
                     )
                 }
             }

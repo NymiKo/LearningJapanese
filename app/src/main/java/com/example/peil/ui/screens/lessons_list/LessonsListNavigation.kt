@@ -29,16 +29,10 @@ fun NavGraphBuilder.lessonsListScreen(
             }
         },
         exitTransition = {
-            when(initialState.destination.route) {
-                profileScreenRoute -> {
-                    slideOutHorizontally(
-                        targetOffsetX = { -it },
-                        animationSpec = tween(300)
-                    )
-                }
-
-                else -> null
-            }
+            slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = tween(300)
+            )
         }
     ) {
         val viewModel: LessonsListViewModel = hiltViewModel()
