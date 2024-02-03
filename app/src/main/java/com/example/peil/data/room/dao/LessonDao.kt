@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.peil.data.room.RoomContract
 import com.example.peil.data.room.entities.LessonEntity
 
@@ -17,4 +18,7 @@ interface LessonDao {
 
     @Query("SELECT * FROM ${RoomContract.tableLessons}")
     suspend fun getLessonsList(): List<LessonEntity>
+
+    @Query("UPDATE ${RoomContract.tableLessons} SET completed = :completed WHERE idLesson = :idLesson")
+    suspend fun updateLesson(idLesson: Int, completed: Boolean)
 }
