@@ -45,7 +45,6 @@ class ImageLoaderImpl(
                 resource.compress(compressFormat, 100, outputStream)
             }
 
-            Log.e("PATH", file.absolutePath)
             file.absolutePath
         } catch (e: Exception) {
             null
