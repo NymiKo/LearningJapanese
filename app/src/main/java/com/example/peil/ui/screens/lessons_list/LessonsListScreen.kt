@@ -38,6 +38,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -100,7 +101,8 @@ fun LessonsListScreen(
                 false -> {
                     LessonsListComponent(
                         onLearningLesson = onLearningLesson::invoke,
-                        lessonsList = state.lessonsList
+                        lessonsList = state.lessonsList,
+                        downloadLesson = viewModel::saveLesson
                     )
                 }
             }
@@ -201,6 +203,7 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
 private fun LessonsListComponent(
     modifier: Modifier = Modifier,
     onLearningLesson: (idLesson: Int) -> Unit,
+    downloadLesson: (lesson: LessonModel) -> Unit,
     lessonsList: List<LessonCategory>
 ) {
     LazyColumn(
@@ -235,7 +238,8 @@ private fun LessonsListComponent(
                 LessonItem(
                     lesson = lesson,
                     lastItem = index == lessonWithCategory.lessonsList.lastIndex,
-                    onLearningLesson = onLearningLesson::invoke
+                    onLearningLesson = onLearningLesson::invoke,
+                    downloadLesson = downloadLesson::invoke
                 )
             }
         }
@@ -247,6 +251,7 @@ private fun LessonsListComponent(
 private fun LessonItem(
     modifier: Modifier = Modifier,
     onLearningLesson: (idLesson: Int) -> Unit,
+    downloadLesson: (lesson: LessonModel) -> Unit,
     lesson: LessonModel,
     lastItem: Boolean
 ) {
@@ -274,12 +279,15 @@ private fun LessonItem(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Icon(
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.Default.CloudDownload,
-                contentDescription = stringResource(id = R.string.download_lesson),
-                tint = baseBlue
-            )
+            if (!lesson.isUploaded) {
+                IconButton(modifier = Modifier.size(20.dp), onClick = { downloadLesson(lesson) }) {
+                    Icon(
+                        imageVector = Icons.Default.CloudDownload,
+                        contentDescription = stringResource(id = R.string.download_lesson),
+                        tint = baseBlue
+                    )
+                }
+            }
         }
     }
 }

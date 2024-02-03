@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepository
 import com.example.peil.ui.screens.lessons_list.data.model.LessonCategory
+import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 import com.example.peil.ui.screens.lessons_list.state.LessonListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -47,5 +48,9 @@ class LessonsListViewModel @Inject constructor(
                 _state.value = state.value.copy(isError = true, progressLoading = false)
             }
         }
+    }
+
+    fun saveLesson(lesson: LessonModel) = viewModelScope.launch {
+        repository.insertLessonInLocalStorage(lesson)
     }
 }
