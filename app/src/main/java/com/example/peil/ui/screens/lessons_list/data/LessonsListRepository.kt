@@ -5,4 +5,5 @@ import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 
 interface LessonsListRepository {
     suspend fun getLessonsList(): NetworkResult<Map<Int, List<LessonModel>>>
+    suspend fun insertLessonInLocalStorage(lesson: LessonModel): Boolean
 }
