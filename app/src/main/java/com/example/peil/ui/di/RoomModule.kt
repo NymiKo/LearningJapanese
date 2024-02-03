@@ -22,4 +22,7 @@ object RoomModule {
 
     @Provides
     fun provideLessonDao(database: RoomDatabaseApp) = database.lessonDao()
+
+    @Provides
+    fun provideSubLessonDao(database: RoomDatabaseApp) = database.subLessonDao()
 }

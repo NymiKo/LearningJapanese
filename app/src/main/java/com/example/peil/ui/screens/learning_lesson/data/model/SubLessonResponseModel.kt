@@ -1,6 +1,7 @@
 package com.example.peil.ui.screens.learning_lesson.data.model
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.peil.data.room.entities.SubLessonEntity
 import com.example.peil.ui.screens.learning_lesson.SubLessonsType
 import com.google.gson.annotations.SerializedName
 
@@ -18,7 +19,8 @@ data class SubLessonResponseModel(
     val sentence: String,
     val remark: String,
     val type: Int,
-    val audio: String
+    val audio: String,
+    val idLesson: Int
 ) {
     fun toSubLessonModel() = SubLessonModel(
         idSubLesson = idSubLesson,
@@ -33,5 +35,20 @@ data class SubLessonResponseModel(
         remark = remark,
         type = SubLessonsType.entries.find { it.type == type } ?: SubLessonsType.SubLessonNewInfo,
         audio = audio
+    )
+
+    fun toSubLessonEntity() = SubLessonEntity(
+        idSubLesson = idSubLesson,
+        header = header,
+        lessonImage = lessonImage,
+        newWord = newWord,
+        translationWord = translationWord,
+        options = options,
+        correctOption = correctOption,
+        sentence = sentence,
+        remark = remark,
+        type = type,
+        audio = audio,
+        idLesson = idLesson
     )
 }

@@ -2,6 +2,8 @@ package com.example.peil.ui.di
 
 import android.content.Context
 import com.example.peil.data.AuthInterceptor
+import com.example.peil.data.audio_loader.AudioLoader
+import com.example.peil.data.audio_loader.AudioLoaderImpl
 import com.example.peil.data.image_loader.ImageLoader
 import com.example.peil.data.image_loader.ImageLoaderImpl
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameService
@@ -54,6 +56,9 @@ object NetworkModule {
 
     @Provides
     fun provideImageLoader(@ApplicationContext context: Context, ioDispatcher: CoroutineDispatcher): ImageLoader = ImageLoaderImpl(context, ioDispatcher)
+
+    @Provides
+    fun provideAudioLoader(@ApplicationContext context: Context, learningLessonService: LearningLessonService): AudioLoader = AudioLoaderImpl(context, learningLessonService)
 
     @Provides
     fun provideCreateAccountService(retrofit: Retrofit): CreateAccountService = retrofit.create(CreateAccountService::class.java)
