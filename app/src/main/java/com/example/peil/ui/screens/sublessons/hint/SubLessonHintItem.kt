@@ -59,7 +59,7 @@ fun SubLessonHintItem(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             text = subLessonItem.newWord,
             color = MaterialTheme.colorScheme.secondary,
-            fontSize = 13.sp
+            fontSize = 16.sp
         )
         InfoBlock(elementsList = subLessonItem.correctOption.toList())
         Spacer(modifier = Modifier.weight(1f))
@@ -93,7 +93,7 @@ private fun InfoBlock(elementsList: List<String>) {
                         .padding(16.dp),
                     textAlign = TextAlign.Center,
                     text = element,
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.secondary
                 )
             }

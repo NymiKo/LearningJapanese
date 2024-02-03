@@ -14,6 +14,6 @@ fun HeaderLessonText(modifier: Modifier = Modifier, headerText: String) {
         text = headerText,
         fontWeight = FontWeight.Bold,
         color = baseBlue,
-        fontSize = 14.sp
+        fontSize = 16.sp
     )
 }
