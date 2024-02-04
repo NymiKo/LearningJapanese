@@ -54,8 +54,9 @@ class LessonsListRepositoryImpl @Inject constructor(
 
     override suspend fun insertLessonInLocalStorage(lesson: LessonModel): Boolean =
         withContext(ioDispatcher) {
-            insertSubLessonInLocalStorage(lesson.idLesson)
             async {
+                insertSubLessonInLocalStorage(lesson.idLesson)
+
                 val lessonImagePath = imageLoader.downloadAndSaveImage(
                     lesson.image,
                     CHILD_LESSONS,
@@ -66,27 +67,35 @@ class LessonsListRepositoryImpl @Inject constructor(
             }.await() > 0
         }
 
-    override suspend fun insertSubLessonInLocalStorage(idLesson: Int): Unit = withContext(ioDispatcher) {
-        when (val result = handleApi { learningLessonService.getSubLesson(idLesson) }) {
-            is NetworkResult.Error -> {
+    override suspend fun insertSubLessonInLocalStorage(idLesson: Int): Unit =
+        withContext(ioDispatcher) {
+            when (val result = handleApi { learningLessonService.getSubLesson(idLesson) }) {
+                is NetworkResult.Error -> {
 
-            }
+                }
 
-            is NetworkResult.Success -> {
-                result.data.map {
-                    async {
-                        val subLessonImagePath = imageLoader.downloadAndSaveImage(
-                            it.lessonImage,
-                            CHILD_SUBLESSONS,
-                            "sublessons_${System.currentTimeMillis()}.webp"
-                        )
-                        val subLessonAudioPath = audioLoader.downloadAndSaveAudio(it.audio, "sublessons_${System.currentTimeMillis()}.mp3")
-                        subLessonDao.insertSubLesson(it.copy(lessonImage = subLessonImagePath, audio = subLessonAudioPath).toSubLessonEntity())
-                    }.await()
+                is NetworkResult.Success -> {
+                    result.data.map {
+                        async {
+                            val subLessonImagePath =
+                                if (it.lessonImage.isNotEmpty()) imageLoader.downloadAndSaveImage(it.lessonImage, CHILD_SUBLESSONS, "sublessons_${System.currentTimeMillis()}.webp")
+                                else it.lessonImage
+
+                            val subLessonAudioPath =
+                                if (it.audio.isNotEmpty()) audioLoader.downloadAndSaveAudio(it.audio, "sublessons_${System.currentTimeMillis()}.mp3")
+                                else it.audio
+
+                            subLessonDao.insertSubLesson(
+                                it.copy(
+                                    lessonImage = subLessonImagePath,
+                                    audio = subLessonAudioPath
+                                ).toSubLessonEntity()
+                            )
+                        }.await()
+                    }
                 }
             }
         }
-    }
 
 
     companion object {
