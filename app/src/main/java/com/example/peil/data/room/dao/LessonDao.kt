@@ -21,4 +21,13 @@ interface LessonDao {
 
     @Query("UPDATE ${RoomContract.tableLessons} SET completed = :completed WHERE idLesson = :idLesson")
     suspend fun updateLesson(idLesson: Int, completed: Boolean)
+
+    @Query("UPDATE ${RoomContract.tableLessons} SET isSynchronized = :isSynchronized WHERE idLesson = :idLesson")
+    suspend fun lessonSynchronized(idLesson: Int, isSynchronized: Boolean)
+
+    @Query("SELECT idLesson FROM ${RoomContract.tableLessons} WHERE isSynchronized = 0 AND completed = 1")
+    suspend fun getIdUnsychronizedLessonsList(): List<Int>
+
+    @Query("UPDATE ${RoomContract.tableLessons} SET isSynchronized = 1 WHERE idLesson IN (:lessons)")
+    suspend fun updateSynchronizedLessons(lessons: List<Int>)
 }
