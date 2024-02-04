@@ -6,6 +6,7 @@ import com.example.peil.data.audio_loader.AudioLoader
 import com.example.peil.data.audio_loader.AudioLoaderImpl
 import com.example.peil.data.image_loader.ImageLoader
 import com.example.peil.data.image_loader.ImageLoaderImpl
+import com.example.peil.main.data.MainService
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameService
 import com.example.peil.ui.screens.create_account.data.CreateAccountService
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
@@ -55,7 +56,7 @@ object NetworkModule {
         .build()
 
     @Provides
-    fun provideImageLoader(@ApplicationContext context: Context, ioDispatcher: CoroutineDispatcher): ImageLoader = ImageLoaderImpl(context, ioDispatcher)
+    fun provideImageLoader(@ApplicationContext context: Context): ImageLoader = ImageLoaderImpl(context)
 
     @Provides
     fun provideAudioLoader(@ApplicationContext context: Context, learningLessonService: LearningLessonService): AudioLoader = AudioLoaderImpl(context, learningLessonService)
@@ -83,4 +84,7 @@ object NetworkModule {
 
     @Provides
     fun provideSettingsService(retrofit: Retrofit): SettingsService = retrofit.create(SettingsService::class.java)
+
+    @Provides
+    fun provideMainService(retrofit: Retrofit): MainService = retrofit.create(MainService::class.java)
 }
