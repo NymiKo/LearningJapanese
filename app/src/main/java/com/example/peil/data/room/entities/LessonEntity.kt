@@ -14,7 +14,8 @@ data class LessonEntity(
     val header: String,
     val image: String,
     val chapter: Int,
-    val completed: Boolean = false
+    val completed: Boolean,
+    val isSynchronized: Boolean = false
 ) {
     companion object {
         fun toLessonEntity(lesson: LessonModel) = LessonEntity(
