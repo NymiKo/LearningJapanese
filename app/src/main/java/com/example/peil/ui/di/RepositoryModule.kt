@@ -1,5 +1,7 @@
 package com.example.peil.ui.di
 
+import com.example.peil.main.MainRepository
+import com.example.peil.main.MainRepositoryImpl
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameRepository
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameRepositoryImpl
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
@@ -57,4 +59,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
+
+    @Binds
+    @Singleton
+    fun bindMainRepository(repository: MainRepositoryImpl): MainRepository
 }
