@@ -6,5 +6,6 @@ data class LessonModel(
     val image: String,
     val chapter: Int,
     val completed: Boolean = false,
-    val isUploaded: Boolean = true
+    val isUploaded: Boolean = true,
+    val isDownloading: Boolean = false
 )

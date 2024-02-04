@@ -1,8 +1,8 @@
 package com.example.peil.ui.screens.lessons_list
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -210,6 +211,7 @@ private fun LessonsListComponent(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 24.dp)
     ) {
+        Log.e("LESSONS", lessonsList.toString())
         lessonsList.forEach { lessonWithCategory ->
             stickyHeader {
                 Text(
@@ -280,12 +282,16 @@ private fun LessonItem(
             Spacer(modifier = Modifier.weight(1f))
 
             if (!lesson.isUploaded) {
-                IconButton(modifier = Modifier.size(20.dp), onClick = { downloadLesson(lesson) }) {
-                    Icon(
-                        imageVector = Icons.Default.CloudDownload,
-                        contentDescription = stringResource(id = R.string.download_lesson),
-                        tint = baseBlue
-                    )
+                if (lesson.isDownloading) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp), trackColor = baseBlue)
+                } else {
+                    IconButton(modifier = Modifier.size(20.dp), onClick = { downloadLesson(lesson) }) {
+                        Icon(
+                            imageVector = Icons.Default.CloudDownload,
+                            contentDescription = stringResource(id = R.string.download_lesson),
+                            tint = baseBlue
+                        )
+                    }
                 }
             }
         }

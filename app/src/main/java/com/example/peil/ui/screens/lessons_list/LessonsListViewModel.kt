@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.lessons_list
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -51,6 +52,26 @@ class LessonsListViewModel @Inject constructor(
     }
 
     fun saveLesson(lesson: LessonModel) = viewModelScope.launch {
-        repository.insertLessonInLocalStorage(lesson)
+        _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+            lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map {  lessonModel ->
+                lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = true)
+            })
+        })
+        when(repository.insertLessonInLocalStorage(lesson)) {
+            true -> {
+                _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+                    lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map { lessonModel ->
+                        lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = false, isUploaded = true)
+                    })
+                })
+            }
+            false -> {
+                _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+                    lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map {  lessonModel ->
+                        lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = false)
+                    })
+                })
+            }
+        }
     }
 }
