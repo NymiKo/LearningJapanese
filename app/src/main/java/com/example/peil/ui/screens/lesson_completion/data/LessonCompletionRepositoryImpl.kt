@@ -12,9 +12,17 @@ class LessonCompletionRepositoryImpl @Inject constructor(
     private val lessonCompletionService: LessonCompletionService,
     private val lessonDao: LessonDao
 ) : LessonCompletionRepository {
-    override suspend fun lessonCompleted(idLesson: Int): NetworkResult<Unit> =
+    override suspend fun lessonCompleted(idLesson: Int): NetworkResult<Boolean> =
         withContext(ioDispatcher) {
             lessonDao.updateLesson(idLesson, true)
-            return@withContext handleApi { lessonCompletionService.lessonCompleted(idLesson) }
+            return@withContext when(val result = handleApi { lessonCompletionService.lessonCompleted(idLesson) }) {
+                is NetworkResult.Error -> {
+                    NetworkResult.Error(result.code)
+                }
+                is NetworkResult.Success -> {
+                    lessonDao.lessonSynchronized(idLesson, true)
+                    NetworkResult.Success(true)
+                }
+            }
         }
 }
