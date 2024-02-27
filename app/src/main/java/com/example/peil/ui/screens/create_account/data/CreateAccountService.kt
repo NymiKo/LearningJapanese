@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface CreateAccountService {
     @POST("registration.php")
-    suspend fun createAccount(@Body createAccountRequest: CreateAccountRequest): Response<String>
+    suspend fun createAccount(@Body createAccountRequest: CreateAccountRequest): Response<Int>
 }
