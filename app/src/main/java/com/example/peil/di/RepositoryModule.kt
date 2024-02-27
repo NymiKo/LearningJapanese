@@ -18,6 +18,8 @@ import com.example.peil.ui.screens.profile.data.ProfileRepository
 import com.example.peil.ui.screens.profile.data.ProfileRepositoryImpl
 import com.example.peil.ui.screens.settings.data.SettingsRepository
 import com.example.peil.ui.screens.settings.data.SettingsRepositoryImpl
+import com.example.peil.ui.screens.verification.data.VerificationRepository
+import com.example.peil.ui.screens.verification.data.VerificationRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -63,4 +65,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindMainRepository(repository: MainRepositoryImpl): MainRepository
+
+    @Binds
+    @Singleton
+    fun bindVerificationRepository(repository: VerificationRepositoryImpl): VerificationRepository
 }
