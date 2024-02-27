@@ -33,8 +33,7 @@ class CreateAccountViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     email = state.value.email.copy(
                         text = event.value
-                    ),
-                    isOpenHaveAccountDialog = false
+                    )
                 )
             }
 
@@ -42,8 +41,7 @@ class CreateAccountViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     password = state.value.password.copy(
                         text = event.value
-                    ),
-                    isOpenHaveAccountDialog = false
+                    )
                 )
             }
 
@@ -51,8 +49,7 @@ class CreateAccountViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     nickname = state.value.nickname.copy(
                         text = event.value
-                    ),
-                    isOpenHaveAccountDialog = false
+                    )
                 )
             }
 
@@ -125,6 +122,10 @@ class CreateAccountViewModel @Inject constructor(
         _state.value = state.value.copy(isOpenHaveAccountDialog = false)
     }
 
+    fun updateStateVerificationCode() = viewModelScope.launch {
+        _state.value = state.value.copy(successCreateAccount = false)
+    }
+
     private fun createAccount() = viewModelScope.launch {
         _state.value = state.value.copy(progress = true)
         when (val result = repository.createAccount(
@@ -141,7 +142,7 @@ class CreateAccountViewModel @Inject constructor(
                     progress = false,
                     isError = false,
                     successCreateAccount = true,
-                    token = result.data
+                    idUser = result.data
                 )
             }
         }
@@ -153,7 +154,6 @@ class CreateAccountViewModel @Inject constructor(
                 progress = false,
                 isError = true,
                 errorMessage = R.string.check_your_internet_connection,
-                successCreateAccount = false
             )
 
             400 -> {
@@ -161,7 +161,6 @@ class CreateAccountViewModel @Inject constructor(
                     progress = false,
                     isError = false,
                     isOpenHaveAccountDialog = true,
-                    successCreateAccount = false
                 )
             }
 
@@ -169,7 +168,6 @@ class CreateAccountViewModel @Inject constructor(
                 progress = false,
                 isError = true,
                 errorMessage = R.string.unknown_error,
-                successCreateAccount = false
             )
         }
     }
