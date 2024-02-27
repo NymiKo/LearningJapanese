@@ -15,6 +15,7 @@ import com.example.peil.ui.screens.lessons_list.data.LessonsListService
 import com.example.peil.ui.screens.login.data.LoginService
 import com.example.peil.ui.screens.profile.data.ProfileService
 import com.example.peil.ui.screens.settings.data.SettingsService
+import com.example.peil.ui.screens.verification.data.VerificationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -87,4 +88,7 @@ object NetworkModule {
 
     @Provides
     fun provideMainService(retrofit: Retrofit): MainService = retrofit.create(MainService::class.java)
+
+    @Provides
+    fun provideVerificationService(retrofit: Retrofit): VerificationService = retrofit.create(VerificationService::class.java)
 }
