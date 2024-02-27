@@ -1,4 +1,4 @@
-package com.example.peil.ui.di
+package com.example.peil.di
 
 import dagger.Module
 import dagger.Provides
