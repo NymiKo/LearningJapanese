@@ -13,5 +13,5 @@ data class CreateAccountScreenState(
     val isError: Boolean,
     val errorMessage: Int = R.string.error_create_account,
     val isOpenHaveAccountDialog: Boolean = false,
-    val token: String = ""
+    val idUser: Int = 0
 )
