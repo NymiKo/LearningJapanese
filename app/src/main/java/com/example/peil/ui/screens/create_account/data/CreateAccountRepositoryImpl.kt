@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CreateAccountRepositoryImpl @Inject constructor(
     private val createAccountService: CreateAccountService
 ): CreateAccountRepository {
-    override suspend fun createAccount(email: String, nickname: String, password: String): NetworkResult<String> = withContext(Dispatchers.IO) {
+    override suspend fun createAccount(email: String, nickname: String, password: String): NetworkResult<Int> = withContext(Dispatchers.IO) {
         return@withContext handleApi { createAccountService.createAccount(CreateAccountRequest(email, nickname, password)) }
     }
 }
