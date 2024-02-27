@@ -46,11 +46,9 @@ fun CreateAccountScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        if (flag) {
-            //sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
+        if (state.successCreateAccount) {
             onVerificationScreen(viewModel.state.value.idUser)
-            flag = false
-            //viewModel.updateStateVerificationCode()
+            viewModel.updateStateVerificationCode()
         }
         if (state.isOpenHaveAccountDialog) {
             showHaveAccountDialog()
@@ -91,7 +89,7 @@ fun CreateAccountScreen(
             textButton = R.string.registration,
             onClick = {
                 //viewModel.createEvent(CreateAccountEvent.OnCreateAccount)
-                flag = true
+                onVerificationScreen(viewModel.state.value.idUser)
             },
             enabled = !state.progress
         ) {
