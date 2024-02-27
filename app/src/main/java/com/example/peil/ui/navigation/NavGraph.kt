@@ -26,6 +26,8 @@ import com.example.peil.ui.screens.login.navigation.loginScreen
 import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
 import com.example.peil.ui.screens.registration.registrationScreen
+import com.example.peil.ui.screens.verification.navigation.navigateToVerificationScreen
+import com.example.peil.ui.screens.verification.navigation.verificationScreen
 import com.example.peil.ui.screens.welcome.navigateToWelcomeScreen
 import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
 import com.example.peil.ui.screens.welcome.welcomeScreen
@@ -53,7 +55,7 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         createAccountScreen(
-            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
+            onVerificationScreen = navController::navigateToVerificationScreen,
             showHaveAccountDialog = navController::navigateToHaveAccountDialog,
             onBack = navController::popBackStack
         )
@@ -61,6 +63,10 @@ fun RootNavGraph(navController: NavHostController) {
         haveAccountDialog(
             onLoginClick = navController::navigateToLoginScreen,
             onDismissRequest = navController::popBackStack
+        )
+
+        verificationScreen(
+            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) }
         )
 
         composable(
