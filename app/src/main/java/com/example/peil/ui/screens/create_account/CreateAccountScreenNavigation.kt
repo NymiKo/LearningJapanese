@@ -15,7 +15,7 @@ private const val emailKeyArg = "email"
 private const val createAcountScreen = "create_account"
 private const val createAcountScreenRoute = "create_account/{$emailKeyArg}"
 
-fun NavGraphBuilder.createAccountScreen(onLessonsListScreen: () -> Unit, showHaveAccountDialog: () -> Unit, onBack: () -> Unit) {
+fun NavGraphBuilder.createAccountScreen(onVerificationScreen: (idUser: Int) -> Unit, showHaveAccountDialog: () -> Unit, onBack: () -> Unit) {
     composable(
         route = createAcountScreenRoute,
         arguments = listOf(
@@ -33,7 +33,7 @@ fun NavGraphBuilder.createAccountScreen(onLessonsListScreen: () -> Unit, showHav
         val viewModel = hiltViewModel<CreateAccountViewModel>()
         viewModel.createEvent(CreateAccountEvent.EnteringEmail(email ?: ""))
         CreateAccountScreen(
-            onLessonsListScreen = onLessonsListScreen::invoke,
+            onVerificationScreen = onVerificationScreen::invoke,
             showHaveAccountDialog = showHaveAccountDialog,
             onBack = onBack::invoke,
             viewModel = viewModel,
