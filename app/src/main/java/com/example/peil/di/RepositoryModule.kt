@@ -1,4 +1,4 @@
-package com.example.peil.ui.di
+package com.example.peil.di
 
 import com.example.peil.main.MainRepository
 import com.example.peil.main.MainRepositoryImpl
