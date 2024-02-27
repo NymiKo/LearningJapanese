@@ -55,7 +55,7 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         createAccountScreen(
-            onVerificationScreen = navController::navigateToVerificationScreen,
+            onVerificationScreen = { idUser -> navController.navigateToVerificationScreen(idUser) },
             showHaveAccountDialog = navController::navigateToHaveAccountDialog,
             onBack = navController::popBackStack
         )

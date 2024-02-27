@@ -36,7 +36,7 @@ fun OtpCell(
     }
 
     Box(
-        modifier = modifier.border(width = if (isCursorVisible) 2.dp else 0.dp, color = baseBlue, shape = MaterialTheme.shapes.large)
+        modifier = modifier.border(width = 2.dp, color = if (isCursorVisible) baseBlue else MaterialTheme.colorScheme.secondary, shape = MaterialTheme.shapes.large)
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
