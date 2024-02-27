@@ -1,15 +1,20 @@
 package com.example.peil.ui.screens.create_account
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,28 +31,35 @@ import com.example.peil.util.sharedPreferencesUser
 
 @Composable
 fun CreateAccountScreen(
-    onLessonsListScreen: () -> Unit,
+    onVerificationScreen: (idUser: Int) -> Unit,
     showHaveAccountDialog: () -> Unit,
     onBack: () -> Unit,
     email: String,
     viewModel: CreateAccountViewModel
 ) {
+    var flag by remember {
+        mutableStateOf(false)
+    }
+    val state = viewModel.state.value
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        val state = viewModel.state.value
-
-        if (state.successCreateAccount) {
-            sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token)
-                .apply()
-            onLessonsListScreen()
+        if (flag) {
+            //sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
+            onVerificationScreen(viewModel.state.value.idUser)
+            flag = false
+            //viewModel.updateStateVerificationCode()
+        }
+        if (state.isOpenHaveAccountDialog) {
+            showHaveAccountDialog()
+            viewModel.updateStateDialog()
         }
 
         BaseAppBar(
             title = R.string.create_account,
-            imageVector = Icons.Default.ArrowBack
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack
         ) { onBack() }
         if (state.isError) {
             AuthorizationErrorMessage(errorMessage = state.errorMessage)
@@ -77,16 +89,15 @@ fun CreateAccountScreen(
         LoginButton(
             modifier = Modifier.padding(top = 30.dp),
             textButton = R.string.registration,
-            onClick = { viewModel.createEvent(CreateAccountEvent.OnCreateAccount) },
+            onClick = {
+                //viewModel.createEvent(CreateAccountEvent.OnCreateAccount)
+                flag = true
+            },
             enabled = !state.progress
         ) {
             if (state.progress) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))
             }
-        }
-        if (state.isOpenHaveAccountDialog) {
-            showHaveAccountDialog()
-            viewModel.updateStateDialog()
         }
     }
 }
