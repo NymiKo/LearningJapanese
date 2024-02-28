@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -43,6 +44,7 @@ import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.filed.OtpCell
+import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.util.sharedPreferencesUser
 
 @Composable
@@ -61,8 +63,19 @@ fun VerificationScreen(
             onLessonsListScreen()
             viewModel.updateVerificationStatus()
         }
+
+        if (state.isError) {
+            AuthorizationErrorMessage(
+                modifier = Modifier.padding(top = 16.dp),
+                errorMessage = state.errorMessage
+            )
+        }
+
         Text(
-            modifier = Modifier.padding(top = 30.dp).padding(horizontal = 16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
             text = stringResource(id = R.string.message_with_code_has_been_sent),
             fontSize = 14.sp,
             textAlign = TextAlign.Center,
@@ -72,14 +85,19 @@ fun VerificationScreen(
         CodeInput(
             modifier = Modifier.padding(top = 20.dp),
             value = state.code.text,
-            onValueChanged = { viewModel.createEvent(VerificationEvent.EnteringCode(it)) })
+            onValueChanged = { viewModel.createEvent(VerificationEvent.EnteringCode(it)) }
+        )
         Spacer(modifier = Modifier.weight(1F))
         LoginButton(
             modifier = Modifier.padding(bottom = 16.dp),
             textButton = R.string.continue_text,
-            enabled = state.code.text.length == 6,
+            enabled = state.code.text.length == 6 && !state.progress,
             onClick = { viewModel.createEvent(VerificationEvent.OnVerification) },
-            content = { }
+            content = {
+                if (state.progress) {
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                }
+            }
         )
     }
 }

@@ -49,4 +49,5 @@
     <string name="nickname_empty">Имя пользователя пустое</string>
     <string name="error_create_account">Ошибка создания аккаунта</string>
     <string name="message_with_code_has_been_sent">На почту отравлено сообщение с кодом. Введите его в поле ниже для подтверждения почты.</string>
+    <string name="error_verification_code">Неверный код</string>
 </resources>
