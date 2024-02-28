@@ -6,6 +6,8 @@ import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameRepository
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameRepositoryImpl
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepositoryImpl
+import com.example.peil.ui.screens.entering_mail.data.EnteringEmailRepository
+import com.example.peil.ui.screens.entering_mail.data.EnteringEmailRepositoryImpl
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonRepository
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonRepositoryImpl
 import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionRepository
@@ -69,4 +71,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindVerificationRepository(repository: VerificationRepositoryImpl): VerificationRepository
+
+    @Binds
+    @Singleton
+    fun bindEnteringEmailRepository(repository: EnteringEmailRepositoryImpl): EnteringEmailRepository
 }
