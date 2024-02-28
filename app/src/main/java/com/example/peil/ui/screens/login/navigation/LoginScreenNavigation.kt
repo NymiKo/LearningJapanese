@@ -13,7 +13,7 @@ import com.example.peil.ui.screens.login.LoginViewModel
 
 const val loginScreenRoute = "login_screen"
 
-fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onBack: () -> Unit) {
+fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onForgotPassword: () -> Unit, onBack: () -> Unit) {
     composable(
         route = loginScreenRoute,
         enterTransition = {
@@ -24,7 +24,7 @@ fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onBack: () -> U
         }
     ) {
         val viewModel: LoginViewModel = hiltViewModel()
-        LoginScreen(onLessonsListScreen::invoke, onBack::invoke, viewModel)
+        LoginScreen(onLessonsListScreen::invoke, onForgotPassword::invoke, onBack::invoke, viewModel)
     }
 }
 

@@ -16,6 +16,8 @@ import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
+import com.example.peil.ui.screens.entering_mail.navigation.enteringEmail
+import com.example.peil.ui.screens.entering_mail.navigation.navigateToEnteringEmail
 import com.example.peil.ui.screens.learning_lesson.dialog.cancelLessonDialog
 import com.example.peil.ui.screens.learning_lesson.dialog.navigateToCancelLessonDialog
 import com.example.peil.ui.screens.learning_lesson.learningLessonScreen
@@ -45,7 +47,12 @@ fun RootNavGraph(navController: NavHostController) {
 
         loginScreen(
             onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
+            onForgotPassword = navController::navigateToEnteringEmail,
             onBack = navController::popBackStackToWelcomeScreen
+        )
+
+        enteringEmail(
+
         )
 
         registrationScreen(

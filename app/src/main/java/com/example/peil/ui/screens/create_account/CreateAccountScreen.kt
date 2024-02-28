@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.create_account
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,10 +22,9 @@ import com.example.peil.R
 import com.example.peil.ui.screens.create_account.state.CreateAccountEvent
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
-import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.filed.OutlinedLoginField
 import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.ui.view_components.text.TextLabel
-import com.example.peil.util.sharedPreferencesUser
 
 @Composable
 fun CreateAccountScreen(

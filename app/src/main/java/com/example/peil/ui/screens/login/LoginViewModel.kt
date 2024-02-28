@@ -112,4 +112,8 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateLoginState() = viewModelScope.launch {
+        _state.value = state.value.copy(successLogin = false)
+    }
 }

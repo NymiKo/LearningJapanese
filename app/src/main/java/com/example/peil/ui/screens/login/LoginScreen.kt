@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -15,8 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -31,11 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.peil.R
 import com.example.peil.ui.screens.login.state.LoginEvent
-import com.example.peil.ui.theme.RedLight
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
-import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.filed.OutlinedLoginField
 import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.ui.view_components.text.TextLabel
 import com.example.peil.util.sharedPreferencesUser
@@ -43,6 +39,7 @@ import com.example.peil.util.sharedPreferencesUser
 @Composable
 fun LoginScreen(
     onLessonsListScreen: () -> Unit,
+    onForgotPassword: () -> Unit,
     onBack: () -> Unit,
     viewModel: LoginViewModel
 ) {
@@ -57,6 +54,7 @@ fun LoginScreen(
             sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token)
                 .apply()
             onLessonsListScreen()
+            viewModel.updateLoginState()
         }
 
         BaseAppBar(
@@ -75,6 +73,7 @@ fun LoginScreen(
             isLogin = state.successLogin,
             isError = state.isError,
             errorMessage = state.errorMessage,
+            onForgotPassword = onForgotPassword,
             onLogin = { viewModel.createEvent(LoginEvent.OnLogin) }
         )
     }
@@ -92,6 +91,7 @@ private fun LoadingScreenContent(
     isError: Boolean,
     errorMessage: Int,
     progress: Boolean,
+    onForgotPassword: () -> Unit,
     onLogin: () -> Unit
 ) {
     Column {
@@ -114,7 +114,7 @@ private fun LoadingScreenContent(
             value = valuePassword,
             error = errorPassword
         )
-        ForgotPasswordText()
+        ForgotPasswordText(onForgotPassword = onForgotPassword::invoke)
         LoginButton(
             modifier = Modifier.padding(top = 30.dp),
             textButton = R.string.sign_in,
@@ -159,7 +159,7 @@ private fun FieldItem(
 }
 
 @Composable
-fun ForgotPasswordText() {
+fun ForgotPasswordText(onForgotPassword: () -> Unit) {
     val annotatedString = buildAnnotatedString {
         withStyle(
             SpanStyle(
@@ -177,12 +177,12 @@ fun ForgotPasswordText() {
             .padding(horizontal = 16.dp)
             .padding(top = 8.dp),
         text = annotatedString,
-        onClick = { }
+        onClick = { onForgotPassword() }
     )
 }
 
 @Composable
 @Preview
 private fun LoginScreenPreview() {
-    LoginScreen({ }, { }, hiltViewModel())
+    LoginScreen({ }, { }, { }, hiltViewModel())
 }
