@@ -88,8 +88,7 @@ fun CreateAccountScreen(
             modifier = Modifier.padding(top = 30.dp),
             textButton = R.string.registration,
             onClick = {
-                //viewModel.createEvent(CreateAccountEvent.OnCreateAccount)
-                onVerificationScreen(viewModel.state.value.idUser)
+                viewModel.createEvent(CreateAccountEvent.OnCreateAccount)
             },
             enabled = !state.progress
         ) {

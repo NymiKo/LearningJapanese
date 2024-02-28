@@ -55,12 +55,7 @@ class VerificationViewModel @Inject constructor(
         _state.value = state.value.copy(progress = true)
         when (val result = repository.verificationUser(state.value.idUser, state.value.code.text)) {
             is NetworkResult.Error -> {
-                _state.value = state.value.copy(
-                    successVerification = false,
-                    progress = false,
-                    isError = true,
-                    errorMessage = R.string.email_or_password_incorrect
-                )
+                errorHandler(result.code)
             }
 
             is NetworkResult.Success -> {
@@ -71,6 +66,30 @@ class VerificationViewModel @Inject constructor(
                     token = result.data
                 )
             }
+        }
+    }
+
+    private fun errorHandler(errorCode: Int) {
+        when (errorCode) {
+            105 -> _state.value = state.value.copy(
+                progress = false,
+                isError = true,
+                errorMessage = R.string.check_your_internet_connection,
+            )
+
+            404 -> {
+                _state.value = state.value.copy(
+                    progress = false,
+                    isError = true,
+                    errorMessage = R.string.error_verification_code
+                )
+            }
+
+            else -> _state.value = state.value.copy(
+                progress = false,
+                isError = true,
+                errorMessage = R.string.unknown_error,
+            )
         }
     }
 
