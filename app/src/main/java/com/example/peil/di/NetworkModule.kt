@@ -9,6 +9,8 @@ import com.example.peil.data.image_loader.ImageLoaderImpl
 import com.example.peil.main.data.MainService
 import com.example.peil.ui.screens.change_nickname.data.ChangeNicknameService
 import com.example.peil.ui.screens.create_account.data.CreateAccountService
+import com.example.peil.ui.screens.entering_mail.data.EnteringEmailRepository
+import com.example.peil.ui.screens.entering_mail.data.EnteringEmailService
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
 import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionService
 import com.example.peil.ui.screens.lessons_list.data.LessonsListService
@@ -91,4 +93,7 @@ object NetworkModule {
 
     @Provides
     fun provideVerificationService(retrofit: Retrofit): VerificationService = retrofit.create(VerificationService::class.java)
+
+    @Provides
+    fun provideEnteringEmailService(retrofit: Retrofit): EnteringEmailService = retrofit.create(EnteringEmailService::class.java)
 }
