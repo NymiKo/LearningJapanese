@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.example.peil.ui.theme.RedLight
 
 @Composable
-fun AuthorizationErrorMessage(errorMessage: Int) {
+fun AuthorizationErrorMessage(modifier: Modifier = Modifier, errorMessage: Int) {
     Text(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
             .fillMaxWidth()
             .background(RedLight, RoundedCornerShape(8.dp))
