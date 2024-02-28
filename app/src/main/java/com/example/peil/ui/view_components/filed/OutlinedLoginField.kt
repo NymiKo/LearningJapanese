@@ -1,4 +1,4 @@
-package com.example.peil.ui.view_components
+package com.example.peil.ui.view_components.filed
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
