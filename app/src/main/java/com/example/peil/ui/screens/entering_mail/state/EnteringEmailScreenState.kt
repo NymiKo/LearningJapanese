@@ -9,5 +9,6 @@ data class EnteringEmailScreenState(
     val progress: Boolean = false,
     val correctEmail: Boolean = false,
     val isError: Boolean = false,
-    val errorMessage: Int = R.string.unknown_error
+    val errorMessage: Int = R.string.unknown_error,
+    val idUser: Int = 0
 )

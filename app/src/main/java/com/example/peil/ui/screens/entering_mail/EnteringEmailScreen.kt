@@ -30,7 +30,8 @@ import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 
 @Composable
 fun EnteringEmailScreen(
-    viewModel: EnteringEmailViewModel
+    viewModel: EnteringEmailViewModel,
+    onVerificationScreen: (idUser: Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,7 +41,7 @@ fun EnteringEmailScreen(
         val state = viewModel.state.value
 
         if (state.correctEmail) {
-            Toast.makeText(LocalContext.current, "SUCCESS", Toast.LENGTH_SHORT).show()
+            onVerificationScreen(state.idUser)
             viewModel.updateCorrectEmailStatus()
         }
 
@@ -72,6 +73,7 @@ fun EnteringEmailScreen(
             modifier = Modifier.padding(bottom = 16.dp),
             textButton = R.string.continue_text,
             onClick = { viewModel.createEvent(EnteringEmailEvent.SendingEmail) },
+            enabled = !state.progress,
             content = {
                 if (state.progress) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp))
@@ -84,5 +86,5 @@ fun EnteringEmailScreen(
 @Preview
 @Composable
 private fun EnteringEmailScreenPreview() {
-    EnteringEmailScreen(hiltViewModel())
+    EnteringEmailScreen(hiltViewModel(), {})
 }

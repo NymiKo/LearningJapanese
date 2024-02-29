@@ -12,7 +12,7 @@ import com.example.peil.ui.screens.entering_mail.EnteringEmailViewModel
 
 const val enteringEmailScreenRoute = "entering_email"
 
-fun NavGraphBuilder.enteringEmail() {
+fun NavGraphBuilder.enteringEmail(onVerificationScreen: (idUser: Int) -> Unit) {
     composable(
         route = enteringEmailScreenRoute,
         enterTransition = {
@@ -23,7 +23,7 @@ fun NavGraphBuilder.enteringEmail() {
         }
     ) {
         val viewModel: EnteringEmailViewModel = hiltViewModel()
-        EnteringEmailScreen(viewModel = viewModel)
+        EnteringEmailScreen(viewModel = viewModel, onVerificationScreen = onVerificationScreen::invoke)
     }
 }
 
