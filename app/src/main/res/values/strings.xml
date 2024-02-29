@@ -50,4 +50,10 @@
     <string name="error_create_account">Ошибка создания аккаунта</string>
     <string name="message_with_code_has_been_sent">На почту отравлено сообщение с кодом. Введите его в поле ниже для подтверждения почты.</string>
     <string name="error_verification_code">Неверный код</string>
+    <string name="entering_email">Введите почту, на которую зарегистрирован аккаунт</string>
+    <string name="error_no_account_with_email">Аккаунта с такой почтой не найдено</string>
+    <string name="enter_new_password">Введите новый пароль</string>
+    <string name="repeat_new_password">Повторите новый пароль</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="password_has_been_changed">Пароль изменен! Можно авторизоваться с новыми данными.</string>
 </resources>

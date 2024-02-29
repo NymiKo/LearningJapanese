@@ -48,6 +48,12 @@ class VerificationViewModel @Inject constructor(
                     idUser = event.idUser
                 )
             }
+
+            is VerificationEvent.OnVerificationForgotPassword -> {
+                if (!_state.value.code.isError) {
+                    verificationForgotPassword()
+                }
+            }
         }
     }
 
@@ -64,6 +70,23 @@ class VerificationViewModel @Inject constructor(
                     successVerification = true,
                     isError = false,
                     token = result.data
+                )
+            }
+        }
+    }
+
+    private fun verificationForgotPassword() = viewModelScope.launch {
+        _state.value = state.value.copy(progress = true)
+        when (val result = repository.verificationForgotPassword(state.value.idUser, state.value.code.text)) {
+            is NetworkResult.Error -> {
+                errorHandler(result.code)
+            }
+
+            is NetworkResult.Success -> {
+                _state.value = state.value.copy(
+                    progress = false,
+                    successVerification = true,
+                    isError = false
                 )
             }
         }

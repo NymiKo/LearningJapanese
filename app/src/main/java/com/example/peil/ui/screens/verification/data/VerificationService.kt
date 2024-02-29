@@ -9,4 +9,7 @@ import retrofit2.http.POST
 interface VerificationService {
     @POST("verification.php")
     suspend fun verificationUser(@Body verificationRequest: VerificationRequest): Response<String>
+
+    @POST("verificationForgotPassword.php")
+    suspend fun verificationUserForgotPassword(@Body verificationRequest: VerificationRequest): Response<Unit>
 }
