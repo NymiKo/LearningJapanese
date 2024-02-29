@@ -15,6 +15,7 @@ import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
 import com.example.peil.ui.screens.lesson_completion.data.LessonCompletionService
 import com.example.peil.ui.screens.lessons_list.data.LessonsListService
 import com.example.peil.ui.screens.login.data.LoginService
+import com.example.peil.ui.screens.new_password.data.NewPasswordService
 import com.example.peil.ui.screens.profile.data.ProfileService
 import com.example.peil.ui.screens.settings.data.SettingsService
 import com.example.peil.ui.screens.verification.data.VerificationService
@@ -96,4 +97,7 @@ object NetworkModule {
 
     @Provides
     fun provideEnteringEmailService(retrofit: Retrofit): EnteringEmailService = retrofit.create(EnteringEmailService::class.java)
+
+    @Provides
+    fun provideNewPasswordService(retrofit: Retrofit): NewPasswordService = retrofit.create(NewPasswordService::class.java)
 }
