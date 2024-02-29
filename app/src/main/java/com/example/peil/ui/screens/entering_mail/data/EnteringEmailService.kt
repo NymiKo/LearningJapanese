@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface EnteringEmailService {
     @POST("forgotPassword.php")
-    suspend fun sendEmail(@Body enteringEmailRequest: EnteringEmailRequest): Response<Unit>
+    suspend fun sendEmail(@Body enteringEmailRequest: EnteringEmailRequest): Response<Int>
 }

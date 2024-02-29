@@ -11,7 +11,7 @@ class EnteringEmailRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher,
     private val enteringEmailService: EnteringEmailService
 ): EnteringEmailRepository {
-    override suspend fun sendEmail(email: String): NetworkResult<Unit> = withContext(ioDispatcher) {
+    override suspend fun sendEmail(email: String): NetworkResult<Int> = withContext(ioDispatcher) {
         return@withContext handleApi { enteringEmailService.sendEmail(EnteringEmailRequest(email)) }
     }
 }

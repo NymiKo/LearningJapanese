@@ -56,7 +56,8 @@ class EnteringEmailViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     progress = false,
                     correctEmail = true,
-                    isError = false
+                    isError = false,
+                    idUser = result.data
                 )
             }
         }
