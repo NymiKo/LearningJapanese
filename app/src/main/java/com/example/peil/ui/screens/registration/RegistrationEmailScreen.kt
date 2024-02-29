@@ -32,7 +32,7 @@ import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.text.AlreadyHaveAccountText
 import com.example.peil.ui.view_components.BaseAppBar
 import com.example.peil.ui.view_components.LoginButton
-import com.example.peil.ui.view_components.OutlinedLoginField
+import com.example.peil.ui.view_components.filed.OutlinedLoginField
 import com.example.peil.ui.view_components.text.TextLabel
 
 @Composable

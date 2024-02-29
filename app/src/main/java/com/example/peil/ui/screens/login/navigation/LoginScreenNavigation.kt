@@ -31,3 +31,11 @@ fun NavGraphBuilder.loginScreen(onLessonsListScreen: () -> Unit, onForgotPasswor
 fun NavController.navigateToLoginScreen() {
     navigate(loginScreenRoute)
 }
+
+fun NavController.navigateToLoginScreenWithClearStack() {
+    navigate(loginScreenRoute) {
+        popUpTo(loginScreenRoute) {
+            inclusive = true
+        }
+    }
+}
