@@ -1,12 +1,5 @@
 package com.example.peil.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,14 +11,11 @@ import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAc
 import com.example.peil.ui.screens.create_account.navigateToCreateAccountScreen
 import com.example.peil.ui.screens.entering_mail.navigation.enteringEmail
 import com.example.peil.ui.screens.entering_mail.navigation.navigateToEnteringEmail
-import com.example.peil.ui.screens.learning_lesson.dialog.cancelLessonDialog
-import com.example.peil.ui.screens.learning_lesson.dialog.navigateToCancelLessonDialog
-import com.example.peil.ui.screens.learning_lesson.learningLessonScreen
-import com.example.peil.ui.screens.lesson_completion.lessonCompletion
-import com.example.peil.ui.screens.lesson_completion.navigateToLessonCompletionScreen
-import com.example.peil.ui.screens.lessons_list.navigateToLessonsListScreen
 import com.example.peil.ui.screens.login.navigation.loginScreen
 import com.example.peil.ui.screens.login.navigation.navigateToLoginScreen
+import com.example.peil.ui.screens.login.navigation.navigateToLoginScreenWithClearStack
+import com.example.peil.ui.screens.new_password.navigation.navigateToNewPasswordScreen
+import com.example.peil.ui.screens.new_password.navigation.newPasswordScreen
 import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScreen
 import com.example.peil.ui.screens.registration.registrationScreen
 import com.example.peil.ui.screens.verification.navigation.navigateToVerificationScreen
@@ -52,7 +42,11 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         enteringEmail(
+            onVerificationScreen = { idUser -> navController.navigateToVerificationScreen(idUser = idUser, isForgotPassword = true) }
+        )
 
+        newPasswordScreen(
+            onLoginScreen = navController::navigateToLoginScreenWithClearStack
         )
 
         registrationScreen(
@@ -73,7 +67,8 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         verificationScreen(
-            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) }
+            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
+            onNewPasswordScreen = { idUser -> navController.navigateToNewPasswordScreen(idUser) }
         )
 
         composable(
