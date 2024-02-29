@@ -16,6 +16,8 @@ import com.example.peil.ui.screens.lessons_list.data.LessonsListRepository
 import com.example.peil.ui.screens.lessons_list.data.LessonsListRepositoryImpl
 import com.example.peil.ui.screens.login.data.LoginRepository
 import com.example.peil.ui.screens.login.data.LoginRepositoryImpl
+import com.example.peil.ui.screens.new_password.data.NewPasswordRepository
+import com.example.peil.ui.screens.new_password.data.NewPasswordRepositoryImpl
 import com.example.peil.ui.screens.profile.data.ProfileRepository
 import com.example.peil.ui.screens.profile.data.ProfileRepositoryImpl
 import com.example.peil.ui.screens.settings.data.SettingsRepository
@@ -75,4 +77,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindEnteringEmailRepository(repository: EnteringEmailRepositoryImpl): EnteringEmailRepository
+
+    @Binds
+    @Singleton
+    fun bindNewPasswordRepository(repository: NewPasswordRepositoryImpl): NewPasswordRepository
 }
