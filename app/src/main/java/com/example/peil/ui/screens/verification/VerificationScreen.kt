@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.verification
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +51,9 @@ import com.example.peil.util.sharedPreferencesUser
 @Composable
 fun VerificationScreen(
     viewModel: VerificationViewModel,
-    onLessonsListScreen: () -> Unit
+    isForgotPassword: Boolean = false,
+    onLessonsListScreen: () -> Unit,
+    onNewPasswordScreen: (idUser: Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,9 +61,14 @@ fun VerificationScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         val state = viewModel.state.value
-        if (state.successVerification) {
+        if (state.successVerification && !isForgotPassword) {
             sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
             onLessonsListScreen()
+            viewModel.updateVerificationStatus()
+        }
+
+        if (state.successVerification && isForgotPassword) {
+            onNewPasswordScreen(state.idUser)
             viewModel.updateVerificationStatus()
         }
 
@@ -92,7 +100,13 @@ fun VerificationScreen(
             modifier = Modifier.padding(bottom = 16.dp),
             textButton = R.string.continue_text,
             enabled = state.code.text.length == 6 && !state.progress,
-            onClick = { viewModel.createEvent(VerificationEvent.OnVerification) },
+            onClick = {
+                if (isForgotPassword) {
+                    viewModel.createEvent(VerificationEvent.OnVerificationForgotPassword)
+                } else {
+                    viewModel.createEvent(VerificationEvent.OnVerification)
+                }
+            },
             content = {
                 if (state.progress) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp))
@@ -157,5 +171,5 @@ private fun CodeInput(
 @Preview
 @Composable
 private fun VerificationScreenPreview() {
-    VerificationScreen(hiltViewModel(), {})
+    VerificationScreen(hiltViewModel(), false, {}, {})
 }
