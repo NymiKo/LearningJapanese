@@ -29,7 +29,7 @@ class LessonsListViewModel @Inject constructor(
         getLessonsList()
     }
 
-    private fun getLessonsList() = viewModelScope.launch {
+    fun getLessonsList() = viewModelScope.launch {
         _state.value = state.value.copy(progressLoading = true)
         when (val result = repository.getLessonsList()) {
             is NetworkResult.Success -> {

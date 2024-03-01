@@ -1,7 +1,6 @@
 package com.example.peil.ui.screens.lessons_list
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -29,9 +28,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CloudDownload
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -88,7 +91,7 @@ fun LessonsListScreen(
             targetState = state.progressLoading,
             transitionSpec = {
                 slideInVertically(animationSpec = tween(1200)) { 100 } +
-                fadeIn(animationSpec = tween(1200)) togetherWith fadeOut(
+                        fadeIn(animationSpec = tween(1200)) togetherWith fadeOut(
                     animationSpec = tween(700)
                 )
             },
@@ -103,7 +106,9 @@ fun LessonsListScreen(
                     LessonsListComponent(
                         onLearningLesson = onLearningLesson::invoke,
                         lessonsList = state.lessonsList,
-                        downloadLesson = viewModel::saveLesson
+                        downloadLesson = viewModel::saveLesson,
+                        isProgress = state.progressLoading,
+                        onRefresh = viewModel::getLessonsList
                     )
                 }
             }
@@ -146,7 +151,6 @@ private fun NavigationIconTopAppBar() {
 @Composable
 private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float) {
 
-    Log.e("PROGRESS", progressValue.toString())
     var progress by remember { mutableFloatStateOf(0F) }
     val progressAnimation by animateFloatAsState(
         targetValue = if (!progressValue.isNaN()) progressValue else 0.0F,
@@ -200,52 +204,66 @@ private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun LessonsListComponent(
     modifier: Modifier = Modifier,
     onLearningLesson: (idLesson: Int) -> Unit,
     downloadLesson: (lesson: LessonModel) -> Unit,
-    lessonsList: List<LessonCategory>
+    lessonsList: List<LessonCategory>,
+    isProgress: Boolean,
+    onRefresh: () -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 24.dp)
-    ) {
-        Log.e("LESSONS", lessonsList.toString())
-        lessonsList.forEach { lessonWithCategory ->
-            stickyHeader {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background),
-                    text = stringResource(id = R.string.chapter, lessonWithCategory.chapter),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(bottom = 8.dp),
-                    text = stringResource(
-                        id = R.string.lessons_completed,
-                        lessonWithCategory.lessonsList.filter { it.completed }.size,
-                        lessonWithCategory.lessonsList.size
-                    ),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            }
-            itemsIndexed(lessonWithCategory.lessonsList) { index, lesson ->
-                LessonItem(
-                    lesson = lesson,
-                    lastItem = index == lessonWithCategory.lessonsList.lastIndex,
-                    onLearningLesson = onLearningLesson::invoke,
-                    downloadLesson = downloadLesson::invoke
-                )
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isProgress,
+        onRefresh = onRefresh::invoke
+    )
+
+    Box {
+        LazyColumn(
+            modifier = modifier.pullRefresh(pullRefreshState),
+            contentPadding = PaddingValues(horizontal = 24.dp)
+        ) {
+            lessonsList.forEach { lessonWithCategory ->
+                stickyHeader {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.background),
+                        text = stringResource(id = R.string.chapter, lessonWithCategory.chapter),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(bottom = 8.dp),
+                        text = stringResource(
+                            id = R.string.lessons_completed,
+                            lessonWithCategory.lessonsList.filter { it.completed }.size,
+                            lessonWithCategory.lessonsList.size
+                        ),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
+                itemsIndexed(lessonWithCategory.lessonsList) { index, lesson ->
+                    LessonItem(
+                        lesson = lesson,
+                        lastItem = index == lessonWithCategory.lessonsList.lastIndex,
+                        onLearningLesson = onLearningLesson::invoke,
+                        downloadLesson = downloadLesson::invoke
+                    )
+                }
             }
         }
+
+        PullRefreshIndicator(
+            refreshing = isProgress,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -284,9 +302,14 @@ private fun LessonItem(
 
             if (!lesson.isUploaded) {
                 if (lesson.isDownloading) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), trackColor = baseBlue)
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        trackColor = baseBlue
+                    )
                 } else {
-                    IconButton(modifier = Modifier.size(20.dp), onClick = { downloadLesson(lesson) }) {
+                    IconButton(
+                        modifier = Modifier.size(20.dp),
+                        onClick = { downloadLesson(lesson) }) {
                         Icon(
                             imageVector = Icons.Default.CloudDownload,
                             contentDescription = stringResource(id = R.string.download_lesson),
