@@ -14,19 +14,20 @@ class MainRepositoryImpl @Inject constructor(
     private val lessonDao: LessonDao
 ): MainRepository {
     override suspend fun synchronizeLessons(): NetworkResult<Boolean> = withContext(ioDispatcher) {
-        val lessons = lessonDao.getIdUnsychronizedLessonsList()
-        if (lessons.isNotEmpty()) {
-            return@withContext when(val result = handleApi { mainService.synchronizeLessons(lessons) }) {
-                is NetworkResult.Error -> {
-                    NetworkResult.Error(result.code)
-                }
-                is NetworkResult.Success -> {
-                    lessonDao.updateSynchronizedLessons(lessons)
-                    NetworkResult.Success(true)
-                }
-            }
-        } else {
-            return@withContext NetworkResult.Success(true)
-        }
+//        val lessons = lessonDao.getIdUnsychronizedLessonsList()
+//        if (lessons.isNotEmpty()) {
+//            return@withContext when(val result = handleApi { mainService.synchronizeLessons(lessons) }) {
+//                is NetworkResult.Error -> {
+//                    NetworkResult.Error(result.code)
+//                }
+//                is NetworkResult.Success -> {
+//                    lessonDao.updateSynchronizedLessons(lessons)
+//                    NetworkResult.Success(true)
+//                }
+//            }
+//        } else {
+//            return@withContext NetworkResult.Success(true)
+//        }
+        return@withContext NetworkResult.Success(true)
     }
 }

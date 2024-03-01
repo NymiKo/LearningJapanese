@@ -7,6 +7,7 @@ import com.example.peil.data.image_loader.ImageLoader
 import com.example.peil.data.room.dao.LessonDao
 import com.example.peil.data.room.dao.SubLessonDao
 import com.example.peil.data.room.entities.LessonEntity
+import com.example.peil.main.data.MainService
 import com.example.peil.ui.screens.learning_lesson.data.LearningLessonService
 import com.example.peil.ui.screens.lessons_list.data.model.LessonModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,32 +22,50 @@ class LessonsListRepositoryImpl @Inject constructor(
     private val subLessonDao: SubLessonDao,
     private val learningLessonService: LearningLessonService,
     private val imageLoader: ImageLoader,
-    private val audioLoader: AudioLoader
+    private val audioLoader: AudioLoader,
+    private val mainService: MainService,
 ) : LessonsListRepository {
     override suspend fun getLessonsList(): NetworkResult<Map<Int, List<LessonModel>>> =
         withContext(ioDispatcher) {
-            return@withContext when (val result =
-                handleApi { lessonsListService.getLessonsList() }) {
-                is NetworkResult.Error -> {
-                    NetworkResult.Success(lessonDao.getLessonsList().map { it.toLessonModel() }
-                        .groupBy { it.chapter }.toSortedMap())
+            val lessons = lessonDao.getIdUnsychronizedLessonsList()
+            return@withContext if (lessons.isNotEmpty()) {
+                when(handleApi { mainService.synchronizeLessons(lessons) }) {
+                    is NetworkResult.Error -> {
+                        getRemoteLessonsList()
+                    }
+                    is NetworkResult.Success -> {
+                        lessonDao.updateSynchronizedLessons(lessons)
+                        getRemoteLessonsList()
+                    }
                 }
-
-                is NetworkResult.Success -> {
-                    val lessonsListFromLocalStorage = lessonDao.getIdLessonsList()
-                    NetworkResult.Success(result.data.lessonsList.map {
-                        LessonModel(
-                            it.idLesson,
-                            it.header,
-                            it.image,
-                            it.chapter,
-                            result.data.lessonsCompletedList.contains(it.idLesson),
-                            lessonsListFromLocalStorage.contains(it.idLesson)
-                        )
-                    }.groupBy { it.chapter }.toSortedMap())
-                }
+            } else {
+                return@withContext getRemoteLessonsList()
             }
         }
+
+    override suspend fun getRemoteLessonsList(): NetworkResult<Map<Int, List<LessonModel>>> = withContext(ioDispatcher) {
+        return@withContext when (val result =
+            handleApi { lessonsListService.getLessonsList() }) {
+            is NetworkResult.Error -> {
+                NetworkResult.Success(lessonDao.getLessonsList().map { it.toLessonModel() }
+                    .groupBy { it.chapter }.toSortedMap())
+            }
+
+            is NetworkResult.Success -> {
+                val lessonsListFromLocalStorage = lessonDao.getIdLessonsList()
+                NetworkResult.Success(result.data.lessonsList.map {
+                    LessonModel(
+                        it.idLesson,
+                        it.header,
+                        it.image,
+                        it.chapter,
+                        result.data.lessonsCompletedList.contains(it.idLesson),
+                        lessonsListFromLocalStorage.contains(it.idLesson)
+                    )
+                }.groupBy { it.chapter }.toSortedMap())
+            }
+        }
+    }
 
     override suspend fun insertLessonInLocalStorage(lesson: LessonModel): Boolean =
         withContext(ioDispatcher) {
