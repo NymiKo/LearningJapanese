@@ -16,4 +16,7 @@ interface SubLessonDao {
 
     @Query("SELECT * FROM ${RoomContract.tableSubLessons} WHERE idLesson = :idLesson")
     suspend fun getSubLessons(idLesson: Int): List<SubLessonEntity>
+
+    @Query("DELETE FROM ${RoomContract.tableSubLessons}")
+    suspend fun deleteAllSubLessons()
 }

@@ -28,12 +28,8 @@ class LessonsListRepositoryImpl @Inject constructor(
             return@withContext when (val result =
                 handleApi { lessonsListService.getLessonsList() }) {
                 is NetworkResult.Error -> {
-                    if (result.code == 105) {
-                        NetworkResult.Success(lessonDao.getLessonsList().map { it.toLessonModel() }
-                            .groupBy { it.chapter }.toSortedMap())
-                    } else {
-                        NetworkResult.Error(result.code)
-                    }
+                    NetworkResult.Success(lessonDao.getLessonsList().map { it.toLessonModel() }
+                        .groupBy { it.chapter }.toSortedMap())
                 }
 
                 is NetworkResult.Success -> {

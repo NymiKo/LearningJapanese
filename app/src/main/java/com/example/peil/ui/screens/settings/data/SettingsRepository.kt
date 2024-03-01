@@ -7,4 +7,6 @@ import java.io.File
 interface SettingsRepository {
     suspend fun loadAvatar(file: File): NetworkResult<Unit>
     suspend fun getFullProfile(): NetworkResult<ProfileModel>
+
+    suspend fun clearAllTablesInLocalDB()
 }

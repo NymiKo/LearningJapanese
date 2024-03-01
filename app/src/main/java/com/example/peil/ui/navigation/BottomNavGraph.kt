@@ -8,7 +8,7 @@ import com.example.peil.ui.screens.learning_lesson.navigateToLearningLessonScree
 import com.example.peil.ui.screens.lessons_list.lessonsListScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
 import com.example.peil.ui.screens.profile.profileScreen
-import com.example.peil.ui.screens.settings.navigateToSettingsScreen
+import com.example.peil.ui.screens.settings.navigation.navigateToSettingsScreen
 
 const val bottomNavGraphRoute = "bottom_nav_graph"
 

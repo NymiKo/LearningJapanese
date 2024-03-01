@@ -5,9 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.example.peil.ui.screens.change_nickname.changeNicknameScreen
 import com.example.peil.ui.screens.change_nickname.navigateToChangeNickname
-import com.example.peil.ui.screens.profile.profileScreenRoute
-import com.example.peil.ui.screens.settings.settingsScreen
-import com.example.peil.ui.screens.settings.settingsScreenRoute
+import com.example.peil.ui.screens.settings.navigation.settingsScreen
+import com.example.peil.ui.screens.settings.navigation.settingsScreenRoute
 import com.example.peil.ui.screens.welcome.navigateToWelcomeScreen
 
 const val settingsNavGraphRoute = "settings_nav_graph"

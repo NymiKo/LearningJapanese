@@ -1,6 +1,7 @@
 package com.example.peil.data.room.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -30,4 +31,7 @@ interface LessonDao {
 
     @Query("UPDATE ${RoomContract.tableLessons} SET isSynchronized = 1 WHERE idLesson IN (:lessons)")
     suspend fun updateSynchronizedLessons(lessons: List<Int>)
+
+    @Query("DELETE FROM ${RoomContract.tableLessons}")
+    suspend fun deleteAllLessons()
 }

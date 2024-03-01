@@ -9,17 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,7 +21,6 @@ import com.example.peil.ui.view_components.LoginButton
 import com.example.peil.ui.view_components.filed.OutlinedLoginField
 import com.example.peil.ui.view_components.text.AuthorizationErrorMessage
 import com.example.peil.ui.view_components.text.TextLabel
-import kotlinx.coroutines.launch
 
 @Composable
 fun NewPasswordScreen(
@@ -37,8 +28,6 @@ fun NewPasswordScreen(
     onLoginScreen: () -> Unit
 ) {
     val state = viewModel.state.value
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
 
     Column(
         modifier = Modifier
@@ -47,7 +36,11 @@ fun NewPasswordScreen(
     ) {
 
         if (state.successChangePassword) {
-            Toast.makeText(LocalContext.current, R.string.password_has_been_changed, Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                LocalContext.current,
+                R.string.password_has_been_changed,
+                Toast.LENGTH_LONG
+            ).show()
             onLoginScreen()
             viewModel.updateStatusNewPassword()
         }
@@ -58,8 +51,7 @@ fun NewPasswordScreen(
                 errorMessage = state.errorMessage
             )
         }
-
-        SnackbarHost(snackbarHostState.value)
+        
         TextLabel(
             modifier = Modifier.padding(top = 30.dp),
             textLabel = R.string.enter_new_password

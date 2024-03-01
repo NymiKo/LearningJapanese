@@ -1,4 +1,4 @@
-package com.example.peil.ui.screens.settings
+package com.example.peil.ui.screens.settings.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -7,8 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.peil.ui.screens.change_nickname.changeNicknameScreenRoute
 import com.example.peil.ui.screens.profile.profileScreenRoute
+import com.example.peil.ui.screens.settings.SettingsScreen
+import com.example.peil.ui.screens.settings.SettingsViewModel
 
 const val settingsScreenRoute = "settings_screen"
 

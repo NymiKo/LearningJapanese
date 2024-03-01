@@ -146,9 +146,10 @@ private fun NavigationIconTopAppBar() {
 @Composable
 private fun LearningProgress(modifier: Modifier = Modifier, progressValue: Float) {
 
+    Log.e("PROGRESS", progressValue.toString())
     var progress by remember { mutableFloatStateOf(0F) }
     val progressAnimation by animateFloatAsState(
-        targetValue = progressValue,
+        targetValue = if (!progressValue.isNaN()) progressValue else 0.0F,
         animationSpec = tween(durationMillis = 1500, easing = FastOutSlowInEasing),
         label = ""
     )

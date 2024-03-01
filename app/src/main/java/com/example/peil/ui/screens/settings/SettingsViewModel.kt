@@ -20,10 +20,6 @@ class SettingsViewModel @Inject constructor(
     private val _profile = MutableLiveData<ProfileModel>()
     val profile: LiveData<ProfileModel> = _profile
 
-    init {
-
-    }
-
     fun getFullProfile() = viewModelScope.launch {
         when(val result = repository.getFullProfile()) {
             is NetworkResult.Error -> {
@@ -37,5 +33,9 @@ class SettingsViewModel @Inject constructor(
 
     fun loadAvatar(file: File) = viewModelScope.launch {
         repository.loadAvatar(file)
+    }
+
+    fun clearAllLessons() = viewModelScope.launch {
+        repository.clearAllTablesInLocalDB()
     }
 }
