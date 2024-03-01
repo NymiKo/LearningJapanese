@@ -81,12 +81,27 @@ fun SettingsScreen(
             )
             ChangeAvatarItem(
                 avatar = profile.value?.avatar ?: "",
-                loadAvatar = { file -> viewModel.loadAvatar(file) })
+                loadAvatar = { file -> viewModel.loadAvatar(file) }
+            )
             ChangeNameItem(
                 nameSetting = R.string.email,
                 text = profile.value?.email ?: "",
-                onChangeNicknameScreen = {})
+                onChangeNicknameScreen = {}
+            )
             Spacer(modifier = Modifier.weight(1F))
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .clickable {
+                        viewModel.clearAllLessons()
+                    }
+                    .padding(vertical = 16.dp),
+                text = stringResource(id = R.string.clear_lessons),
+                color = GreyLight,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
