@@ -292,13 +292,11 @@ private fun LessonItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier.padding(start = 8.dp).weight(1F),
                 text = lesson.header,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
-
-            Spacer(modifier = Modifier.weight(1f))
 
             if (!lesson.isUploaded) {
                 if (lesson.isDownloading) {
