@@ -40,7 +40,7 @@ fun NavGraphBuilder.profileScreen(onSettingsScreen: () -> Unit) {
     }
 }
 
-fun NavController.popBackStackToProfileScreen() {
-    previousBackStackEntry?.savedStateHandle?.set(updateProfileArg, true)
+fun NavController.popBackStackToProfileScreen(updateProfile: Boolean) {
+    previousBackStackEntry?.savedStateHandle?.set(updateProfileArg, updateProfile)
     popBackStack()
 }

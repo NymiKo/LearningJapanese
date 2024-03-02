@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.settings.navigation
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -11,13 +12,18 @@ import com.example.peil.ui.screens.profile.profileScreenRoute
 import com.example.peil.ui.screens.settings.SettingsScreen
 import com.example.peil.ui.screens.settings.SettingsViewModel
 
+const val updateSettingsArg = "update_settings"
 const val settingsScreenRoute = "settings_screen"
 
-fun NavGraphBuilder.settingsScreen(onChangeNicknameScreen: (nickname: String) -> Unit, onWelcomeScreen: () -> Unit, onBack: () -> Unit) {
+fun NavGraphBuilder.settingsScreen(
+    onChangeNicknameScreen: (nickname: String) -> Unit,
+    onWelcomeScreen: () -> Unit,
+    onBack: (updateProfile: Boolean) -> Unit
+) {
     composable(
         route = settingsScreenRoute,
         enterTransition = {
-            when(initialState.destination.route) {
+            when (initialState.destination.route) {
                 profileScreenRoute -> {
                     slideInHorizontally(
                         initialOffsetX = { it },
@@ -36,10 +42,22 @@ fun NavGraphBuilder.settingsScreen(onChangeNicknameScreen: (nickname: String) ->
         }
     ) {
         val viewModel: SettingsViewModel = hiltViewModel()
-        SettingsScreen(viewModel = viewModel, onChangeNicknameScreen = onChangeNicknameScreen::invoke, onWelcomeScreen = onWelcomeScreen::invoke, onBack = onBack)
+        val updateSettings = it.savedStateHandle.get<Boolean>(updateSettingsArg) ?: false
+        SettingsScreen(
+            viewModel = viewModel,
+            onChangeNicknameScreen = onChangeNicknameScreen::invoke,
+            onWelcomeScreen = onWelcomeScreen::invoke,
+            onBack = { onBack(it) },
+            updateSettings = updateSettings
+        )
     }
 }
 
 fun NavController.navigateToSettingsScreen() {
     navigate(settingsScreenRoute)
+}
+
+fun NavController.popBackStackToSettingsScreen(route: String, updateProfile: Boolean) {
+    previousBackStackEntry?.savedStateHandle?.set(updateSettingsArg, updateProfile)
+    popBackStack(route = route, inclusive = false)
 }

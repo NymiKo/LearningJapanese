@@ -1,12 +1,10 @@
 package com.example.peil.ui.screens.lesson_completion
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -79,5 +77,5 @@ fun LessonCompletionScreen(
 @Preview
 @Composable
 private fun LessonCompletionScreenPreview() {
-    LessonCompletionScreen(hiltViewModel(),  0, {})
+    LessonCompletionScreen(hiltViewModel(), 0, {})
 }

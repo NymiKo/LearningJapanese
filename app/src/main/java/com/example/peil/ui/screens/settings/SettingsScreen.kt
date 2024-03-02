@@ -1,6 +1,7 @@
 package com.example.peil.ui.screens.settings
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -57,15 +58,17 @@ import java.io.FileOutputStream
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
+    updateSettings: Boolean,
     onChangeNicknameScreen: (nickname: String) -> Unit,
     onWelcomeScreen: () -> Unit,
-    onBack: () -> Unit
+    onBack: (updateProfile: Boolean) -> Unit
 ) {
+    if (updateSettings) viewModel.getFullProfile()
     val profile = viewModel.profile.observeAsState()
     val context = LocalContext.current
 
     Scaffold(
-        topBar = { TopAppBar(onBack = onBack::invoke) }
+        topBar = { TopAppBar(onBack = { onBack(updateSettings) }) }
     ) {
         Column(
             modifier = Modifier
@@ -106,7 +109,10 @@ fun SettingsScreen(
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
                     .clickable {
-                        sharedPreferencesUser(context).edit().putString("token", "").apply()
+                        sharedPreferencesUser(context)
+                            .edit()
+                            .putString("token", "")
+                            .apply()
                         onWelcomeScreen()
                     }
                     .padding(vertical = 16.dp),
@@ -245,5 +251,5 @@ private fun NameSettingText(name: Int) {
 @Preview
 @Composable
 private fun SettingsScreenPreview() {
-    SettingsScreen(hiltViewModel(), {}, {}, {})
+    SettingsScreen(hiltViewModel(), false, {}, {},  {})
 }
