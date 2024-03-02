@@ -51,7 +51,6 @@ import com.example.peil.util.sharedPreferencesUser
 @Composable
 fun VerificationScreen(
     viewModel: VerificationViewModel,
-    isForgotPassword: Boolean = false,
     onLessonsListScreen: () -> Unit,
     onNewPasswordScreen: (idUser: Int) -> Unit
 ) {
@@ -61,13 +60,13 @@ fun VerificationScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         val state = viewModel.state.value
-        if (state.successVerification && !isForgotPassword) {
+        if (state.successVerification && !state.isForgotPassword) {
             sharedPreferencesUser(LocalContext.current).edit().putString("token", state.token).apply()
             onLessonsListScreen()
             viewModel.updateVerificationStatus()
         }
 
-        if (state.successVerification && isForgotPassword) {
+        if (state.successVerification && state.isForgotPassword) {
             onNewPasswordScreen(state.idUser)
             viewModel.updateVerificationStatus()
         }
@@ -101,7 +100,7 @@ fun VerificationScreen(
             textButton = R.string.continue_text,
             enabled = state.code.text.length == 6 && !state.progress,
             onClick = {
-                if (isForgotPassword) {
+                if (state.isForgotPassword) {
                     viewModel.createEvent(VerificationEvent.OnVerificationForgotPassword)
                 } else {
                     viewModel.createEvent(VerificationEvent.OnVerification)
@@ -171,5 +170,5 @@ private fun CodeInput(
 @Preview
 @Composable
 private fun VerificationScreenPreview() {
-    VerificationScreen(hiltViewModel(), false, {}, {})
+    VerificationScreen(hiltViewModel(),  {}, {})
 }

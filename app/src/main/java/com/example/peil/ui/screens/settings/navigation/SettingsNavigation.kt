@@ -1,6 +1,5 @@
 package com.example.peil.ui.screens.settings.navigation
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally

@@ -11,5 +11,6 @@ data class VerificationScreenState(
     val isError: Boolean = false,
     val errorMessage: Int = R.string.unknown_error,
     val idUser: Int = 0,
-    val token: String = ""
+    val token: String = "",
+    val isForgotPassword: Boolean = false
 )

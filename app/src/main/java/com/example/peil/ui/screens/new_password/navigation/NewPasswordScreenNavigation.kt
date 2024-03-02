@@ -13,15 +13,15 @@ import com.example.peil.ui.screens.new_password.NewPasswordScreen
 import com.example.peil.ui.screens.new_password.NewPasswordViewModel
 import com.example.peil.ui.screens.new_password.state.NewPasswordEvent
 
-const val idUserArg = "id_user"
+const val idUserNewPasswordArg = "id_user_new_password"
 const val newPasswordScreen = "new_password_screen"
-const val newPasswordScreenRoute = "$newPasswordScreen/{$idUserArg}"
+const val newPasswordScreenRoute = "$newPasswordScreen/{$idUserNewPasswordArg}"
 
 fun NavGraphBuilder.newPasswordScreen(onLoginScreen: () -> Unit) {
     composable(
         route = newPasswordScreenRoute,
         arguments = listOf(
-            navArgument(idUserArg) { type = NavType.IntType }
+            navArgument(idUserNewPasswordArg) { type = NavType.IntType }
         ),
         enterTransition = {
             slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(300))
@@ -29,11 +29,8 @@ fun NavGraphBuilder.newPasswordScreen(onLoginScreen: () -> Unit) {
         popExitTransition = {
             slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
         }
-    ) { backStackEntry ->
-        val idUser = backStackEntry.arguments?.getInt(idUserArg) ?: 0
-
+    ) {
         val viewModel: NewPasswordViewModel = hiltViewModel()
-        viewModel.createEvent(NewPasswordEvent.GetIdUser(idUser))
         NewPasswordScreen(viewModel = viewModel, onLoginScreen = onLoginScreen::invoke)
     }
 }

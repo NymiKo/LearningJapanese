@@ -2,11 +2,13 @@ package com.example.peil.ui.screens.new_password
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.R
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.new_password.data.NewPasswordRepository
+import com.example.peil.ui.screens.new_password.navigation.idUserNewPasswordArg
 import com.example.peil.ui.screens.new_password.state.NewPasswordEvent
 import com.example.peil.ui.screens.new_password.state.NewPasswordScreenState
 import com.example.peil.ui.screens.verification.state.VerificationEvent
@@ -16,10 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewPasswordViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: NewPasswordRepository
 ): ViewModel() {
 
-    private val _state = mutableStateOf(NewPasswordScreenState())
+    private val _state = mutableStateOf(NewPasswordScreenState(idUser = savedStateHandle[idUserNewPasswordArg] ?: 0))
     val state: State<NewPasswordScreenState> = _state
 
     fun createEvent(event: NewPasswordEvent) {
@@ -41,12 +44,6 @@ class NewPasswordViewModel @Inject constructor(
                     repeatNewPassword = state.value.repeatNewPassword.copy(
                         text = event.value
                     )
-                )
-            }
-
-            is NewPasswordEvent.GetIdUser -> {
-                _state.value = state.value.copy(
-                    idUser = event.idUser
                 )
             }
 
