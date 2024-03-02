@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.peil.ui.screens.create_account.state.CreateAccountEvent
 
-private const val emailKeyArg = "email"
+const val emailKeyArg = "email"
 private const val createAcountScreen = "create_account"
 private const val createAcountScreenRoute = "create_account/{$emailKeyArg}"
 
@@ -31,7 +31,6 @@ fun NavGraphBuilder.createAccountScreen(onVerificationScreen: (idUser: Int) -> U
         val email = backStackEntry.arguments?.getString(emailKeyArg)
 
         val viewModel = hiltViewModel<CreateAccountViewModel>()
-        viewModel.createEvent(CreateAccountEvent.EnteringEmail(email ?: ""))
         CreateAccountScreen(
             onVerificationScreen = onVerificationScreen::invoke,
             showHaveAccountDialog = showHaveAccountDialog,

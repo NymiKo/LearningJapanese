@@ -3,24 +3,35 @@ package com.example.peil.ui.screens.create_account
 import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.R
+import com.example.peil.base_state.InputState
+import com.example.peil.base_state.InputType
 import com.example.peil.data.NetworkResult
 import com.example.peil.ui.screens.create_account.data.CreateAccountRepository
 import com.example.peil.ui.screens.create_account.state.CreateAccountEvent
 import com.example.peil.ui.screens.create_account.state.CreateAccountScreenState
-import com.example.peil.ui.screens.login.state.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: CreateAccountRepository
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(CreateAccountScreenState(isError = false))
+    private val _state = mutableStateOf(
+        CreateAccountScreenState(
+            isError = false,
+            email = InputState(
+                text = checkNotNull(savedStateHandle[emailKeyArg]),
+                type = InputType.EMAIL
+            )
+        )
+    )
     val state: State<CreateAccountScreenState> = _state
 
     fun createEvent(event: CreateAccountEvent) {
