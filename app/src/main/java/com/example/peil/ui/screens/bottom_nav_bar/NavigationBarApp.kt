@@ -1,6 +1,8 @@
 package com.example.peil.ui.screens.bottom_nav_bar
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,17 +21,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.peil.R
 import com.example.peil.ui.navigation.BottomBarScreen
 import com.example.peil.ui.navigation.BottomNavGraph
+import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
 import com.example.peil.util.sharedPreferencesUser
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationBarWithContent(
     modifier: Modifier = Modifier,
@@ -57,37 +60,40 @@ private fun NavigationBottomBar(navController: NavHostController) {
         BottomBarScreen.Study,
         BottomBarScreen.Profile
     )
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
-    val bottomBarDestination = screens.any { it.route == currentDestination?.route }
-    if (bottomBarDestination) {
-        NavigationBar(
-            containerColor = MaterialTheme.colorScheme.primary
-        ) {
-            screens.forEach { screen ->
-                NavigationBarItem(
-                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                    label = { Text(text = screen.title) },
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            popUpTo(screen.route)
-                            launchSingleTop = true
+    screens.forEach {  screen ->
+
+    }
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        screens.forEach { screen ->
+            NavigationBarItem(
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                label = { Text(text = screen.title) },
+                onClick = {
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = screen.icon,
-                            contentDescription = null
-                        )
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = baseBlue,
-                        selectedTextColor = baseBlue,
-                        selectedIconColor = White
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                icon = {
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = null
                     )
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = baseBlue,
+                    selectedTextColor = baseBlue,
+                    selectedIconColor = White
                 )
-            }
+            )
         }
     }
 }

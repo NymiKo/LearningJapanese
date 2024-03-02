@@ -18,7 +18,8 @@ fun BottomNavGraph(
     navController: NavHostController
 ) {
     NavHost(
-        modifier = modifier, navController = navController,
+        modifier = modifier,
+        navController = navController,
         route = bottomNavGraphRoute,
         startDestination = lessonsListScreenRoute
     ) {
