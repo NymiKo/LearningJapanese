@@ -28,7 +28,6 @@ import com.example.peil.ui.view_components.LoginButton
 @Composable
 fun LessonCompletionScreen(
     viewModel: LessonCompletionViewModel,
-    idLesson: Int,
     onLessonListScreen: () -> Unit
 ) {
     Column(
@@ -66,7 +65,7 @@ fun LessonCompletionScreen(
             textButton = R.string.continue_text,
             enabled = !viewModel.loading,
             onClick = {
-                viewModel.lessonCompleted(idLesson = idLesson)
+                viewModel.lessonCompleted()
                 onLessonListScreen()
             },
             content = {}
@@ -77,5 +76,5 @@ fun LessonCompletionScreen(
 @Preview
 @Composable
 private fun LessonCompletionScreenPreview() {
-    LessonCompletionScreen(hiltViewModel(), 0, {})
+    LessonCompletionScreen(hiltViewModel(), {})
 }
