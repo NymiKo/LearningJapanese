@@ -27,16 +27,13 @@ fun NavGraphBuilder.createAccountScreen(onVerificationScreen: (idUser: Int) -> U
         popExitTransition = {
             slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
         }
-    ) {backStackEntry ->
-        val email = backStackEntry.arguments?.getString(emailKeyArg)
-
+    ) {
         val viewModel = hiltViewModel<CreateAccountViewModel>()
         CreateAccountScreen(
             onVerificationScreen = onVerificationScreen::invoke,
             showHaveAccountDialog = showHaveAccountDialog,
             onBack = onBack::invoke,
-            viewModel = viewModel,
-            email = email ?: ""
+            viewModel = viewModel
         )
     }
 }

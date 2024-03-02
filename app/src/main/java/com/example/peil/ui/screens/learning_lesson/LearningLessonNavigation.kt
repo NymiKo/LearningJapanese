@@ -20,14 +20,10 @@ fun NavGraphBuilder.learningLessonScreen(
         arguments = listOf(
             navArgument(idLessonKeyArg) { type = NavType.IntType }
         )
-    ) { backStackEntry ->
-        val idLesson = backStackEntry.arguments?.getInt(idLessonKeyArg) ?: 0
-
+    ) {
         val viewModel: LearningLessonViewModel = hiltViewModel()
-        viewModel.getSubLessonsList(idLesson = idLesson)
         LearningLessonScreen(
             viewModel,
-            idLesson,
             onLessonCompletionScreen::invoke,
             showCancelLessonDialog::invoke
         )

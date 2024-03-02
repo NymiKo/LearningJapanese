@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.data.NetworkResult
@@ -16,16 +17,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LearningLessonViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: LearningLessonRepository
 ) : ViewModel() {
 
     private val _subLessons = listOf<SubLessonModel>().toMutableStateList()
     val subLessons: List<SubLessonModel> get() = _subLessons
     var loading by mutableStateOf(true)
-
     var progress by mutableFloatStateOf(0.0F)
+    val idLesson by mutableStateOf(savedStateHandle[idLessonKeyArg] ?: 0)
 
-    fun getSubLessonsList(idLesson: Int) = viewModelScope.launch {
+    init {
+        getSubLessonsList(idLesson)
+    }
+
+    private fun getSubLessonsList(idLesson: Int) = viewModelScope.launch {
         loading = true
         when(val result = repository.getSubLessons(idLesson)) {
             is NetworkResult.Error -> {

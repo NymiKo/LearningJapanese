@@ -49,7 +49,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun LearningLessonScreen(
     viewModel: LearningLessonViewModel,
-    idLesson: Int,
     onLessonCompletionScreen: (idLesson: Int) -> Unit,
     showCancelLessonDialog: () -> Unit
 ) {
@@ -62,7 +61,7 @@ fun LearningLessonScreen(
         )
         PagerLesson(
             subLessonsList = viewModel.subLessons,
-            idLesson = idLesson,
+            idLesson = viewModel.idLesson,
             onCompleted = { item, completed -> viewModel.updateCompleted(item, completed) },
             onLessonCompletionScreen = onLessonCompletionScreen::invoke
         )
@@ -200,5 +199,5 @@ private fun PagerLesson(
 @Preview
 @Composable
 private fun LearningLessonScreenPreview() {
-    LearningLessonScreen(hiltViewModel(), 0, {}, {})
+    LearningLessonScreen(hiltViewModel(),  {}, {})
 }

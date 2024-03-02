@@ -31,7 +31,6 @@ fun CreateAccountScreen(
     onVerificationScreen: (idUser: Int) -> Unit,
     showHaveAccountDialog: () -> Unit,
     onBack: () -> Unit,
-    email: String,
     viewModel: CreateAccountViewModel
 ) {
     var flag by remember {
@@ -100,6 +99,6 @@ fun CreateAccountScreen(
 @Preview
 private fun CreateAccountScreenPreview() {
     CreateAccountScreen(
-        {}, {}, {}, "", hiltViewModel()
+        {}, {}, {},  hiltViewModel()
     )
 }
