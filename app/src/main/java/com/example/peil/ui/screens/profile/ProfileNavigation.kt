@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
 
+const val updateProfileArg = "update_profile"
 const val profileScreenRoute = "profile_screen"
 
 fun NavGraphBuilder.profileScreen(onSettingsScreen: () -> Unit) {
@@ -34,13 +35,12 @@ fun NavGraphBuilder.profileScreen(onSettingsScreen: () -> Unit) {
         }
     ) {
         val viewModel: ProfileViewModel = hiltViewModel()
-        ProfileScreen(viewModel = viewModel, onSettingsScreen = onSettingsScreen::invoke)
+        val updateProfile = it.savedStateHandle.get<Boolean>(updateProfileArg) ?: false
+        ProfileScreen(viewModel = viewModel, onSettingsScreen = onSettingsScreen::invoke, updateProfile = updateProfile)
     }
 }
 
-fun NavController.navigateToProfileScreen() {
-    navigate(profileScreenRoute) {
-        popUpTo(profileScreenRoute)
-        launchSingleTop = true
-    }
+fun NavController.popBackStackToProfileScreen() {
+    previousBackStackEntry?.savedStateHandle?.set(updateProfileArg, true)
+    popBackStack()
 }

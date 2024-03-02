@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.peil.ui.navigation.RootNavGraph
+import com.example.peil.ui.navigation.BottomNavGraph
+import com.example.peil.ui.navigation.loginNavGraph
+import com.example.peil.ui.screens.bottom_nav_bar.NavigationBarWithContent
 import com.example.peil.ui.theme.PeilTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +37,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    RootNavGraph(navController = navController)
+                    NavigationBarWithContent(
+                        navController = navController,
+//                        onWelcomeScreen = {
+//                            navController.navigate(loginNavGraph) {
+//                                popUpTo(loginNavGraph) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        }
+                    )
                 }
             }
         }

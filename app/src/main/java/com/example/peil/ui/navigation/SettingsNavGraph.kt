@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.example.peil.ui.screens.change_nickname.changeNicknameScreen
 import com.example.peil.ui.screens.change_nickname.navigateToChangeNickname
+import com.example.peil.ui.screens.profile.popBackStackToProfileScreen
 import com.example.peil.ui.screens.settings.navigation.settingsScreen
 import com.example.peil.ui.screens.settings.navigation.settingsScreenRoute
 import com.example.peil.ui.screens.welcome.navigateToWelcomeScreen
@@ -21,7 +22,7 @@ fun NavGraphBuilder.settingsNavGraph(
         settingsScreen(
             onChangeNicknameScreen = { nickname -> navController.navigateToChangeNickname(nickname) },
             onWelcomeScreen = navController::navigateToWelcomeScreen,
-            onBack = navController::popBackStack
+            onBack = navController::popBackStackToProfileScreen
         )
 
         changeNicknameScreen(

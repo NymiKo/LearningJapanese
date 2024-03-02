@@ -50,9 +50,12 @@ import com.example.peil.ui.view_components.progress.CustomProgress
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel,
+    updateProfile: Boolean,
     onSettingsScreen: () -> Unit
 ) {
-    viewModel.getProfile()
+    if (updateProfile) {
+        viewModel.getProfile()
+    }
     val profile by viewModel.profile.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize()
@@ -167,5 +170,5 @@ private fun AvatarAndNickname(avatar: String, nickname: String) {
 @Preview
 @Composable
 private fun ProfileScreenPreview() {
-    ProfileScreen(hiltViewModel(), {})
+    ProfileScreen(hiltViewModel(), false, {})
 }

@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.peil.ui.screens.bottom_nav_bar.NavigationBarWithContent
 import com.example.peil.ui.screens.learning_lesson.navigateToLearningLessonScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreen
 import com.example.peil.ui.screens.lessons_list.lessonsListScreenRoute
@@ -26,6 +28,7 @@ fun BottomNavGraph(
         lessonsListScreen(
             onLearningLesson = { idLesson -> navController.navigateToLearningLessonScreen(idLesson) }
         )
+
         profileScreen(
             onSettingsScreen = navController::navigateToSettingsScreen
         )
@@ -33,5 +36,22 @@ fun BottomNavGraph(
         learningLessonNavGraph(navController = navController)
 
         settingsNavGraph(navController = navController)
+
+        loginNavGraph(navController = navController)
+
+//        composable(
+//            route = "bottom_nav_bar"
+//        ) {
+//            NavigationBarWithContent(
+//                navController = navController,
+//                onWelcomeScreen = {
+//                    navController.navigate(loginNavGraph) {
+//                        popUpTo(loginNavGraph) {
+//                            inclusive = true
+//                        }
+//                    }
+//                }
+//            )
+//        }
     }
 }

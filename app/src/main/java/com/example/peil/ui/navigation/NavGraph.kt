@@ -1,9 +1,9 @@
 package com.example.peil.ui.navigation
 
-import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.example.peil.ui.screens.bottom_nav_bar.NavigationBarWithContent
 import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
@@ -20,15 +20,18 @@ import com.example.peil.ui.screens.registration.navigateToRegistrationEmailScree
 import com.example.peil.ui.screens.registration.registrationScreen
 import com.example.peil.ui.screens.verification.navigation.navigateToVerificationScreen
 import com.example.peil.ui.screens.verification.navigation.verificationScreen
-import com.example.peil.ui.screens.welcome.navigateToWelcomeScreen
 import com.example.peil.ui.screens.welcome.popBackStackToWelcomeScreen
 import com.example.peil.ui.screens.welcome.welcomeScreen
+import com.example.peil.ui.screens.welcome.welcomeScreenRoute
 
-@Composable
-fun RootNavGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
-        startDestination = bottomNavGraphRoute
+const val loginNavGraph = "login_nav_graph"
+
+fun NavGraphBuilder.loginNavGraph(
+    navController: NavHostController
+) {
+    navigation(
+        startDestination = welcomeScreenRoute,
+        route = loginNavGraph
     ) {
         welcomeScreen(
             onLoginClick = navController::navigateToLoginScreen,
@@ -42,7 +45,12 @@ fun RootNavGraph(navController: NavHostController) {
         )
 
         enteringEmail(
-            onVerificationScreen = { idUser -> navController.navigateToVerificationScreen(idUser = idUser, isForgotPassword = true) }
+            onVerificationScreen = { idUser ->
+                navController.navigateToVerificationScreen(
+                    idUser = idUser,
+                    isForgotPassword = true
+                )
+            }
         )
 
         newPasswordScreen(
@@ -70,11 +78,5 @@ fun RootNavGraph(navController: NavHostController) {
             onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
             onNewPasswordScreen = { idUser -> navController.navigateToNewPasswordScreen(idUser) }
         )
-
-        composable(
-            route = bottomNavGraphRoute
-        ) {
-            NavigationBarWithContent(onWelcomeScreen = navController::navigateToWelcomeScreen)
-        }
     }
 }
