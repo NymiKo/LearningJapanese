@@ -14,7 +14,7 @@ const val nicknameKeyArg = "nickname_arg"
 const val changeNicknameScreenRoute = "change_nickname_screen"
 const val changeNicknameScreenRouteWithArguments = "change_nickname_screen/{$nicknameKeyArg}"
 
-fun NavGraphBuilder.changeNicknameScreen(onBack: () -> Unit) {
+fun NavGraphBuilder.changeNicknameScreen(onBack: (updateProfile: Boolean) -> Unit) {
     composable(
         changeNicknameScreenRouteWithArguments,
         arguments = listOf(navArgument(nicknameKeyArg) { type = NavType.StringType }),
@@ -30,10 +30,8 @@ fun NavGraphBuilder.changeNicknameScreen(onBack: () -> Unit) {
                 animationSpec = tween(300)
             )
         }
-    ) { backStackEntry ->
-        val nickname = backStackEntry.arguments?.getString(nicknameKeyArg) ?: ""
+    ) {
         val viewModel: ChangeNicknameViewModel = hiltViewModel()
-        viewModel.getNickname(nickname)
         ChangeNicknameScreen(viewModel = viewModel, onBack = onBack::invoke)
     }
 }

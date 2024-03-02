@@ -2,6 +2,7 @@ package com.example.peil.ui.screens.change_nickname
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.base_state.InputState
@@ -15,16 +16,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangeNicknameViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: ChangeNicknameRepository
 ): ViewModel() {
-    private var oldNickname: String = ""
+    private var oldNickname: String = savedStateHandle[nicknameKeyArg] ?: ""
 
     private val _state = mutableStateOf(ChangeNicknameState(formValid = true, nickname = InputState(text = oldNickname, type = InputType.NICKNAME)))
     val state: State<ChangeNicknameState> = _state
-
-    fun getNickname(nickname: String) {
-        oldNickname = nickname
-    }
 
     fun enteringNickname(inputNickname: String) {
         _state.value = state.value.copy(nickname = state.value.nickname.copy(text = inputNickname), isNewNickname = inputNickname != oldNickname)

@@ -29,12 +29,12 @@ import com.example.peil.ui.theme.baseBlue
 @Composable
 fun ChangeNicknameScreen(
     viewModel: ChangeNicknameViewModel,
-    onBack: () -> Unit
+    onBack: (updateProfile: Boolean) -> Unit
 ) {
     val state = viewModel.state.value
 
     if (state.successChangeNickname) {
-        onBack()
+        onBack(true)
     }
 
     Scaffold(
@@ -65,7 +65,7 @@ private fun TopAppBar(
     modifier: Modifier = Modifier,
     isNewNickname: Boolean,
     changeNickname: () -> Unit,
-    onBack: () -> Unit
+    onBack: (updateProfile: Boolean) -> Unit
 ) {
     TopAppBar(
         title = {
@@ -76,7 +76,7 @@ private fun TopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onBack::invoke) {
+            IconButton(onClick = { onBack(false) }) {
                 Icon(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     imageVector = Icons.Default.ArrowBack,
