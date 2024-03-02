@@ -20,6 +20,10 @@ class SettingsViewModel @Inject constructor(
     private val _profile = MutableLiveData<ProfileModel>()
     val profile: LiveData<ProfileModel> = _profile
 
+    init {
+        getFullProfile()
+    }
+
     fun getFullProfile() = viewModelScope.launch {
         when(val result = repository.getFullProfile()) {
             is NetworkResult.Error -> {

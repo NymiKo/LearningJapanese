@@ -61,7 +61,6 @@ fun SettingsScreen(
     onWelcomeScreen: () -> Unit,
     onBack: () -> Unit
 ) {
-    viewModel.getFullProfile()
     val profile = viewModel.profile.observeAsState()
     val context = LocalContext.current
 
@@ -108,6 +107,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .clickable {
                         sharedPreferencesUser(context).edit().putString("token", "").apply()
+                        onWelcomeScreen()
                     }
                     .padding(vertical = 16.dp),
                 text = stringResource(id = R.string.exit),

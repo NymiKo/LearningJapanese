@@ -29,6 +29,7 @@ import com.example.peil.R
 import com.example.peil.ui.navigation.BottomBarScreen
 import com.example.peil.ui.navigation.BottomNavGraph
 import com.example.peil.ui.navigation.loginNavGraph
+import com.example.peil.ui.screens.welcome.welcomeScreenRoute
 import com.example.peil.ui.theme.GreyLightBD
 import com.example.peil.ui.theme.White
 import com.example.peil.ui.theme.baseBlue
@@ -48,8 +49,8 @@ fun NavigationBarWithContent(
         content = { innerPadding ->
             BottomNavGraph(modifier = Modifier.padding(innerPadding), navController = navController)
             if (sharedPreferencesUser(LocalContext.current).getString("token", null).isNullOrEmpty()) {
-                navController.navigate(loginNavGraph) {
-                    popUpTo(loginNavGraph) {
+                navController.navigate(welcomeScreenRoute) {
+                    popUpTo(navController.graph.id) {
                         inclusive = true
                     }
                 }

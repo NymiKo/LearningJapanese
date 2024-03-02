@@ -21,12 +21,20 @@ fun NavGraphBuilder.settingsNavGraph(
     ) {
         settingsScreen(
             onChangeNicknameScreen = { nickname -> navController.navigateToChangeNickname(nickname) },
-            onWelcomeScreen = navController::navigateToWelcomeScreen,
+            onWelcomeScreen = {
+                navController.navigate(loginNavGraph) {
+                    popUpTo(navController.graph.id) {
+                        inclusive = true
+                    }
+                }
+            },
             onBack = navController::popBackStackToProfileScreen
         )
 
         changeNicknameScreen(
             onBack = { navController.popBackStack(route = settingsScreenRoute, inclusive = false)}
         )
+
+        loginNavGraph(navController = navController)
     }
 }

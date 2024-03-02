@@ -1,10 +1,9 @@
 package com.example.peil.ui.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.peil.ui.screens.bottom_nav_bar.NavigationBarWithContent
 import com.example.peil.ui.screens.create_account.createAccountScreen
 import com.example.peil.ui.screens.create_account.dialog_screen.haveAccountDialog
 import com.example.peil.ui.screens.create_account.dialog_screen.navigateToHaveAccountDialog
@@ -39,7 +38,13 @@ fun NavGraphBuilder.loginNavGraph(
         )
 
         loginScreen(
-            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
+            onLessonsListScreen = {
+                navController.navigate(bottomNavGraphRoute) {
+                    popUpTo(bottomNavGraphRoute) {
+                        inclusive = true
+                    }
+                }
+            },
             onForgotPassword = navController::navigateToEnteringEmail,
             onBack = navController::popBackStackToWelcomeScreen
         )
@@ -75,7 +80,13 @@ fun NavGraphBuilder.loginNavGraph(
         )
 
         verificationScreen(
-            onLessonsListScreen = { navController.navigate(bottomNavGraphRoute) },
+            onLessonsListScreen = {
+                navController.navigate(bottomNavGraphRoute) {
+                    popUpTo(bottomNavGraphRoute) {
+                        inclusive = true
+                    }
+                }
+            },
             onNewPasswordScreen = { idUser -> navController.navigateToNewPasswordScreen(idUser) }
         )
     }

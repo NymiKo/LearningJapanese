@@ -21,10 +21,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
 import com.example.peil.R
-import com.example.peil.ui.navigation.Screens
-import com.example.peil.ui.screens.create_account.CreateAccountViewModel
 import com.example.peil.ui.theme.GreyLight
 import com.example.peil.ui.view_components.LoginButton
 
