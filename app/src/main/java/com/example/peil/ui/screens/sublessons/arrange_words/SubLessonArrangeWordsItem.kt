@@ -137,9 +137,6 @@ private fun FrameForWords(
             )
         } else {
             wordsList.forEachIndexed { index, word ->
-
-                Log.e("SIZE", finish.toString())
-
                 Button(
                     onClick = {
                         removeWord(word)

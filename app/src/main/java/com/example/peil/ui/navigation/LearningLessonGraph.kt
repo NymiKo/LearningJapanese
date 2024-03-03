@@ -25,7 +25,8 @@ fun NavGraphBuilder.learningLessonNavGraph(
                     idLessonCompleted
                 )
             },
-            showCancelLessonDialog = navController::navigateToCancelLessonDialog
+            showCancelLessonDialog = navController::navigateToCancelLessonDialog,
+            onBack = navController::popBackStack
         )
 
         lessonCompletion(onLessonsListScreen = navController::navigateToLessonsListScreen)

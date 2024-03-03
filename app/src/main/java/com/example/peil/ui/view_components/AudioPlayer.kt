@@ -72,7 +72,7 @@ fun AudioPlayer(audio: String) {
     LaunchedEffect(isPlaying) {
         while (isPlaying && currentPosition < totalDuration) {
             currentPosition = mediaPlayer?.currentPosition ?: 0
-            delay(100)
+            delay(20)
         }
 
         if (currentPosition >= totalDuration) {

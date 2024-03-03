@@ -13,7 +13,8 @@ private const val learningLessonScreenRoute = "learning_lesson/{$idLessonKeyArg}
 
 fun NavGraphBuilder.learningLessonScreen(
     onLessonCompletionScreen: (idLesson: Int) -> Unit,
-    showCancelLessonDialog: () -> Unit
+    showCancelLessonDialog: () -> Unit,
+    onBack: () -> Unit
 ) {
     composable(
         route = learningLessonScreenRoute,
@@ -25,7 +26,8 @@ fun NavGraphBuilder.learningLessonScreen(
         LearningLessonScreen(
             viewModel,
             onLessonCompletionScreen::invoke,
-            showCancelLessonDialog::invoke
+            showCancelLessonDialog::invoke,
+            onBack = onBack::invoke
         )
     }
 }

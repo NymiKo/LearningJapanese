@@ -53,9 +53,6 @@ fun ProfileScreen(
     updateProfile: Boolean,
     onSettingsScreen: () -> Unit
 ) {
-    if (updateProfile) {
-        viewModel.getProfile()
-    }
     val profile by viewModel.profile.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize()

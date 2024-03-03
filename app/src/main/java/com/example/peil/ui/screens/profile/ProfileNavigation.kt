@@ -36,6 +36,7 @@ fun NavGraphBuilder.profileScreen(onSettingsScreen: () -> Unit) {
     ) {
         val viewModel: ProfileViewModel = hiltViewModel()
         val updateProfile = it.savedStateHandle.get<Boolean>(updateProfileArg) ?: false
+        viewModel.getProfile()
         ProfileScreen(viewModel = viewModel, onSettingsScreen = onSettingsScreen::invoke, updateProfile = updateProfile)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.peil.ui.screens.learning_lesson
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -32,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,10 +53,20 @@ import kotlinx.coroutines.launch
 fun LearningLessonScreen(
     viewModel: LearningLessonViewModel,
     onLessonCompletionScreen: (idLesson: Int) -> Unit,
-    showCancelLessonDialog: () -> Unit
+    showCancelLessonDialog: () -> Unit,
+    onBack: () -> Unit
 ) {
+
+    if (viewModel.isError) {
+        Toast.makeText(LocalContext.current, "Урок скоро будет добавлен!", Toast.LENGTH_SHORT).show()
+        onBack()
+        viewModel.isError = false
+    }
+
     Column(
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         TopAppBar(
             progress = viewModel.progress,
@@ -199,5 +212,5 @@ private fun PagerLesson(
 @Preview
 @Composable
 private fun LearningLessonScreenPreview() {
-    LearningLessonScreen(hiltViewModel(),  {}, {})
+    LearningLessonScreen(hiltViewModel(),  {}, {}, {})
 }

@@ -1,11 +1,7 @@
 package com.example.peil.ui.screens.lessons_list
 
-import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.peil.data.NetworkResult
@@ -52,25 +48,33 @@ class LessonsListViewModel @Inject constructor(
     }
 
     fun saveLesson(lesson: LessonModel) = viewModelScope.launch {
-        _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
-            lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map {  lessonModel ->
-                lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = true)
+        _state.value =
+            state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+                lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map { lessonModel ->
+                    lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(
+                        isDownloading = true
+                    )
+                })
             })
-        })
-        when(repository.insertLessonInLocalStorage(lesson)) {
+        when (repository.insertLessonInLocalStorage(lesson)) {
             true -> {
-                _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
-                    lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map { lessonModel ->
-                        lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = false, isUploaded = true)
+                _state.value =
+                    state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+                        lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map { lessonModel ->
+                            lessonModel.takeIf { it.idLesson != lesson.idLesson }
+                                ?: lessonModel.copy(isDownloading = false, isUploaded = true)
+                        })
                     })
-                })
             }
+
             false -> {
-                _state.value = state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
-                    lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map {  lessonModel ->
-                        lessonModel.takeIf { it.idLesson != lesson.idLesson } ?: lessonModel.copy(isDownloading = false)
+                _state.value =
+                    state.value.copy(lessonsList = state.value.lessonsList.map { lessonCategory ->
+                        lessonCategory.copy(lessonsList = lessonCategory.lessonsList.map { lessonModel ->
+                            lessonModel.takeIf { it.idLesson != lesson.idLesson }
+                                ?: lessonModel.copy(isDownloading = false)
+                        })
                     })
-                })
             }
         }
     }

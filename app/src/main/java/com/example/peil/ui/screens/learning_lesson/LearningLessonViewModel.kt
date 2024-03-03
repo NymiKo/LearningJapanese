@@ -26,6 +26,7 @@ class LearningLessonViewModel @Inject constructor(
     var loading by mutableStateOf(true)
     var progress by mutableFloatStateOf(0.0F)
     val idLesson by mutableStateOf(savedStateHandle[idLessonKeyArg] ?: 0)
+    var isError by mutableStateOf(false)
 
     init {
         getSubLessonsList(idLesson)
@@ -35,7 +36,7 @@ class LearningLessonViewModel @Inject constructor(
         loading = true
         when(val result = repository.getSubLessons(idLesson)) {
             is NetworkResult.Error -> {
-
+                isError = true
             }
             is NetworkResult.Success -> {
                 _subLessons.clear()
