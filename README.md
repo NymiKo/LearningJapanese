@@ -21,7 +21,7 @@
 - Смена никнейма / аватара профиля
 - Удаление загруженных уроков для очистки памяти телефона
 - Выход из аккаунта
-
+<br>
 
 # Авторизация/Регистрация
 <p>
@@ -37,8 +37,7 @@
     <div align="center"><video src="https://github.com/NymiKo/LearningJapanese/assets/37593124/b71498a4-6bc0-43f4-9b4a-160932d3c298" width="250"/></div>
   </details>
 </p>
-
-
+<br>
 
 # Изучение урока
 <p>
@@ -55,7 +54,7 @@
     <div align="center"><video src="https://github.com/NymiKo/LearningJapanese/assets/37593124/fa2370cc-9004-4c01-be8c-44b9ee538fb2" width="250"/></div>
   </details>
 </p>
-
+<br>
 
 # Профиль
 <p>
